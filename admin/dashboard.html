@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header><h1>📊 BAFSK Admin Dashboard</h1></header>
+  <nav>
+    <ul>
+      <li><a href="#gm">GM Registrations</a></li>
+      <li><a href="#panel">Panel Applications</a></li>
+      <li><a href="#award">Award Submissions</a></li>
+      <li><a href="#certificate">Certificate Requests</a></li>
+      <li><a href="#notice">Post Notices</a></li>
+    </ul>
+  </nav>
+  <main>
+    <section id="gm">
+      <h2>📋 General Member Registrations</h2>
+      <div id="gmList">Loading...</div>
+    </section>
+
+    <section id="panel">
+      <h2>🧑‍💼 Panel Member Applications</h2>
+      <div id="panelList">Loading...</div>
+    </section>
+
+    <section id="award">
+      <h2>🏆 Award Submissions</h2>
+      <div id="awardList">Loading...</div>
+    </section>
+
+    <section id="certificate">
+      <h2>📄 Certificate Requests</h2>
+      <div id="certList">Loading...</div>
+    </section>
+
+    <section id="notice">
+      <h2>📢 Post a New Notice</h2>
+      <form id="noticeForm">
+        <textarea placeholder="Write your notice..." required></textarea>
+        <button type="submit">Post Notice</button>
+      </form>
+    </section>
+  </main>
+</body>
+</html>
