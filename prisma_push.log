@@ -1,0 +1,7 @@
+Environment variables loaded from .env
+Prisma schema loaded from prisma\schema.prisma
+Datasource "db": MySQL database "defaultdb" at "mysql-2aaef94f-mathclub.a.aivencloud.com:26711"
+
+Error: P1001: Can't reach database server at `mysql-2aaef94f-mathclub.a.aivencloud.com:26711`
+
+Please make sure your database server is running at `mysql-2aaef94f-mathclub.a.aivencloud.com:26711`.

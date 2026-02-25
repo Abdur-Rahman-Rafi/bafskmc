@@ -1,0 +1,226 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String         @id @default(cuid())
+  email             String         @unique
+  password          String
+  name              String?
+  role              Role           @default(STUDENT)
+  image             String?
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+  certificateUrl    String?
+  class             String?
+  experience        String?        @db.Text
+  paymentStatus     PaymentStatus  @default(PENDING)
+  phone             String?
+  roll              String?
+  section           String?
+  transactionId     String?        @unique
+  hasLoggedInBefore Boolean        @default(false)
+  achievements      Achievement[]
+  competitions      Competition[]  @relation("CompCreator")
+  exams             Exam[]         @relation("ExamCreator")
+  news              News[]
+  payments          Payment[]
+  registrations     Registration[]
+  resources         Resource[]     @relation("ResourceCreator")
+  submissions       Submission[]
+  activities        Activity[]     @relation("ActivityCreator")
+}
+
+model Member {
+  id        String     @id @default(cuid())
+  name      String
+  image     String?
+  position  String
+  priority  Int        @default(0)
+  fbId      String?
+  type      MemberType
+  bio       String?    @db.Text
+  session   String?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model Payment {
+  id            String        @id @default(cuid())
+  userId        String
+  amount        Float
+  note          String        @db.Text
+  method        String        @default("bKash")
+  transactionId String?
+  status        PaymentStatus @default(PENDING)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  verifiedAt    DateTime?
+  verifiedBy    String?
+  user          User          @relation(fields: [userId], references: [id])
+
+  @@index([userId], map: "Payment_userId_fkey")
+}
+
+model News {
+  id        String   @id @default(cuid())
+  title     String
+  content   String   @db.Text
+  authorId  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  imageUrl  String?
+  author    User     @relation(fields: [authorId], references: [id])
+
+  @@index([authorId], map: "News_authorId_fkey")
+}
+
+model Exam {
+  id              String         @id @default(cuid())
+  name            String
+  description     String?        @db.Text
+  announcement    String?        @db.Text
+  regStartTime    DateTime       @default(now())
+  regEndTime      DateTime
+  startTime       DateTime
+  endTime         DateTime
+  creatorId       String
+  questions       Json?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  duration        Int            @default(30)
+  questionFileUrl String?
+  creator         User           @relation("ExamCreator", fields: [creatorId], references: [id])
+  registrations   Registration[]
+  submissions     Submission[]
+
+  @@index([creatorId], map: "Exam_creatorId_fkey")
+}
+
+model Registration {
+  id           String   @id @default(cuid())
+  examId       String
+  studentId    String
+  registeredAt DateTime @default(now())
+  exam         Exam     @relation(fields: [examId], references: [id])
+  student      User     @relation(fields: [studentId], references: [id])
+
+  @@unique([examId, studentId])
+  @@index([examId], map: "Registration_examId_fkey")
+  @@index([studentId], map: "Registration_studentId_fkey")
+}
+
+model Competition {
+  id          String   @id @default(cuid())
+  name        String
+  description String?  @db.Text
+  date        DateTime
+  location    String?
+  creatorId   String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  creator     User     @relation("CompCreator", fields: [creatorId], references: [id])
+
+  @@index([creatorId], map: "Competition_creatorId_fkey")
+}
+
+model Resource {
+  id          String   @id @default(cuid())
+  title       String
+  description String?  @db.Text
+  fileUrl     String
+  category    String
+  creatorId   String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  imageUrl    String?
+  creator     User     @relation("ResourceCreator", fields: [creatorId], references: [id])
+
+  @@index([creatorId], map: "Resource_creatorId_fkey")
+}
+
+model Submission {
+  id                String   @id @default(cuid())
+  examId            String
+  studentId         String
+  answers           Json?
+  score             Float?
+  markedBy          String?
+  feedback          String?  @db.Text
+  submittedAt       DateTime @default(now())
+  submissionFileUrl String?
+  exam              Exam     @relation(fields: [examId], references: [id])
+  student           User     @relation(fields: [studentId], references: [id])
+
+  @@index([examId], map: "Submission_examId_fkey")
+  @@index([studentId], map: "Submission_studentId_fkey")
+}
+
+model Achievement {
+  id          String   @id @default(cuid())
+  title       String
+  description String?  @db.Text
+  badgeUrl    String?
+  points      Int      @default(0)
+  userId      String?
+  dateAwarded DateTime @default(now())
+  user        User?    @relation(fields: [userId], references: [id])
+
+  @@index([userId], map: "Achievement_userId_fkey")
+}
+
+model Activity {
+  id          String   @id @default(cuid())
+  title       String
+  description String?  @db.Text
+  category    String   @default("Event")
+  date        DateTime @default(now())
+  location    String?
+  coverUrl    String?
+  files       Json?
+  creatorId   String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  creator     User     @relation("ActivityCreator", fields: [creatorId], references: [id])
+
+  @@index([creatorId], map: "Activity_creatorId_fkey")
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  email     String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([email])
+}
+
+model SiteConfig {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String   @db.Text
+  updatedAt DateTime @updatedAt
+}
+
+enum Role {
+  ADMIN
+  STUDENT
+  MODERATOR
+}
+
+enum MemberType {
+  PANEL
+  ALUMNI
+}
+
+enum PaymentStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+}

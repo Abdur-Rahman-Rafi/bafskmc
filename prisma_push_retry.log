@@ -1,0 +1,33 @@
+Environment variables loaded from .env
+Prisma schema loaded from prisma\schema.prisma
+Datasource "db": MySQL database "defaultdb" at "mysql-2aaef94f-mathclub.a.aivencloud.com:26711"
+
+⚠️  There might be data loss when applying the changes:
+
+  • You are about to drop the `achievements` table, which is not empty (2 rows).
+
+  • You are about to drop the `alumni_committee` table, which is not empty (3 rows).
+
+  • You are about to drop the `committee` table, which is not empty (3 rows).
+
+  • You are about to drop the `events` table, which is not empty (3 rows).
+
+  • You are about to drop the `news` table, which is not empty (3 rows).
+
+  • You are about to drop the `payments` table, which is not empty (2 rows).
+
+  • You are about to drop the `users` table, which is not empty (3 rows).
+
+
+
+[?25l[2K[1G[36m?[39m [1mDo you want to ignore the warning(s)?[22m [90m»[39m [90m(y/N)[39m[2K[1G[2K[1G[32m√[39m [1mDo you want to ignore the warning(s)?[22m [90m...[39m yes
+[?25h
+Your database is now in sync with your Prisma schema. Done in 79.76s
+
+Running generate... (Use --skip-generate to skip the generators)
+[2K[1A[2K[GRunning generate... - Prisma Client
+[2K[1A[2K[GEPERM: operation not permitted, rename 'C:\Users\dclid\OneDrive\Desktop\bafskmc\
+node_modules\.prisma\client\query_engine-windows.dll.node.tmp26284' -> 
+'C:\Users\dclid\OneDrive\Desktop\bafskmc\node_modules\.prisma\client\query_engin
+e-windows.dll.node'
+
