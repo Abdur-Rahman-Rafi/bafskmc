@@ -17,6 +17,15 @@ function LoginContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const justRegistered = searchParams?.get("registered") === "true";
+    const authError = searchParams?.get("error");
+
+    useEffect(() => {
+        if (authError === "CredentialsSignin") {
+            setError("Invalid email or password. Please try again.");
+        } else if (authError) {
+            setError("Authentication failed. Please try again.");
+        }
+    }, [authError]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -24,31 +33,15 @@ function LoginContent() {
         setError("");
 
         try {
-            const res = await signIn("credentials", {
+            // Use native redirect for maximum reliability in production
+            await signIn("credentials", {
                 email,
                 password,
-                redirect: false,
+                callbackUrl: loginType === "admin" ? "/admin" : "/dashboard",
+                redirect: true,
             });
-
-            if (res?.error) {
-                setError("Invalid email or password. Please try again.");
-            } else {
-                // Get session to know where to redirect
-                const session = await getSession();
-                const role = session?.user?.role;
-
-                // Fire and forget mark-login to speed up redirect
-                fetch("/api/auth/mark-login", { method: "POST" }).catch(console.error);
-
-                if (role === "ADMIN" || role === "MODERATOR") {
-                    window.location.href = "/admin"; // Use window.location for reliability on production
-                } else {
-                    window.location.href = "/dashboard";
-                }
-            }
         } catch (err) {
             setError("Something went wrong. Please try again.");
-        } finally {
             setLoading(false);
         }
     };
