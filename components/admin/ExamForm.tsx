@@ -274,7 +274,7 @@ export default function ExamForm({ initialData }: ExamFormProps) {
                                 Question Protocol (PDF / IMAGE)
                             </label>
                             <FileUploadZone
-                                type="file"
+                                type="document"
                                 label="Upload Question Paper"
                                 initialUrl={formData.questionFileUrl}
                                 onUploadComplete={(url) => setFormData({ ...formData, questionFileUrl: url })}
