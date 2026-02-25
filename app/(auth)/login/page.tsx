@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { signIn } from "next-auth/react";
+import { signIn, getSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { LogIn, ShieldCheck, Mail, Lock, Shield, GraduationCap } from "lucide-react";
@@ -33,19 +33,18 @@ function LoginContent() {
             if (res?.error) {
                 setError("Invalid email or password. Please try again.");
             } else {
-                const sessionRes = await fetch("/api/auth/session");
-                const session = await sessionRes.json();
+                // Get session to know where to redirect
+                const session = await getSession();
                 const role = session?.user?.role;
 
-                // Update hasLoggedInBefore flag
-                await fetch("/api/auth/mark-login", { method: "POST" });
+                // Fire and forget mark-login to speed up redirect
+                fetch("/api/auth/mark-login", { method: "POST" }).catch(console.error);
 
                 if (role === "ADMIN" || role === "MODERATOR") {
-                    router.push("/admin");
+                    window.location.href = "/admin"; // Use window.location for reliability on production
                 } else {
-                    router.push("/dashboard");
+                    window.location.href = "/dashboard";
                 }
-                router.refresh();
             }
         } catch (err) {
             setError("Something went wrong. Please try again.");
