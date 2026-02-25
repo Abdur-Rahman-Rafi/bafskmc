@@ -12,6 +12,7 @@ interface ExamItem {
     regStartTime: string;
     regEndTime: string;
     startTime: string;
+    endTime: string;
     registrations?: any[];
     submissions?: any[];
 }
