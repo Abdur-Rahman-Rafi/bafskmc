@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Megaphone, Zap, Radio } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface TickerItem {
     id: string;
@@ -73,21 +74,6 @@ export default function NewsTicker() {
         fetchTickerItems();
     }, []);
 
-    const handleHeadlineClick = (item: TickerItem) => {
-        if (["wel", "wsh", "res"].includes(item.id)) {
-            if (item.type === "NEWS") router.push("/news");
-            if (item.type === "RESOURCE") router.push("/resources");
-            return;
-        }
-
-        switch (item.type) {
-            case "NEWS": router.push(`/news/${item.id}`); break;
-            case "EXAM":
-            case "ALERT": router.push(`/exams/${item.id}`); break;
-            case "RESOURCE": router.push("/resources"); break;
-        }
-    };
-
     if (items.length === 0) return null;
 
     // Multi-duplicate for seamless looping across ultra-wide monitors
@@ -118,14 +104,21 @@ export default function NewsTicker() {
                     }}
                 >
                     {displayItems.map((item, idx) => (
-                        <div
+                        <Link
                             key={`${item.id}-${idx}`}
-                            onClick={() => handleHeadlineClick(item)}
-                            className="flex items-center space-x-4 cursor-pointer group"
+                            href={
+                                item.id === "wel" ? "/news" :
+                                    item.id === "wsh" ? "/news" :
+                                        item.id === "res" ? "/resources" :
+                                            item.type === "NEWS" ? `/news/${item.id}` :
+                                                (item.type === "EXAM" || item.type === "ALERT") ? `/exams/${item.id}` :
+                                                    "/resources"
+                            }
+                            className="flex items-center space-x-4 cursor-pointer group relative z-30"
                         >
                             <span className={`text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded border ${item.type === 'ALERT' ? "bg-red-500/10 border-red-500/20 text-red-500" :
-                                    item.type === 'EXAM' ? "bg-gold/10 border-gold/20 text-gold" :
-                                        "bg-white/5 border-white/10 text-white/40"
+                                item.type === 'EXAM' ? "bg-gold/10 border-gold/20 text-gold" :
+                                    "bg-white/5 border-white/10 text-white/40"
                                 }`}>
                                 {item.type}
                             </span>
@@ -133,13 +126,13 @@ export default function NewsTicker() {
                                 {item.text}
                             </span>
                             <div className="h-1 w-1 rounded-full bg-white/10 group-hover:bg-gold transition-colors" />
-                        </div>
+                        </Link>
                     ))}
                 </motion.div>
 
-                {/* Depth Overlays */}
-                <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-[#050505] to-transparent z-10" />
-                <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-[#050505] to-transparent z-10" />
+                {/* Depth Overlays - Added pointer-events-none to prevent blocking clicks */}
+                <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-[#050505] to-transparent z-10 pointer-events-none" />
+                <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-[#050505] to-transparent z-10 pointer-events-none" />
             </div>
 
             {/* Terminal Status */}
