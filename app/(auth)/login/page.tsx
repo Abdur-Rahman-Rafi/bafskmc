@@ -1,4 +1,5 @@
 "use client";
+// Build trigger: verify useEffect import exists.
 
 import { useState, useEffect } from "react";
 import { signIn } from "next-auth/react";
