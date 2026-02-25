@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { ShieldCheck, Loader2, Lock, Eye, EyeOff, AlertCircle, CheckCircle, ArrowLeft, XCircle } from "lucide-react";
 
-export default function ResetPasswordPage() {
+function ResetPasswordContent() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
@@ -211,10 +211,10 @@ export default function ResetPasswordPage() {
                                         onChange={(e) => setConfirmPassword(e.target.value)}
                                         placeholder="Repeat your password"
                                         className={`block w-full pl-12 pr-5 py-4 bg-white/[0.03] border rounded-2xl text-white placeholder:text-white/15 outline-none transition-all font-bold text-sm ${confirmPassword && !passwordsMatch
-                                                ? "border-red-500/40 focus:border-red-500/60"
-                                                : confirmPassword && passwordsMatch
-                                                    ? "border-emerald-500/40 focus:border-emerald-500/60"
-                                                    : "border-white/10 focus:border-gold/50"
+                                            ? "border-red-500/40 focus:border-red-500/60"
+                                            : confirmPassword && passwordsMatch
+                                                ? "border-emerald-500/40 focus:border-emerald-500/60"
+                                                : "border-white/10 focus:border-gold/50"
                                             }`}
                                     />
                                     {confirmPassword && (
@@ -272,5 +272,17 @@ export default function ResetPasswordPage() {
                 )}
             </div>
         </div>
+    );
+}
+
+export default function ResetPasswordPage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen flex items-center justify-center bg-[#080808]">
+                <Loader2 className="h-10 w-10 text-gold animate-spin" />
+            </div>
+        }>
+            <ResetPasswordContent />
+        </Suspense>
     );
 }
