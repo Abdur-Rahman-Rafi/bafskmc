@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { signIn, getSession } from "next-auth/react";
+import { useState, useEffect } from "react";
+import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { LogIn, ShieldCheck, Mail, Lock, Shield, GraduationCap } from "lucide-react";
