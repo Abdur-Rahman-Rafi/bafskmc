@@ -178,7 +178,7 @@ export default function ExamDetailPage() {
 
                         <div className="bg-[#151515] p-10 rounded-[3rem] border border-emerald-500/10 shadow-2xl">
                             <FileUploadZone
-                                type="file"
+                                type="document"
                                 label="Upload Answer Script (PDF/Image)"
                                 initialUrl={submissionFileUrl}
                                 onUploadComplete={(url) => setSubmissionFileUrl(url)}
