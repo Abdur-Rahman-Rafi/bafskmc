@@ -1,6 +1,5 @@
+import { put } from "@vercel/blob";
 import { NextResponse } from "next/server";
-import { writeFile, mkdir } from "fs/promises";
-import { join } from "path";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
@@ -23,24 +22,19 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "File too large. Max 10MB." }, { status: 400 });
         }
 
-        const bytes = await file.arrayBuffer();
-        const buffer = Buffer.from(bytes);
+        const filename = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9._-]/g, "-")}`;
 
-        const uploadDir = join(process.cwd(), "public", "uploads");
+        // Upload to Vercel Blob
+        const blob = await put(filename, file, {
+            access: "public", // This makes the file readable via its URL
+        });
 
-        try {
-            await mkdir(uploadDir, { recursive: true });
-        } catch (e) { }
-
-        const ext = file.name.split(".").pop() || "bin";
-        const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "-");
-        const filename = `${Date.now()}-${safeName}`;
-        const path = join(uploadDir, filename);
-
-        await writeFile(path, buffer);
-
-        const url = `/uploads/${filename}`;
-        return NextResponse.json({ url, name: file.name, size: file.size, type: file.type });
+        return NextResponse.json({
+            url: blob.url,
+            name: file.name,
+            size: file.size,
+            type: file.type
+        });
     } catch (error) {
         console.error("Upload error:", error);
         return NextResponse.json({ error: "Upload failed" }, { status: 500 });
