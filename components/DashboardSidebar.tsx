@@ -153,6 +153,10 @@ export default function DashboardSidebar({ onClose }: { onClose?: () => void }) 
                     <LogOut className="h-4 w-4" />
                     <span>Sign Out</span>
                 </button>
+                <div className="mt-8 pt-4 border-t border-white/5 text-center">
+                    <p className="text-[8px] font-black uppercase tracking-[0.2em]" style={{ color: "rgba(201,150,43,0.4)" }}>System Architect</p>
+                    <p className="text-[10px] font-black text-white/30 tracking-tight uppercase">Abdur Rahman Rafi, CSE (UIU)</p>
+                </div>
             </div>
         </aside>
     );

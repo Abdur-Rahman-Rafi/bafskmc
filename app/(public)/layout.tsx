@@ -33,9 +33,16 @@ export default function PublicLayout({
                             <Link href="/resources" className="hover:text-yellow-400 transition-colors">Resources</Link>
                             <Link href="/about" className="hover:text-yellow-400 transition-colors">About</Link>
                         </div>
-                        <p className="text-sm font-medium" style={{ color: "rgba(255,255,255,0.3)" }}>
-                            © {new Date().getFullYear()} BAFSK. All rights reserved.
-                        </p>
+                        <div className="flex flex-col items-center md:items-end space-y-1">
+                            <p className="text-sm font-medium" style={{ color: "rgba(255,255,255,0.3)" }}>
+                                © {new Date().getFullYear()} BAFSK. All rights reserved.
+                            </p>
+                            <div className="text-[10px] md:text-right">
+                                <span style={{ color: "rgba(255,255,255,0.2)" }}>Developed by </span>
+                                <span className="font-bold uppercase tracking-wider" style={{ color: "rgba(201,150,43,0.8)" }}>Abdur Rahman Rafi</span>
+                                <p style={{ color: "rgba(255,255,255,0.15)" }} className="font-medium tracking-tighter">Bachelor in CSE (UIU)</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </footer>
