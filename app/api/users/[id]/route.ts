@@ -21,23 +21,36 @@ export async function DELETE(
             return NextResponse.json({ error: "Cannot delete your own account" }, { status: 400 });
         }
 
-        // Delete all related records first to avoid foreign key errors
-        await prisma.$transaction([
-            prisma.achievement.deleteMany({ where: { userId: id } }),
-            prisma.submission.deleteMany({ where: { userId: id } }),
-            prisma.payment.deleteMany({ where: { userId: id } }),
-            prisma.registration.deleteMany({ where: { userId: id } }),
-            prisma.passwordResetToken.deleteMany({ where: { email: (await prisma.user.findUnique({ where: { id }, select: { email: true } }))?.email || "" } }),
-            prisma.activity.deleteMany({ where: { creatorId: id } }),
-            prisma.resource.deleteMany({ where: { creatorId: id } }),
-            prisma.exam.deleteMany({ where: { creatorId: id } }),
-            prisma.news.deleteMany({ where: { authorId: id } }),
-            prisma.user.delete({ where: { id } }),
-        ]);
+        // Fetch user email first (needed to clean password reset tokens)
+        const user = await prisma.user.findUnique({
+            where: { id },
+            select: { email: true }
+        });
+
+        if (!user) {
+            return NextResponse.json({ error: "User not found" }, { status: 404 });
+        }
+
+        // Delete all related records first, then the user — in a transaction
+        await prisma.$transaction(async (tx) => {
+            await tx.achievement.deleteMany({ where: { userId: id } });
+            await tx.submission.deleteMany({ where: { userId: id } });
+            await tx.payment.deleteMany({ where: { userId: id } });
+            await tx.registration.deleteMany({ where: { userId: id } });
+            await tx.passwordResetToken.deleteMany({ where: { email: user.email } });
+            await tx.activity.deleteMany({ where: { creatorId: id } });
+            await tx.resource.deleteMany({ where: { creatorId: id } });
+            await tx.exam.deleteMany({ where: { creatorId: id } });
+            await tx.news.deleteMany({ where: { authorId: id } });
+            await tx.user.delete({ where: { id } });
+        });
 
         return NextResponse.json({ message: "User deleted successfully" });
     } catch (error: any) {
         console.error("User delete error:", error);
-        return NextResponse.json({ error: "Failed to delete user", details: error.message }, { status: 500 });
+        return NextResponse.json({
+            error: "Failed to delete user",
+            details: error.message
+        }, { status: 500 });
     }
 }
