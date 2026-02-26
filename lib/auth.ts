@@ -16,14 +16,23 @@ export const authOptions: NextAuthOptions = {
                     throw new Error("Invalid credentials");
                 }
 
+                // Normalize email for case-insensitive lookup
+                const normalizedEmail = credentials.email.toLowerCase().trim();
+
                 const user = await prisma.user.findUnique({
                     where: {
-                        email: credentials.email,
+                        email: normalizedEmail,
                     },
                 });
 
-                if (!user || !user?.password) {
-                    throw new Error("Invalid credentials");
+                if (!user) {
+                    console.log(`Auth failed: User ${normalizedEmail} not found`);
+                    throw new Error("Invalid email or password");
+                }
+
+                if (!user.password) {
+                    console.log(`Auth failed: User ${normalizedEmail} has no password set`);
+                    throw new Error("Invalid email or password");
                 }
 
                 const isPasswordCorrect = await bcrypt.compare(
@@ -32,8 +41,11 @@ export const authOptions: NextAuthOptions = {
                 );
 
                 if (!isPasswordCorrect) {
+                    console.log(`Auth failed: Password incorrect for ${normalizedEmail}`);
                     throw new Error("Invalid email or password");
                 }
+
+                console.log(`Auth success: ${normalizedEmail} logged in`);
 
                 return {
                     id: user.id,

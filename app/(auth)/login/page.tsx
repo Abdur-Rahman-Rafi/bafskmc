@@ -50,10 +50,9 @@ function LoginContent() {
                 }
                 setLoading(false);
             } else {
-                // Force a full refresh to ensure all session data is correctly loaded
+                // Hard redirect to clear any state and ensure middleware sees the cookie
                 const targetUrl = loginType === "admin" ? "/admin" : "/dashboard";
-                router.push(targetUrl);
-                router.refresh();
+                window.location.replace(targetUrl);
             }
         } catch (err) {
             setError("Something went wrong. Please try again.");
