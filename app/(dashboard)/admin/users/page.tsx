@@ -33,6 +33,7 @@ export default function AdminUsersPage() {
     const [searchTerm, setSearchTerm] = useState("");
     const [updatingId, setUpdatingId] = useState<string | null>(null);
     const [successMsg, setSuccessMsg] = useState<string | null>(null);
+    const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
     const fetchUsers = () => {
         fetch("/api/users")
@@ -68,6 +69,31 @@ export default function AdminUsersPage() {
             }
         } catch (error) {
             console.error("Permission transition failed");
+        } finally {
+            setUpdatingId(null);
+        }
+    };
+
+    const handleDelete = async (user: User) => {
+        if (!confirm(`⚠️ WARNING: Permanently delete "${user.name || user.email}"?\n\nThis will remove ALL their data including payments, submissions, and results. This cannot be undone.`)) return;
+
+        setUpdatingId(user.id);
+        setErrorMsg(null);
+        setSuccessMsg(null);
+        try {
+            const res = await fetch(`/api/users/${user.id}`, { method: "DELETE" });
+            const data = await res.json();
+            if (res.ok) {
+                setUsers(users.filter(u => u.id !== user.id));
+                setSuccessMsg(`User ${user.name || user.email} has been permanently removed.`);
+                setTimeout(() => setSuccessMsg(null), 4000);
+            } else {
+                setErrorMsg(data.error || "Deletion failed. Please try again.");
+                setTimeout(() => setErrorMsg(null), 5000);
+            }
+        } catch (error) {
+            setErrorMsg("Connection error. Could not delete user.");
+            setTimeout(() => setErrorMsg(null), 5000);
         } finally {
             setUpdatingId(null);
         }
@@ -131,10 +157,21 @@ export default function AdminUsersPage() {
                         initial={{ opacity: 0, y: -20, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.95 }}
-                        className="p-4 bg-gold/10 border border-gold/20 rounded-2xl flex items-center space-x-3 text-gold text-xs font-black uppercase tracking-widest shadow-2xl mb-8"
+                        className="p-4 bg-gold/10 border border-gold/20 rounded-2xl flex items-center space-x-3 text-gold text-xs font-black uppercase tracking-widest shadow-2xl mb-4"
                     >
                         <ShieldCheck className="h-4 w-4" />
                         <span>{successMsg}</span>
+                    </motion.div>
+                )}
+                {errorMsg && (
+                    <motion.div
+                        initial={{ opacity: 0, y: -20, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.95 }}
+                        className="p-4 bg-red-500/10 border border-red-500/20 rounded-2xl flex items-center space-x-3 text-red-400 text-xs font-black uppercase tracking-widest shadow-2xl mb-4"
+                    >
+                        <UserX className="h-4 w-4" />
+                        <span>{errorMsg}</span>
                     </motion.div>
                 )}
             </AnimatePresence>
@@ -223,18 +260,18 @@ export default function AdminUsersPage() {
                                                 </span>
                                             </td>
                                             <td className="px-10 py-8 text-right">
-                                                <div className="flex items-center justify-end space-x-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <div className="flex items-center justify-end space-x-3">
                                                     <button
                                                         onClick={() => handleResetPassword(user)}
                                                         disabled={updatingId === user.id}
-                                                        className="p-3 bg-white/5 text-white/20 hover:text-amber-500 hover:bg-amber-500/10 hover:border-amber-500/20 rounded-xl border border-white/5 transition-all"
+                                                        className="p-3 bg-white/5 text-white/40 hover:text-amber-400 hover:bg-amber-500/10 hover:border-amber-500/20 rounded-xl border border-white/10 transition-all"
                                                         title="Force Password Reset"
                                                     >
                                                         <Lock className="h-4 w-4" />
                                                     </button>
                                                     <Link
                                                         href={`/admin/achievements?userId=${user.id}`}
-                                                        className="p-3 bg-white/5 text-white/20 hover:text-gold hover:bg-gold/10 hover:border-gold/20 rounded-xl border border-white/5 transition-all"
+                                                        className="p-3 bg-white/5 text-white/40 hover:text-gold hover:bg-gold/10 hover:border-gold/20 rounded-xl border border-white/10 transition-all"
                                                         title="Award Honor"
                                                     >
                                                         <Award className="h-5 w-5" />
@@ -242,13 +279,21 @@ export default function AdminUsersPage() {
                                                     <button
                                                         onClick={() => toggleRole(user)}
                                                         disabled={updatingId === user.id}
-                                                        className={`flex items-center space-x-2 px-5 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all active:scale-95 ${user.role === "ADMIN"
-                                                            ? "bg-white/5 text-white/20 hover:text-white"
-                                                            : "bg-gold text-black hover:bg-[#F0C040 shadow-xl shadow-gold/10"
+                                                        className={`flex items-center space-x-2 px-5 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all active:scale-95 border ${user.role === "ADMIN"
+                                                                ? "bg-white/5 text-white/40 hover:text-white border-white/10"
+                                                                : "bg-gold text-black hover:bg-[#F0C040] shadow-xl shadow-gold/10 border-transparent"
                                                             }`}
                                                     >
                                                         {updatingId === user.id ? <RefreshCw className="h-3 w-3 animate-spin" /> : <Shield className="h-3 w-3" />}
-                                                        <span>{user.role === "ADMIN" ? "Demote" : "Authorize"}</span>
+                                                        <span>{user.role === "ADMIN" ? "Demote" : "Promote"}</span>
+                                                    </button>
+                                                    <button
+                                                        onClick={() => handleDelete(user)}
+                                                        disabled={updatingId === user.id}
+                                                        className="p-3 bg-white/5 text-white/40 hover:text-red-500 hover:bg-red-500/10 hover:border-red-500/20 rounded-xl border border-white/10 transition-all"
+                                                        title="Delete User"
+                                                    >
+                                                        {updatingId === user.id ? <RefreshCw className="h-4 w-4 animate-spin text-red-400" /> : <Trash2 className="h-4 w-4" />}
                                                     </button>
                                                 </div>
                                             </td>
