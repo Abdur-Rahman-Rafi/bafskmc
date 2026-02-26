@@ -208,6 +208,16 @@ model SiteConfig {
   updatedAt DateTime @updatedAt
 }
 
+model Gallery {
+  id        String   @id @default(cuid())
+  title     String
+  imageUrl  String
+  category  String   @default("General")
+  date      DateTime @default(now())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 enum Role {
   ADMIN
   STUDENT

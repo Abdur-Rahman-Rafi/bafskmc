@@ -62,6 +62,7 @@ export default function DashboardSidebar({ onClose }: { onClose?: () => void }) 
         { name: "Manage Members", href: "/admin/members", icon: <Shield className="h-4 w-4" /> },
         { name: "Manage Badges", href: "/admin/achievements", icon: <Award className="h-4 w-4" /> },
         { name: "Manage Users", href: "/admin/users", icon: <Users className="h-4 w-4" /> },
+        { name: "Manage Gallery", href: "/admin/gallery", icon: <Camera className="h-4 w-4" /> },
         { name: "Branding & Logo", href: "/admin/branding", icon: <Palette className="h-4 w-4" /> },
     ];
 
