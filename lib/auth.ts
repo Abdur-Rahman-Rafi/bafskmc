@@ -32,7 +32,7 @@ export const authOptions: NextAuthOptions = {
                 );
 
                 if (!isPasswordCorrect) {
-                    throw new Error("Invalid credentials");
+                    throw new Error("Invalid email or password");
                 }
 
                 return {
@@ -68,7 +68,5 @@ export const authOptions: NextAuthOptions = {
         maxAge: 30 * 24 * 60 * 60, // 30 days
     },
     secret: process.env.NEXTAUTH_SECRET,
-    trustHost: true,
     debug: process.env.NODE_ENV === "development",
 };
-

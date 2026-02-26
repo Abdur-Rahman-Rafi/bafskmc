@@ -1,5 +1,5 @@
 "use client";
-// Build trigger: verify useEffect import exists.
+// Force new deployment: 2026-02-25 23:55
 
 import { useState, useEffect } from "react";
 import { signIn } from "next-auth/react";
@@ -34,13 +34,27 @@ function LoginContent() {
         setError("");
 
         try {
-            // Use native redirect for maximum reliability in production
-            await signIn("credentials", {
+            const result = await signIn("credentials", {
                 email,
                 password,
-                callbackUrl: loginType === "admin" ? "/admin" : "/dashboard",
-                redirect: true,
+                redirect: false,
             });
+
+            if (result?.error) {
+                if (result.error === "CredentialsSignin") {
+                    setError("Invalid email or password. Please try again.");
+                } else if (result.error === "Configuration") {
+                    setError("Server configuration error. Please contact admin.");
+                } else {
+                    setError("Authentication failed. Please check your credentials.");
+                }
+                setLoading(false);
+            } else {
+                // Force a full refresh to ensure all session data is correctly loaded
+                const targetUrl = loginType === "admin" ? "/admin" : "/dashboard";
+                router.push(targetUrl);
+                router.refresh();
+            }
         } catch (err) {
             setError("Something went wrong. Please try again.");
             setLoading(false);
