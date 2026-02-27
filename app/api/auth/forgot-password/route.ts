@@ -51,31 +51,31 @@ async function sendResetEmail(to: string, resetUrl: string, name?: string) {
         </tr>
         <tr>
           <td style="padding:48px 40px;">
-            <div style="font-size:24px;font-weight:900;color:#fff;letter-spacing:-0.5px;margin-bottom:12px;">Password Reset Request</div>
+            <div style="font-size:24px;font-weight:900;color:#fff;letter-spacing:-0.5px;margin-bottom:12px;">Reset Your Password</div>
             <p style="color:rgba(255,255,255,0.5);font-size:14px;line-height:1.7;margin:0 0 32px;">
-              Hey <strong style="color:#fff;">${displayName}</strong>, we received a request to reset your BAFSK Math Club account password.
+              Hey <strong style="color:#fff;">${displayName}</strong>, we received a request to reset your BAFSK Math Club account password. Click the button below to initialize the recovery protocol.
             </p>
             <table width="100%" cellpadding="0" cellspacing="0">
               <tr><td align="center" style="padding:0 0 32px;">
-                <a href="${resetUrl}" style="display:inline-block;background:#C9A84C;color:#000;font-weight:900;font-size:13px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;padding:18px 48px;border-radius:16px;">
-                  Reset My Password
+                <a href="${resetUrl}" style="display:inline-block;background:#C9A84C;color:#000;font-weight:900;font-size:13px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;padding:20px 48px;border-radius:18px;box-shadow:0 10px 30px rgba(201,168,76,0.2);">
+                  Reset Password
                 </a>
               </td></tr>
             </table>
-            <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05);border-radius:12px;padding:20px;">
+            <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05);border-radius:12px;padding:20px;text-align:center;">
               <p style="color:rgba(255,255,255,0.3);font-size:12px;line-height:1.6;margin:0;">
-                ⏱ This link expires in <strong style="color:rgba(255,255,255,0.5);">1 hour</strong>. If you didn't request this, you can safely ignore this email.
+                ⏱ Security link expires in <strong style="color:rgba(255,255,255,0.5);">1 hour</strong>.
               </p>
             </div>
-            <p style="color:rgba(255,255,255,0.2);font-size:11px;margin:28px 0 0;line-height:1.6;">
+            <p style="color:rgba(255,255,255,0.15);font-size:10px;margin:28px 0 0;line-height:1.6;text-align:center;word-break:break-all;">
               If the button doesn't work, copy this link:<br>
-              <a href="${resetUrl}" style="color:rgba(201,168,76,0.7);word-break:break-all;">${resetUrl}</a>
+              <a href="${resetUrl}" style="color:rgba(201,168,76,0.5);text-decoration:none;">${resetUrl}</a>
             </p>
           </td>
         </tr>
         <tr>
           <td style="border-top:1px solid rgba(255,255,255,0.05);padding:24px 40px;text-align:center;">
-            <p style="color:rgba(255,255,255,0.15);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin:0;">BAFSK Math Club • BAF Shaheen College Kurmitola</p>
+            <p style="color:rgba(255,255,255,0.1);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin:0;">BAFSK Math Club System Presence</p>
           </td>
         </tr>
       </table>

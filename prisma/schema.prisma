@@ -63,7 +63,7 @@ model Payment {
   updatedAt     DateTime      @updatedAt
   verifiedAt    DateTime?
   verifiedBy    String?
-  user          User          @relation(fields: [userId], references: [id])
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId], map: "Payment_userId_fkey")
 }
@@ -76,7 +76,7 @@ model News {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   imageUrl  String?
-  author    User     @relation(fields: [authorId], references: [id])
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
 
   @@index([authorId], map: "News_authorId_fkey")
 }
@@ -96,7 +96,7 @@ model Exam {
   updatedAt       DateTime       @updatedAt
   duration        Int            @default(30)
   questionFileUrl String?
-  creator         User           @relation("ExamCreator", fields: [creatorId], references: [id])
+  creator         User           @relation("ExamCreator", fields: [creatorId], references: [id], onDelete: Cascade)
   registrations   Registration[]
   submissions     Submission[]
 
@@ -108,8 +108,8 @@ model Registration {
   examId       String
   studentId    String
   registeredAt DateTime @default(now())
-  exam         Exam     @relation(fields: [examId], references: [id])
-  student      User     @relation(fields: [studentId], references: [id])
+  exam         Exam     @relation(fields: [examId], references: [id], onDelete: Cascade)
+  student      User     @relation(fields: [studentId], references: [id], onDelete: Cascade)
 
   @@unique([examId, studentId])
   @@index([examId], map: "Registration_examId_fkey")
@@ -125,7 +125,7 @@ model Competition {
   creatorId   String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  creator     User     @relation("CompCreator", fields: [creatorId], references: [id])
+  creator     User     @relation("CompCreator", fields: [creatorId], references: [id], onDelete: Cascade)
 
   @@index([creatorId], map: "Competition_creatorId_fkey")
 }
@@ -140,7 +140,7 @@ model Resource {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   imageUrl    String?
-  creator     User     @relation("ResourceCreator", fields: [creatorId], references: [id])
+  creator     User     @relation("ResourceCreator", fields: [creatorId], references: [id], onDelete: Cascade)
 
   @@index([creatorId], map: "Resource_creatorId_fkey")
 }
@@ -155,8 +155,8 @@ model Submission {
   feedback          String?  @db.Text
   submittedAt       DateTime @default(now())
   submissionFileUrl String?
-  exam              Exam     @relation(fields: [examId], references: [id])
-  student           User     @relation(fields: [studentId], references: [id])
+  exam              Exam     @relation(fields: [examId], references: [id], onDelete: Cascade)
+  student           User     @relation(fields: [studentId], references: [id], onDelete: Cascade)
 
   @@index([examId], map: "Submission_examId_fkey")
   @@index([studentId], map: "Submission_studentId_fkey")
@@ -170,7 +170,7 @@ model Achievement {
   points      Int      @default(0)
   userId      String?
   dateAwarded DateTime @default(now())
-  user        User?    @relation(fields: [userId], references: [id])
+  user        User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId], map: "Achievement_userId_fkey")
 }
@@ -187,7 +187,7 @@ model Activity {
   creatorId   String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  creator     User     @relation("ActivityCreator", fields: [creatorId], references: [id])
+  creator     User     @relation("ActivityCreator", fields: [creatorId], references: [id], onDelete: Cascade)
 
   @@index([creatorId], map: "Activity_creatorId_fkey")
 }
@@ -198,6 +198,22 @@ model PasswordResetToken {
   email     String
   expiresAt DateTime
   createdAt DateTime @default(now())
+
+  @@index([email])
+}
+
+model PendingUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  password     String
+  name         String
+  phone        String
+  studentClass String?
+  section      String?
+  roll         String?
+  code         String
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
 
   @@index([email])
 }

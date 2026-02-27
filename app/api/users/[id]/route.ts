@@ -31,36 +31,10 @@ export async function DELETE(
             return NextResponse.json({ error: "User not found" }, { status: 404 });
         }
 
-        // Delete related records using the correct field names from schema
-        await prisma.$transaction(async (tx) => {
-            // Submission uses `studentId`
-            await tx.submission.deleteMany({ where: { studentId: id } });
-            // Registration uses `studentId`
-            await tx.registration.deleteMany({ where: { studentId: id } });
-            // Achievement uses `userId`
-            await tx.achievement.deleteMany({ where: { userId: id } });
-            // Payment uses `userId`
-            await tx.payment.deleteMany({ where: { userId: id } });
-            // PasswordResetToken uses `email`
-            await tx.passwordResetToken.deleteMany({ where: { email: user.email } });
-            // Activity uses `creatorId`
-            await tx.activity.deleteMany({ where: { creatorId: id } });
-            // Resource uses `creatorId`
-            await tx.resource.deleteMany({ where: { creatorId: id } });
-            // Competition uses `creatorId`
-            await tx.competition.deleteMany({ where: { creatorId: id } });
-            // Exam uses `creatorId` — delete its registrations/submissions first
-            const exams = await tx.exam.findMany({ where: { creatorId: id }, select: { id: true } });
-            const examIds = exams.map(e => e.id);
-            if (examIds.length > 0) {
-                await tx.submission.deleteMany({ where: { examId: { in: examIds } } });
-                await tx.registration.deleteMany({ where: { examId: { in: examIds } } });
-                await tx.exam.deleteMany({ where: { creatorId: id } });
-            }
-            // News uses `authorId`
-            await tx.news.deleteMany({ where: { authorId: id } });
-            // Finally delete the user
-            await tx.user.delete({ where: { id } });
+        // Since we pushed onDelete: Cascade to the database, 
+        // the DB will automatically handle deleting all related records.
+        await prisma.user.delete({
+            where: { id }
         });
 
         return NextResponse.json({ message: "User deleted successfully" });

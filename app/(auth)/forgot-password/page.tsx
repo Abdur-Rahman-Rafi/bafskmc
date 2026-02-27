@@ -140,16 +140,16 @@ export default function ForgotPasswordPage() {
                                 <ShieldCheck className="h-9 w-9 text-gold" />
                             </div>
                             <h2 className="text-3xl font-black text-white tracking-tighter italic mb-3">
-                                Manual Reset Required
+                                Link Dispatched!
                             </h2>
                             <p className="text-white/40 text-sm font-medium leading-relaxed mb-6">
-                                To ensure maximum security, automated password recovery is currently disabled.
+                                If an account exists for <span className="text-gold font-bold">{email}</span>, you will receive a secure reset link shortly.
                             </p>
 
                             <div className="bg-gold/5 border border-gold/10 rounded-2xl p-6 mb-8 text-center space-y-3">
-                                <p className="text-[10px] font-black text-gold uppercase tracking-[0.2em]">Next Step</p>
-                                <p className="text-sm text-white font-bold leading-relaxed">
-                                    Please contact a <span className="text-gold">Math Club Panel Member</span> or an <span className="text-gold">Administrator</span> to manually update your password.
+                                <p className="text-[10px] font-black text-gold uppercase tracking-[0.2em]">Check Your Inbox</p>
+                                <p className="text-sm text-white/50 font-bold leading-relaxed">
+                                    The link is valid for <span className="text-gold">1 hour</span>. Make sure to check your spam folder if it doesn't appear.
                                 </p>
                             </div>
 
