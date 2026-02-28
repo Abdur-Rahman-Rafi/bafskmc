@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
     User, Camera, Save, Loader2, Phone, BookOpen,
     FileText, Briefcase, CheckCircle2, AlertCircle, Upload
@@ -115,21 +115,28 @@ export default function StudentSettingsPage() {
 
     return (
         <div className="space-y-10 pb-20 max-w-3xl">
-            {/* Toast */}
-            {toast && (
-                <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    className={`fixed top-8 right-8 z-50 flex items-center space-x-3 px-6 py-4 rounded-2xl font-bold text-sm shadow-2xl ${toast.type === "success"
-                        ? "bg-emerald-500/20 border border-emerald-500/30 text-emerald-400"
-                        : "bg-red-500/20 border border-red-500/30 text-red-400"
-                        }`}
-                >
-                    {toast.type === "success" ? <CheckCircle2 className="h-5 w-5" /> : <AlertCircle className="h-5 w-5" />}
-                    <span>{toast.msg}</span>
-                </motion.div>
-            )}
+            {/* Dashboard Alerts */}
+            <AnimatePresence>
+                {toast && (
+                    <motion.div
+                        initial={{ opacity: 0, x: 20, scale: 0.9 }}
+                        animate={{ opacity: 1, x: 0, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.1 } }}
+                        className={`fixed top-8 right-8 z-[100] flex items-center space-x-4 px-8 py-5 rounded-[2rem] font-black text-xs uppercase tracking-[0.2em] shadow-[0_20px_50px_rgba(0,0,0,0.5)] backdrop-blur-2xl border ${toast.type === "success"
+                            ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400"
+                            : "bg-red-500/10 border-red-500/20 text-red-400"
+                            }`}
+                    >
+                        <div className={`h-10 w-10 rounded-full flex items-center justify-center ${toast.type === "success" ? "bg-emerald-500/20" : "bg-red-500/20"}`}>
+                            {toast.type === "success" ? <CheckCircle2 className="h-5 w-5" /> : <AlertCircle className="h-5 w-5" />}
+                        </div>
+                        <div className="flex flex-col">
+                            <span className="text-[10px] opacity-40 mb-0.5">System Message</span>
+                            <span>{toast.msg}</span>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
             {/* Header */}
             <div>

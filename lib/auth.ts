@@ -58,7 +58,7 @@ export const authOptions: NextAuthOptions = {
         }),
     ],
     callbacks: {
-        async jwt({ token, user, trigger, session }) {
+        async jwt({ token, user, trigger }) {
             if (user) {
                 token.role = user.role;
                 token.id = user.id;
@@ -66,7 +66,7 @@ export const authOptions: NextAuthOptions = {
             }
 
             // Handle session update (when user changes profile pic/name)
-            if (trigger === "update" && session) {
+            if (trigger === "update") {
                 // Fetch latest data from DB to ensure session is fresh
                 const dbUser = await prisma.user.findUnique({
                     where: { id: token.id as string },
