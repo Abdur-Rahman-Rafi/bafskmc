@@ -23,6 +23,7 @@ interface User {
     id: string;
     email: string;
     name: string | null;
+    image: string | null;
     role: "ADMIN" | "STUDENT";
     createdAt: string;
 }
@@ -230,8 +231,12 @@ export default function AdminUsersPage() {
                                         >
                                             <td className="px-10 py-8">
                                                 <div className="flex items-center space-x-5">
-                                                    <div className="h-14 w-14 bg-[#0D0D0D] rounded-2xl border border-white/5 flex items-center justify-center group-hover:border-gold/30 transition-all shadow-xl">
-                                                        <UserCircle className="h-7 w-7 text-white/10 group-hover:text-gold/40 transition-colors" />
+                                                    <div className="h-14 w-14 bg-[#0D0D0D] rounded-2xl border border-white/5 flex items-center justify-center group-hover:border-gold/30 transition-all shadow-xl overflow-hidden">
+                                                        {user.image ? (
+                                                            <img src={user.image} alt={user.name || "User"} className="h-full w-full object-cover" />
+                                                        ) : (
+                                                            <UserCircle className="h-7 w-7 text-white/10 group-hover:text-gold/40 transition-colors" />
+                                                        )}
                                                     </div>
                                                     <div>
                                                         <p className="text-lg font-black text-white italic tracking-tight group-hover:text-gold transition-colors">{user.name || "UNIDENTIFIED"}</p>
@@ -280,8 +285,8 @@ export default function AdminUsersPage() {
                                                         onClick={() => toggleRole(user)}
                                                         disabled={updatingId === user.id}
                                                         className={`flex items-center space-x-2 px-5 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all active:scale-95 border ${user.role === "ADMIN"
-                                                                ? "bg-white/5 text-white/40 hover:text-white border-white/10"
-                                                                : "bg-gold text-black hover:bg-[#F0C040] shadow-xl shadow-gold/10 border-transparent"
+                                                            ? "bg-white/5 text-white/40 hover:text-white border-white/10"
+                                                            : "bg-gold text-black hover:bg-[#F0C040] shadow-xl shadow-gold/10 border-transparent"
                                                             }`}
                                                     >
                                                         {updatingId === user.id ? <RefreshCw className="h-3 w-3 animate-spin" /> : <Shield className="h-3 w-3" />}
