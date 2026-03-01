@@ -24,6 +24,20 @@ export const metadata: Metadata = {
     ],
     apple: "/logo.jpg",
   },
+  openGraph: {
+    title: "BAFSK Math Club",
+    description: "Official portal for BAFSK Math Club",
+    url: "https://bafskmc.vercel.app",
+    siteName: "BAFSK Math Club",
+    images: ["/logo.jpg"],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "BAFSK Math Club",
+    description: "Official portal for BAFSK Math Club",
+    images: ["/logo.jpg"],
+  },
 };
 
 export default function RootLayout({
