@@ -16,32 +16,16 @@ export default function NewsDetailClient({ news: initialNews }: NewsDetailClient
 
     const handleShare = async () => {
         try {
-            const shareData: any = {
+            const shareData = {
                 title: news?.title || "BAFSK Math Club News",
-                text: `Check out this update from BAFSK Math Club: ${news?.title}`,
+                text: `${news?.title}\n\nRead more here:`,
                 url: window.location.href,
             };
-
-            // Attempt to share the actual image for modern browsers/mobile
-            if (news?.imageUrl && typeof navigator !== "undefined" && navigator.canShare) {
-                try {
-                    const response = await fetch(news.imageUrl);
-                    const blob = await response.blob();
-                    const file = new File([blob], "news-image.jpg", { type: blob.type });
-
-                    if (navigator.canShare({ files: [file] })) {
-                        // Some share targets (like WhatsApp) handle files + text + url better
-                        shareData.files = [file];
-                    }
-                } catch (imgErr) {
-                    console.warn("Could not fetch image for sharing:", imgErr);
-                }
-            }
 
             if (navigator.share) {
                 await navigator.share(shareData);
             } else {
-                await navigator.clipboard.writeText(window.location.href);
+                await navigator.clipboard.writeText(`${news?.title}\n\n${window.location.href}`);
                 alert("Link Copied to Clipboard!");
             }
         } catch (err) {
