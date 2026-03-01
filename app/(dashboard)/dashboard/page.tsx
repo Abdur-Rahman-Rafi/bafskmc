@@ -16,6 +16,8 @@ import {
     FileText,
     ClipboardList,
     ChevronRight,
+    Clock,
+    CheckCircle
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -41,6 +43,7 @@ export default function StudentDashboard() {
     const [activities, setActivities] = useState<ActivityItem[]>([]);
     const [loading, setLoading] = useState(true);
     const [profile, setProfile] = useState<any>(null);
+    const [latestPayment, setLatestPayment] = useState<any>(null);
 
     useEffect(() => {
         Promise.all([
@@ -55,6 +58,7 @@ export default function StudentDashboard() {
                 ]);
             }
             if (dashData.activities) setActivities(dashData.activities);
+            if (dashData.latestPayment) setLatestPayment(dashData.latestPayment);
             setProfile(profileData);
             setLoading(false);
 
@@ -146,6 +150,65 @@ export default function StudentDashboard() {
                     </motion.div>
                 ))}
             </div>
+
+            {/* Payment Pulse / Tracker */}
+            {latestPayment && latestPayment.status === "PENDING" && (
+                <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    className="bg-gold/10 border border-gold/30 rounded-[2.5rem] p-8 flex flex-col md:flex-row items-center justify-between gap-6"
+                >
+                    <div className="flex items-center space-x-6">
+                        <div className="h-16 w-16 bg-gold text-black rounded-2xl flex items-center justify-center shadow-lg shadow-gold/20">
+                            <Clock className="h-8 w-8 animate-pulse" />
+                        </div>
+                        <div>
+                            <h3 className="text-white font-black italic uppercase tracking-tight text-lg">Payment Verification In Progress</h3>
+                            <p className="text-white/40 text-[10px] font-black uppercase tracking-[0.2em] mt-1">
+                                Submission for <span className="text-gold">৳{latestPayment.amount}</span> • {latestPayment.note}
+                            </p>
+                        </div>
+                    </div>
+                    <div className="flex items-center space-x-4">
+                        <div className="text-right hidden md:block">
+                            <p className="text-[9px] font-black text-white/20 uppercase tracking-widest">Awaiting Admin Response</p>
+                            <p className="text-[10px] font-black text-gold/60 uppercase tracking-widest mt-0.5">EST. TIME: 2-4 HOURS</p>
+                        </div>
+                        <Link
+                            href="/dashboard/payments"
+                            className="px-8 py-4 bg-white/5 hover:bg-white/10 text-white rounded-xl border border-white/10 text-[10px] font-black uppercase tracking-[0.2em] transition-all active:scale-95"
+                        >
+                            View Details
+                        </Link>
+                    </div>
+                </motion.div>
+            )}
+
+            {latestPayment && latestPayment.status === "VERIFIED" && (
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="bg-emerald-500/10 border border-emerald-500/30 rounded-[2.5rem] p-8 flex flex-col md:flex-row items-center justify-between gap-6"
+                >
+                    <div className="flex items-center space-x-6">
+                        <div className="h-16 w-16 bg-emerald-500 text-black rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                            <CheckCircle className="h-8 w-8" />
+                        </div>
+                        <div>
+                            <h3 className="text-white font-black italic uppercase tracking-tight text-lg">Transaction Verified</h3>
+                            <p className="text-white/40 text-[10px] font-black uppercase tracking-[0.2em] mt-1">
+                                Your payment of <span className="text-emerald-400">৳{latestPayment.amount}</span> has been confirmed by the Treasury.
+                            </p>
+                        </div>
+                    </div>
+                    <Link
+                        href="/dashboard/payments"
+                        className="px-8 py-4 bg-white/5 hover:bg-white/10 text-white rounded-xl border border-white/10 text-[10px] font-black uppercase tracking-[0.2em] transition-all"
+                    >
+                        History
+                    </Link>
+                </motion.div>
+            )}
 
             {/* Quick Links */}
             <div>

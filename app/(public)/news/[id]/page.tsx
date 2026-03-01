@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { Calendar, User, ArrowLeft, Loader2, Share2, Clock } from "lucide-react";
+import { Calendar, User, ArrowLeft, Loader2, Share2, Clock, Download, Paperclip, FileText } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
@@ -29,6 +29,25 @@ export default function NewsDetailPage() {
             console.error("Failed to fetch news details");
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleShare = async () => {
+        const shareData = {
+            title: news?.title || "BAFSK Math Club News",
+            text: news?.content?.slice(0, 100) + "..." || "Read the latest update from BAFSK Math Club.",
+            url: window.location.href,
+        };
+
+        try {
+            if (navigator.share) {
+                await navigator.share(shareData);
+            } else {
+                await navigator.clipboard.writeText(window.location.href);
+                alert("Operational Link Copied to Clipboard!");
+            }
+        } catch (err) {
+            console.error("Share protocol failed", err);
         }
     };
 
@@ -123,10 +142,44 @@ export default function NewsDetailPage() {
                     ))}
                 </motion.div>
 
+                {news.fileUrl && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.5 }}
+                        className="mt-12 bg-[#151515] p-8 rounded-[2.5rem] border border-gold/10 relative overflow-hidden group"
+                    >
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-gold/5 blur-3xl pointer-events-none" />
+                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
+                            <div className="flex items-center space-x-6">
+                                <div className="h-14 w-14 bg-gold/10 rounded-2xl flex items-center justify-center text-gold border border-gold/20">
+                                    <Paperclip className="h-6 w-6" />
+                                </div>
+                                <div>
+                                    <h4 className="text-white font-black italic uppercase tracking-tight text-lg">Official Attachment</h4>
+                                    <p className="text-[10px] text-white/30 font-black uppercase tracking-[0.2em] mt-1">Classified Document • Protocol Asset</p>
+                                </div>
+                            </div>
+                            <a
+                                href={news.fileUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="bg-gold text-black px-8 py-4 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] hover:bg-[#F0C040] transition-all flex items-center space-x-3 shadow-xl shadow-gold/10 active:scale-95"
+                            >
+                                <Download className="h-4 w-4" />
+                                <span>Download Asset</span>
+                            </a>
+                        </div>
+                    </motion.div>
+                )}
+
                 {/* Footer Actions */}
                 <div className="mt-20 pt-10 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-8">
                     <div className="flex items-center space-x-4">
-                        <button className="h-14 w-14 bg-white/5 hover:bg-gold hover:text-black rounded-2xl flex items-center justify-center transition-all border border-white/10">
+                        <button
+                            onClick={handleShare}
+                            className="h-14 w-14 bg-white/5 hover:bg-gold hover:text-black rounded-2xl flex items-center justify-center transition-all border border-white/10"
+                        >
                             <Share2 className="h-6 w-6" />
                         </button>
                     </div>

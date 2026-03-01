@@ -12,7 +12,9 @@ import {
     Sparkles,
     Eye,
     ChevronLeft,
-    CheckCircle2
+    CheckCircle2,
+    Paperclip,
+    Layout
 } from "lucide-react";
 import Link from "next/link";
 import FileUploadZone from "./FileUploadZone";
@@ -24,6 +26,8 @@ interface NewsFormProps {
         title: string;
         content: string;
         imageUrl?: string;
+        fileUrl?: string;
+        type?: "ARTICLE" | "NOTICE";
     };
 }
 
@@ -36,6 +40,8 @@ export default function NewsForm({ initialData }: NewsFormProps) {
         title: initialData?.title || "",
         content: initialData?.content || "",
         imageUrl: initialData?.imageUrl || "",
+        fileUrl: initialData?.fileUrl || "",
+        type: initialData?.type || "ARTICLE",
     });
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -127,19 +133,59 @@ export default function NewsForm({ initialData }: NewsFormProps) {
                         />
                     </div>
 
-                    <div className="space-y-4">
-                        <label className="text-[10px] font-black text-white/20 uppercase tracking-[0.2em] pl-1 flex items-center">
-                            <Sparkles className="h-4 w-4 mr-3 text-gold/60" />
-                            Visual Asset (Featured)
-                        </label>
-                        <FileUploadZone
-                            type="image"
-                            label="Featured Image (Optional)"
-                            accept="image/*"
-                            initialUrl={formData.imageUrl}
-                            onUploadComplete={(url) => setFormData({ ...formData, imageUrl: url })}
-                        />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div className="space-y-4">
+                            <label className="text-[10px] font-black text-white/20 uppercase tracking-[0.2em] pl-1 flex items-center mb-2">
+                                <Layout className="h-4 w-4 mr-3 text-gold/60" />
+                                Bulletin Category
+                            </label>
+                            <div className="flex p-1.5 bg-white/5 rounded-2xl border border-white/10">
+                                <button
+                                    type="button"
+                                    onClick={() => setFormData({ ...formData, type: "ARTICLE" })}
+                                    className={`flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all ${formData.type === "ARTICLE" ? "bg-gold text-black shadow-lg shadow-gold/20" : "text-white/30 hover:text-white/50"}`}
+                                >
+                                    Article
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => setFormData({ ...formData, type: "NOTICE" })}
+                                    className={`flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all ${formData.type === "NOTICE" ? "bg-gold text-black shadow-lg shadow-gold/20" : "text-white/30 hover:text-white/50"}`}
+                                >
+                                    Notice
+                                </button>
+                            </div>
+                        </div>
+
+                        <div className="space-y-4">
+                            <label className="text-[10px] font-black text-white/20 uppercase tracking-[0.2em] pl-1 flex items-center">
+                                <Sparkles className="h-4 w-4 mr-3 text-gold/60" />
+                                Visual Asset (Featured)
+                            </label>
+                            <FileUploadZone
+                                type="image"
+                                label="Featured Image (Optional)"
+                                accept="image/*"
+                                initialUrl={formData.imageUrl}
+                                onUploadComplete={(url) => setFormData({ ...formData, imageUrl: url })}
+                            />
+                        </div>
                     </div>
+
+                    {formData.type === "NOTICE" && (
+                        <div className="space-y-4">
+                            <label className="text-[10px] font-black text-white/20 uppercase tracking-[0.2em] pl-1 flex items-center">
+                                <Paperclip className="h-4 w-4 mr-3 text-gold/60" />
+                                Operational Notice Attachment (PDF, JPG, etc.)
+                            </label>
+                            <FileUploadZone
+                                type="document"
+                                label="Upload Notice Document"
+                                initialUrl={formData.fileUrl}
+                                onUploadComplete={(url) => setFormData({ ...formData, fileUrl: url })}
+                            />
+                        </div>
+                    )}
 
                     <div className="space-y-4">
                         <label className="text-[10px] font-black text-white/20 uppercase tracking-[0.2em] pl-1 flex items-center mb-2">

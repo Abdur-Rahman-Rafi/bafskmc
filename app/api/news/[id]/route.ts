@@ -49,10 +49,10 @@ export async function PATCH(
 
     try {
         const { id } = await params;
-        const { title, content, imageUrl } = await req.json();
+        const { title, content, imageUrl, fileUrl, type } = await req.json();
         const news = await prisma.news.update({
             where: { id },
-            data: { title, content, imageUrl }
+            data: { title, content, imageUrl, fileUrl, type }
         });
         return NextResponse.json(news);
     } catch (error) {

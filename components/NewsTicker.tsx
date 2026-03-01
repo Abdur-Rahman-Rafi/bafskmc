@@ -36,10 +36,15 @@ export default function NewsTicker() {
 
                 const tickerItems: TickerItem[] = [];
 
-                // Add News
+                // Add News and Notices
                 if (Array.isArray(news)) {
-                    news.slice(0, 2).forEach((n: any) => {
-                        tickerItems.push({ id: n.id, text: `NEWS: ${n.title}`, type: "NEWS" });
+                    news.slice(0, 4).forEach((n: any) => {
+                        const prefix = n.type === "NOTICE" ? "NOTICE" : "NEWS";
+                        tickerItems.push({
+                            id: n.id,
+                            text: `${prefix}: ${n.title}`,
+                            type: n.type === "NOTICE" ? "ALERT" : "NEWS"
+                        });
                     });
                 }
 

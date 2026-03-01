@@ -27,7 +27,7 @@ export async function POST(req: Request) {
     }
 
     try {
-        const { title, content, imageUrl } = await req.json();
+        const { title, content, imageUrl, fileUrl, type } = await req.json();
 
         if (!title || !content) {
             return NextResponse.json({ error: "Missing fields" }, { status: 400 });
@@ -38,6 +38,8 @@ export async function POST(req: Request) {
                 title,
                 content,
                 imageUrl,
+                fileUrl,
+                type: type || "ARTICLE",
                 authorId: session.user.id
             }
         });

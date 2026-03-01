@@ -75,6 +75,13 @@ export async function GET() {
             }))
         ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).slice(0, 5);
 
+        // 5. Get latest payment status
+        const latestPayment = await prisma.payment.findFirst({
+            where: { userId },
+            orderBy: { createdAt: "desc" },
+            select: { status: true, amount: true, createdAt: true, note: true }
+        });
+
         return NextResponse.json({
             stats: {
                 totalPoints,
@@ -82,7 +89,8 @@ export async function GET() {
                 rank: `#${currentRank}`,
                 percentile: totalUsers > 0 ? `Top ${Math.max(1, Math.round((currentRank / totalUsers) * 100))}%` : "100%"
             },
-            activities
+            activities,
+            latestPayment
         });
     } catch (error) {
         console.error("Dashboard stats error:", error);

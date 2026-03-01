@@ -20,6 +20,7 @@ import { motion } from "framer-motion";
 interface NewsItem {
     id: string;
     title: string;
+    type: "ARTICLE" | "NOTICE";
     createdAt: string;
     author: { name: string };
 }
@@ -144,8 +145,10 @@ export default function AdminNewsPage() {
                                                         {item.title}
                                                     </span>
                                                     <div className="flex items-center space-x-2 mt-1">
-                                                        <span className="h-1 w-1 bg-emerald-500 rounded-full" />
-                                                        <span className="text-[9px] font-black text-emerald-500/60 uppercase tracking-widest">Public Feed Active</span>
+                                                        <span className={`h-1.5 w-1.5 rounded-full ${item.type === 'NOTICE' ? 'bg-gold animate-pulse' : 'bg-emerald-500'}`} />
+                                                        <span className={`text-[9px] font-black uppercase tracking-widest ${item.type === 'NOTICE' ? 'text-gold' : 'text-emerald-500/60'}`}>
+                                                            {item.type === 'NOTICE' ? 'Official Notice' : 'Public Article'}
+                                                        </span>
                                                     </div>
                                                 </div>
                                             </div>
