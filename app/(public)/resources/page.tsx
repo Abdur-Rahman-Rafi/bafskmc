@@ -9,6 +9,7 @@ interface Resource {
     title: string;
     description: string | null;
     fileUrl: string;
+    imageUrl?: string | null;
     category: string;
     createdAt: string;
 }
@@ -88,6 +89,12 @@ export default function ResourcesPage() {
                                         <span>{res.category}</span>
                                     </div>
                                 </div>
+
+                                {res.imageUrl && (
+                                    <div className="mb-6 rounded-2xl overflow-hidden aspect-video border border-slate-100">
+                                        <img src={res.imageUrl} alt={res.title} className="w-full h-full object-cover" />
+                                    </div>
+                                )}
 
                                 <h3 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors">{res.title}</h3>
                                 <p className="text-slate-500 font-medium text-sm line-clamp-2 mb-8">

@@ -9,6 +9,7 @@ interface NewsItem {
     id: string;
     title: string;
     content: string;
+    imageUrl?: string;
     createdAt: string;
     author: { name: string };
 }
@@ -68,9 +69,18 @@ export default function NewsPage() {
                                 transition={{ delay: idx * 0.1 }}
                                 className="bg-[#151515] rounded-[2.5rem] overflow-hidden border border-white/5 hover:border-gold/30 hover:shadow-2xl hover:shadow-gold/5 transition-all group"
                             >
-                                <div className="h-48 bg-gradient-to-br from-[#1A1A1A] to-[#111111] p-8 flex items-end border-b border-white/5 relative overflow-hidden">
-                                    <div className="absolute top-0 right-0 w-32 h-32 bg-gold/5 blur-3xl rounded-full" />
-                                    <h3 className="text-2xl font-black text-white line-clamp-2 relative z-10 group-hover:text-gold transition-colors">{item.title}</h3>
+                                <div className="h-48 bg-gradient-to-br from-[#1A1A1A] to-[#111111] border-b border-white/5 relative overflow-hidden flex items-end">
+                                    {item.imageUrl ? (
+                                        <img
+                                            src={item.imageUrl}
+                                            alt={item.title}
+                                            className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                        />
+                                    ) : (
+                                        <div className="absolute inset-0 bg-gold/5 blur-3xl rounded-full translate-x-1/2 -translate-y-1/2" />
+                                    )}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                                    <h3 className="text-xl font-black text-white line-clamp-2 relative z-10 px-8 pb-6 group-hover:text-gold transition-colors">{item.title}</h3>
                                 </div>
                                 <div className="p-8">
                                     <div className="flex items-center space-x-4 text-xs font-black text-white/30 uppercase tracking-widest mb-6">

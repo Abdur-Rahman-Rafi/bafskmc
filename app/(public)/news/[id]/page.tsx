@@ -64,7 +64,14 @@ export default function NewsDetailPage() {
     return (
         <div className="min-h-screen bg-[#0D0D0D] text-white selection:bg-gold/30">
             {/* Hero Section */}
-            <div className="relative h-[40vh] min-h-[400px] w-full overflow-hidden border-b border-gold/10">
+            <div className="relative h-[40vh] min-h-[400px] w-full overflow-hidden border-b border-gold/10 bg-[#151515]">
+                {news.imageUrl && (
+                    <img
+                        src={news.imageUrl}
+                        alt={news.title}
+                        className="absolute inset-0 w-full h-full object-cover opacity-40"
+                    />
+                )}
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0D0D0D]/60 to-[#0D0D0D]" />
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
