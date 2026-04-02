@@ -44,45 +44,54 @@ export default function AdvertisementBanner() {
     // Making it an inline subtle block we can drop anywhere.
 
     return (
-        <div className="w-full bg-[#1A1A1A] border-b border-[#333] relative flex justify-center py-2 px-4 shadow-xl z-40 overflow-hidden">
-            {/* Soft backdrop glow to make banner pop slightly */}
-            <div className="absolute inset-0 bg-gold/5 opacity-30 mix-blend-overlay"></div>
+        <div className="w-full bg-black border-b border-white/10 relative flex justify-center py-6 px-4 shadow-2xl z-40">
+            <div className="absolute inset-0 bg-gradient-to-b from-gold/10 to-transparent opacity-20 pointer-events-none" />
             
-            <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between w-full space-y-2 sm:space-y-0 relative z-10 gap-x-6">
-                <div className="flex items-center space-x-4 flex-1">
-                    <span className="px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-[0.2em] bg-white/10 text-white/50 border border-white/10 shrink-0">
+            <div className="max-w-5xl mx-auto w-full relative z-10">
+                {/* Close Button */}
+                <button 
+                    onClick={() => setIsVisible(false)}
+                    className="absolute -top-2 -right-2 md:-right-6 p-2 rounded-full hover:bg-white/10 text-white/50 hover:text-white transition-all z-20 backdrop-blur-md"
+                >
+                    <X className="h-5 w-5" />
+                </button>
+
+                {/* Sponsor Metadata */}
+                <div className="flex items-center justify-center space-x-3 mb-4">
+                    <span className="px-3 py-1 rounded-md text-[10px] font-black uppercase tracking-[0.2em] bg-white/10 text-gold border border-white/10">
                         {currentAd.type === 'PAID' ? 'Sponsored' : 'Partner'}
                     </span>
-                    <p className="text-white text-xs sm:text-sm font-medium line-clamp-1 flex items-center">
-                        <span className="font-bold text-white/90 mr-2">{currentAd.companyName}</span>
+                    <p className="text-white/70 text-sm font-bold tracking-widest uppercase">
+                        {currentAd.companyName}
                     </p>
                 </div>
 
                 {/* Banner Wrapper */}
                 {currentAd.imageUrl && (
-                     <div className="w-full sm:w-[500px] h-12 md:h-16 relative rounded-lg overflow-hidden shrink-0 border border-white/10 hover:border-white/30 transition-colors shadow-2xl">
+                     <div className="w-full relative rounded-2xl overflow-hidden border border-white/5 hover:border-gold/30 transition-all shadow-[0_0_50px_rgba(0,0,0,0.8)] group bg-black/50">
                          {currentAd.targetUrl ? (
-                             <a href={currentAd.targetUrl} target="_blank" rel="noopener noreferrer" className="block w-full h-full relative group">
-                                 <img src={currentAd.imageUrl} alt={currentAd.companyName} className="object-cover w-full h-full grayscale-[20%] group-hover:grayscale-0 transition-all duration-500" />
-                                 <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-[2px]">
-                                     <span className="bg-black/60 rounded px-3 py-1 flex items-center space-x-2 text-white text-xs font-bold shadow-2xl border border-white/10">
+                             <a href={currentAd.targetUrl} target="_blank" rel="noopener noreferrer" className="block w-full h-full relative cursor-pointer">
+                                 <img 
+                                     src={currentAd.imageUrl} 
+                                     alt={currentAd.companyName} 
+                                     className="w-full h-auto max-h-[500px] object-contain mx-auto transition-transform duration-700 group-hover:scale-[1.01]" 
+                                 />
+                                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all flex items-center justify-center">
+                                     <span className="bg-black/80 rounded-xl px-6 py-3 flex items-center space-x-3 text-white text-sm font-black uppercase tracking-widest shadow-2xl border border-white/20 opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-4 group-hover:translate-y-0">
                                          <span>Visit Link</span>
-                                         <ExternalLink className="h-3 w-3" />
+                                         <ExternalLink className="h-4 w-4" />
                                      </span>
                                  </div>
                              </a>
                          ) : (
-                             <img src={currentAd.imageUrl} alt={currentAd.companyName} className="object-cover w-full h-full" />
+                             <img 
+                                 src={currentAd.imageUrl} 
+                                 alt={currentAd.companyName} 
+                                 className="w-full h-auto max-h-[500px] object-contain mx-auto" 
+                             />
                          )}
                      </div>
                 )}
-
-                <button 
-                    onClick={() => setIsVisible(false)}
-                    className="p-1 rounded-full hover:bg-white/10 text-white/40 hover:text-white transition-colors absolute sm:relative right-2 top-2 sm:right-auto sm:top-auto z-20 shrink-0"
-                >
-                    <X className="h-4 w-4" />
-                </button>
             </div>
         </div>
     );
