@@ -98,3 +98,13 @@ body {
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+
+/* Print Styles for Templates */
+@media print {
+  nav, footer { 
+    display: none !important; 
+  }
+  body, .bg-white { 
+    background: white !important; 
+  }
+}

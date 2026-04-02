@@ -22,6 +22,7 @@ import {
     CreditCard,
     Bell,
     Star,
+    Mail,
 } from "lucide-react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
@@ -42,6 +43,7 @@ export default function DashboardSidebar({ onClose }: { onClose?: () => void }) 
     const studentItems = [
         { name: "Overview", href: "/dashboard", icon: <LayoutDashboard className="h-4 w-4" /> },
         { name: "My Results", href: "/dashboard/results", icon: <Trophy className="h-4 w-4" /> },
+        { name: "Panel App", href: "/dashboard/panel-application", icon: <Shield className="h-4 w-4" /> },
         { name: "Exams", href: "/exams", icon: <ClipboardList className="h-4 w-4" /> },
         { name: "News", href: "/dashboard/news", icon: <FileText className="h-4 w-4" /> },
         { name: "Resources", href: "/dashboard/resources", icon: <BookOpen className="h-4 w-4" /> },
@@ -54,6 +56,8 @@ export default function DashboardSidebar({ onClose }: { onClose?: () => void }) 
 
     const adminItems = [
         { name: "Admin Home", href: "/admin", icon: <LayoutDashboard className="h-4 w-4" /> },
+        { name: "Panel Applications", href: "/admin/panel-applications", icon: <ClipboardList className="h-4 w-4" /> },
+        { name: "Broadcast Mail", href: "/admin/broadcast", icon: <Mail className="h-4 w-4" /> },
         { name: "Verify Payments", href: "/admin/payments", icon: <ShieldCheck className="h-4 w-4" /> },
         { name: "Manage News", href: "/admin/news", icon: <FileText className="h-4 w-4" /> },
         { name: "Manage Exams", href: "/admin/exams", icon: <ClipboardList className="h-4 w-4" /> },

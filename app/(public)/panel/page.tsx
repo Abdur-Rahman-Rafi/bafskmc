@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { User, Shield, Loader2, Facebook } from "lucide-react";
+import Link from "next/link";
 
 interface Member {
     id: string;
@@ -51,6 +52,18 @@ export default function PanelPage() {
                     <p className="text-lg text-white/40 font-medium max-w-2xl mx-auto leading-relaxed">
                         Meet the dedicated minds leading the BAFSK Math Club towards excellence and innovation.
                     </p>
+                </div>
+
+                {/* Apply Banner */}
+                <div className="bg-gradient-to-r from-gold/20 via-gold/5 to-transparent border border-gold/30 rounded-[3rem] p-8 md:p-12 mb-20 flex flex-col md:flex-row items-center justify-between shadow-2xl shadow-gold/5 relative overflow-hidden">
+                    <div className="absolute inset-0 bg-[url('/noise.png')] opacity-20 mix-blend-overlay pointer-events-none"></div>
+                    <div className="mb-6 md:mb-0 text-center md:text-left relative z-10">
+                        <h2 className="text-3xl font-black text-white italic tracking-tight mb-2">Become a <span className="text-gold">Panel Member</span></h2>
+                        <p className="text-white/60 font-medium">Steer the club towards excellence. Submit your application today.</p>
+                    </div>
+                    <Link href="/apply-panel" className="relative z-10 shrink-0 bg-gold text-black px-10 py-5 rounded-2xl font-black text-sm uppercase tracking-[0.2em] hover:bg-[#F0C040] transition-all shadow-xl shadow-gold/20 hover:scale-105">
+                        Apply Now
+                    </Link>
                 </div>
 
                 {members.length === 0 ? (
