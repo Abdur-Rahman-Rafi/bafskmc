@@ -5,14 +5,14 @@ import { authOptions } from "@/lib/auth";
 
 const prisma = new PrismaClient();
 
-export async function PUT(req: Request, context: { params: Promise<{ id: string }> }) {
+export async function PUT(req: Request, { params }: { params: Promise<{ id: string }> }) {
     const session = await getServerSession(authOptions);
     if (!session || session.user.role !== "ADMIN") {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     try {
-        const { id } = await context.params;
+        const { id } = await params;
         const { isActive } = await req.json();
 
         const ad = await prisma.advertisement.update({
@@ -26,14 +26,14 @@ export async function PUT(req: Request, context: { params: Promise<{ id: string 
     }
 }
 
-export async function DELETE(req: Request, context: { params: Promise<{ id: string }> }) {
+export async function DELETE(req: Request, { params }: { params: Promise<{ id: string }> }) {
     const session = await getServerSession(authOptions);
     if (!session || session.user.role !== "ADMIN") {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     try {
-        const { id } = await context.params;
+        const { id } = await params;
 
         await prisma.advertisement.delete({
             where: { id },

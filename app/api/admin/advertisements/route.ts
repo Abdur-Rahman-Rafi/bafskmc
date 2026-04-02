@@ -47,6 +47,7 @@ export async function POST(req: Request) {
 
         return NextResponse.json(newAd);
     } catch (err: any) {
-        return NextResponse.json({ error: "Failed to create advertisement" }, { status: 500 });
+        console.error("CREATE AD ERROR:", err);
+        return NextResponse.json({ error: "Failed to create advertisement", details: err.message }, { status: 500 });
     }
 }
