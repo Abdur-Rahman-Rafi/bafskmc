@@ -5,14 +5,14 @@ import { authOptions } from "@/lib/auth";
 
 const prisma = new PrismaClient();
 
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
+export async function PUT(req: Request, { params }: { params: Promise<{ id: string }> }) {
     const session = await getServerSession(authOptions);
     if (!session || session.user.role !== "ADMIN") {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     try {
-        const { id } = params;
+        const { id } = await params;
         const data = await req.json();
 
         // Update fields provided (status, vivaTime, vivaLink)
