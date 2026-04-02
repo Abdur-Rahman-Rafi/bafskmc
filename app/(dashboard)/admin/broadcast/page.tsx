@@ -7,6 +7,12 @@ import { motion } from "framer-motion";
 export default function BroadcastMailPage() {
     const [subject, setSubject] = useState("");
     const [message, setMessage] = useState("");
+    const [audience, setAudience] = useState<"ALL" | "NEW">("ALL");
+    const [newSince, setNewSince] = useState(() => {
+        const d = new Date();
+        d.setDate(d.getDate() - 7);
+        return d.toISOString().slice(0, 10); // default to 7 days ago
+    });
     const [loading, setLoading] = useState(false);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
@@ -24,7 +30,12 @@ export default function BroadcastMailPage() {
             const res = await fetch("/api/admin/broadcast", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ subject, message })
+                body: JSON.stringify({ 
+                    subject, 
+                    message,
+                    audience,
+                    newSince: audience === "NEW" ? new Date(newSince).toISOString() : null
+                })
             });
 
             const data = await res.json();
@@ -82,6 +93,42 @@ export default function BroadcastMailPage() {
                 )}
 
                 <form onSubmit={handleSendBroadcast} className="space-y-6 relative z-10">
+                    <div className="space-y-4">
+                        <label className="text-[10px] font-black text-white/30 uppercase tracking-widest pl-1 shadow-sm">
+                            Target Audience
+                        </label>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <label className={`cursor-pointer p-5 border rounded-2xl flex items-center space-x-3 transition-all ${audience === 'ALL' ? 'bg-blue-500/10 border-blue-500/30' : 'bg-white/5 border-white/5 hover:border-white/20'}`}>
+                                <input type="radio" className="hidden" checked={audience === 'ALL'} onChange={() => setAudience('ALL')} />
+                                <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${audience === 'ALL' ? 'border-blue-400' : 'border-white/20'}`}>
+                                    {audience === 'ALL' && <div className="w-2 h-2 rounded-full bg-blue-400" />}
+                                </div>
+                                <span className={`font-bold ${audience === 'ALL' ? 'text-blue-400' : 'text-white'}`}>All Registered Students</span>
+                            </label>
+                            
+                            <label className={`cursor-pointer p-5 border rounded-2xl flex items-center space-x-3 transition-all ${audience === 'NEW' ? 'bg-gold/10 border-gold/30' : 'bg-white/5 border-white/5 hover:border-white/20'}`}>
+                                <input type="radio" className="hidden" checked={audience === 'NEW'} onChange={() => setAudience('NEW')} />
+                                <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${audience === 'NEW' ? 'border-gold' : 'border-white/20'}`}>
+                                    {audience === 'NEW' && <div className="w-2 h-2 rounded-full bg-gold" />}
+                                </div>
+                                <span className={`font-bold ${audience === 'NEW' ? 'text-gold' : 'text-white'}`}>New Students Only</span>
+                            </label>
+                        </div>
+                        
+                        {audience === 'NEW' && (
+                            <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="pt-2 pl-1">
+                                <label className="text-[10px] font-black text-white/30 uppercase tracking-widest block mb-2">Registered After Date</label>
+                                <input
+                                    type="date"
+                                    value={newSince}
+                                    onChange={(e) => setNewSince(e.target.value)}
+                                    className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl outline-none focus:border-gold/50 transition-all font-bold text-white text-sm [color-scheme:dark]"
+                                />
+                                <p className="text-white/30 text-xs mt-2 italic">Only students who registered strictly on or after this date will receive the email.</p>
+                            </motion.div>
+                        )}
+                    </div>
+
                     <div className="space-y-3">
                         <label className="text-[10px] font-black text-white/30 uppercase tracking-widest pl-1 shadow-sm">
                             Email Subject Line

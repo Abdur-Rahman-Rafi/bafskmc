@@ -16,7 +16,12 @@ export async function GET() {
         const apps = await prisma.panelApplication.findMany({
             orderBy: { createdAt: "desc" },
         });
-        return NextResponse.json(apps);
+
+        const statusConfig = await prisma.siteConfig.findUnique({
+            where: { key: "PANEL_APPLICATION_STATUS" }
+        });
+
+        return NextResponse.json({ apps, isOpen: statusConfig?.value !== "CLOSED" });
     } catch (err: any) {
         return NextResponse.json({ error: "Failed to fetch applications" }, { status: 500 });
     }
@@ -76,7 +81,23 @@ export async function POST(req: Request) {
                 console.log("[Mock Email] Sending application announcement to:", emails.length, "students.");
             }
 
-            return NextResponse.json({ success: true, message: "Announcement posted and emails sent." });
+            // Set Config to OPEN
+            await prisma.siteConfig.upsert({
+                where: { key: "PANEL_APPLICATION_STATUS" },
+                update: { value: "OPEN" },
+                create: { key: "PANEL_APPLICATION_STATUS", value: "OPEN" }
+            });
+
+            return NextResponse.json({ success: true, message: "Applications opened, announcement posted and emails sent." });
+        }
+
+        if (action === "CLOSE_APPLICATIONS") {
+            await prisma.siteConfig.upsert({
+                where: { key: "PANEL_APPLICATION_STATUS" },
+                update: { value: "CLOSED" },
+                create: { key: "PANEL_APPLICATION_STATUS", value: "CLOSED" }
+            });
+            return NextResponse.json({ success: true, message: "Applications are now closed." });
         }
 
         return NextResponse.json({ error: "Invalid action" }, { status: 400 });

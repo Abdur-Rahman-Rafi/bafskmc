@@ -19,6 +19,7 @@ export default function StudentPanelApplicationStatus() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [statusData, setStatusData] = useState<AppStatus | null>(null);
+    const [configData, setConfigData] = useState<{ startDate: string; deadline: string } | null>(null);
     const [waitTime, setWaitTime] = useState<string>("");
 
     useEffect(() => {
@@ -26,9 +27,19 @@ export default function StudentPanelApplicationStatus() {
 
         const fetchStatus = async () => {
             try {
-                const res = await fetch(`/api/apply-panel/status?email=${encodeURIComponent(session.user.email as string)}`);
-                if (!res.ok) {
-                    if (res.status === 404) {
+                // Fetch both config and status in parallel
+                const [statusRes, configRes] = await Promise.all([
+                    fetch(`/api/apply-panel/status?email=${encodeURIComponent(session.user.email as string)}`),
+                    fetch(`/api/apply-panel`)
+                ]);
+
+                if (configRes.ok) {
+                    const configData = await configRes.json();
+                    setConfigData({ startDate: configData.startDate, deadline: configData.deadline });
+                }
+
+                if (!statusRes.ok) {
+                    if (statusRes.status === 404) {
                         setError("No application found under your account email.");
                     } else {
                         throw new Error("Failed to load application status.");
@@ -36,7 +47,7 @@ export default function StudentPanelApplicationStatus() {
                     setStatusData(null);
                     return;
                 }
-                const data = await res.json();
+                const data = await statusRes.json();
                 setStatusData(data);
                 setError(null);
             } catch (err: any) {
@@ -94,6 +105,29 @@ export default function StudentPanelApplicationStatus() {
                 </h1>
                 <p className="text-white/40 text-xs font-black uppercase tracking-widest mt-1">Review your executive application & Viva status</p>
             </div>
+
+            {configData && (
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                     <div className="bg-white/[0.02] border border-white/5 p-5 rounded-2xl flex items-center space-x-4">
+                         <div className="p-3 bg-emerald-500/10 rounded-xl">
+                             <Calendar className="h-5 w-5 text-emerald-500" />
+                         </div>
+                         <div>
+                             <p className="text-[10px] text-white/40 font-black uppercase tracking-widest">Application Opened</p>
+                             <p className="text-white font-bold text-sm tracking-tight">{new Date(configData.startDate).toLocaleDateString()}</p>
+                         </div>
+                     </div>
+                     <div className="bg-white/[0.02] border border-white/5 p-5 rounded-2xl flex items-center space-x-4">
+                         <div className="p-3 bg-red-500/10 rounded-xl">
+                             <Clock className="h-5 w-5 text-red-500" />
+                         </div>
+                         <div>
+                             <p className="text-[10px] text-white/40 font-black uppercase tracking-widest">Submission Deadline</p>
+                             <p className="text-white font-bold text-sm tracking-tight">{new Date(configData.deadline).toLocaleDateString()}</p>
+                         </div>
+                     </div>
+                 </div>
+            )}
 
             {error && !statusData && (
                 <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="p-8 text-center bg-[#151515] border border-white/5 shadow-2xl rounded-[2rem]">

@@ -3,13 +3,47 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+export async function GET() {
+    try {
+        const config = await prisma.siteConfig.findUnique({
+            where: { key: "PANEL_APPLICATION_STATUS" }
+        });
+        
+        const startDate = config?.updatedAt || new Date();
+        const endDate = new Date(startDate);
+        endDate.setDate(startDate.getDate() + 15);
+        
+        return NextResponse.json({ 
+            isOpen: config?.value !== "CLOSED",
+            startDate: startDate.toISOString(),
+            deadline: endDate.toISOString()
+        });
+    } catch (err) {
+        const now = new Date();
+        const end = new Date(now);
+        end.setDate(now.getDate() + 15);
+        return NextResponse.json({ 
+            isOpen: true, 
+            startDate: now.toISOString(), 
+            deadline: end.toISOString() 
+        });
+    }
+}
+
 export async function POST(req: Request) {
     try {
+        const config = await prisma.siteConfig.findUnique({
+            where: { key: "PANEL_APPLICATION_STATUS" }
+        });
+
+        if (config?.value === "CLOSED") {
+            return NextResponse.json({ error: "Applications are currently closed." }, { status: 403 });
+        }
         const data = await req.json();
 
         // Basic validation
-        if (!data.name || !data.email || !data.phone || !data.studentClass || !data.section || !data.pictureUrl || !data.firstYearResult || !data.resultCardUrl || !data.experience || !data.testimonialUrl || !data.socialProofUrl) {
-            return NextResponse.json({ error: "All fields are required" }, { status: 400 });
+        if (!data.name || !data.email || !data.phone || !data.studentClass || !data.section || !data.pictureUrl || !data.firstYearResult || !data.resultCardUrl || !data.experience || !data.socialProofUrl) {
+            return NextResponse.json({ error: "All required fields must be filled." }, { status: 400 });
         }
 
         const application = await prisma.panelApplication.create({

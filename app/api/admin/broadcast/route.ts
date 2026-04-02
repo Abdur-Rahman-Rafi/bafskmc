@@ -13,15 +13,21 @@ export async function POST(req: Request) {
     }
 
     try {
-        const { subject, message } = await req.json();
+        const { subject, message, audience, newSince } = await req.json();
 
         if (!subject || !message) {
             return NextResponse.json({ error: "Subject and Message are required." }, { status: 400 });
         }
 
-        // Fetch all active users (students)
+        // Build query constraints based on audience selection
+        const queryConstraints: any = { role: "STUDENT" };
+        if (audience === "NEW" && newSince) {
+            queryConstraints.createdAt = { gte: new Date(newSince) };
+        }
+
+        // Fetch all specific target active users (students)
         const users = await prisma.user.findMany({
-            where: { role: "STUDENT" },
+            where: queryConstraints,
             select: { email: true }
         });
         

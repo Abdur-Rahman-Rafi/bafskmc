@@ -18,6 +18,7 @@ interface PanelApplication {
 
 export default function PanelApplicationsAdminPage() {
     const [apps, setApps] = useState<PanelApplication[]>([]);
+    const [isOpen, setIsOpen] = useState(false);
     const [loading, setLoading] = useState(true);
     const [actionLoading, setActionLoading] = useState(false);
     const [selectedApp, setSelectedApp] = useState<PanelApplication | null>(null);
@@ -31,7 +32,11 @@ export default function PanelApplicationsAdminPage() {
         setLoading(true);
         try {
             const res = await fetch("/api/admin/panel-applications");
-            if (res.ok) setApps(await res.json());
+            if (res.ok) {
+                const data = await res.json();
+                setApps(data.apps || []);
+                setIsOpen(data.isOpen || false);
+            }
         } catch (err) {
             console.error("Failed to fetch applications", err);
         } finally {
@@ -55,8 +60,32 @@ export default function PanelApplicationsAdminPage() {
             });
             if (res.ok) {
                 alert("Announcement posted and emails successfully sent!");
+                fetchApps();
             } else {
                 alert("Failed to process the announcement.");
+            }
+        } catch (err) {
+            alert("An error occurred.");
+        } finally {
+            setActionLoading(false);
+        }
+    };
+
+    const handleCloseApplications = async () => {
+        if (!confirm("Are you sure you want to CLOSE Panel Applications? Students will no longer be able to apply.")) return;
+        
+        setActionLoading(true);
+        try {
+            const res = await fetch("/api/admin/panel-applications", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ action: "CLOSE_APPLICATIONS" })
+            });
+            if (res.ok) {
+                alert("Applications are now officially closed.");
+                fetchApps();
+            } else {
+                alert("Failed to close applications.");
             }
         } catch (err) {
             alert("An error occurred.");
@@ -106,19 +135,37 @@ export default function PanelApplicationsAdminPage() {
             {/* Header Actions */}
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-3xl font-black text-white italic tracking-tighter uppercase">
-                        Panel <span className="text-gold">Applications</span>
+                    <h1 className="text-3xl font-black text-white italic tracking-tighter uppercase flex items-center">
+                        Panel <span className="text-gold ml-2 mr-3">Applications</span>
+                        {isOpen ? (
+                            <span className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-lg text-[10px] uppercase font-black tracking-widest">Open</span>
+                        ) : (
+                            <span className="bg-red-500/10 text-red-500 border border-red-500/20 px-3 py-1 rounded-lg text-[10px] uppercase font-black tracking-widest">Closed</span>
+                        )}
                     </h1>
                     <p className="text-white/40 text-xs font-black uppercase tracking-widest mt-1">Review & Schedule Viva</p>
                 </div>
-                <button
-                    onClick={handleOpenApplications}
-                    disabled={actionLoading}
-                    className="flexItems-center space-x-2 bg-blue-600/20 text-blue-400 hover:bg-blue-600/30 border border-blue-500/20 px-6 py-3 rounded-xl font-bold transition-all text-sm group flex"
-                >
-                    {actionLoading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Mail className="h-4 w-4 mr-2 group-hover:scale-110 transition-transform" />}
-                    Open & Announce Applications
-                </button>
+                <div className="flex items-center space-x-3 w-full md:w-auto">
+                    {!isOpen ? (
+                        <button
+                            onClick={handleOpenApplications}
+                            disabled={actionLoading}
+                            className="flex items-center justify-center space-x-2 bg-blue-600/20 text-blue-400 hover:bg-blue-600/30 border border-blue-500/20 px-6 py-3 rounded-xl font-bold transition-all text-sm group flex-1 md:flex-none"
+                        >
+                            {actionLoading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Mail className="h-4 w-4 mr-2 group-hover:scale-110 transition-transform" />}
+                            Open & Announce
+                        </button>
+                    ) : (
+                        <button
+                            onClick={handleCloseApplications}
+                            disabled={actionLoading}
+                            className="flex items-center justify-center space-x-2 bg-red-500/10 text-red-500 hover:bg-red-500/20 border border-red-500/20 px-6 py-3 rounded-xl font-bold transition-all text-sm group flex-1 md:flex-none"
+                        >
+                            {actionLoading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <X className="h-4 w-4 mr-2 group-hover:scale-110 transition-transform" />}
+                            Close Recruitment
+                        </button>
+                    )}
+                </div>
             </div>
 
             {/* List */}

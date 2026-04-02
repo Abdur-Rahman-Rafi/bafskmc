@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { User, FileText, Upload as UploadIcon, CheckSquare, Loader2, AlertCircle, Award, Image as ImageIcon, Briefcase, Share2, Printer } from "lucide-react";
 import FileUploadZone from "@/components/admin/FileUploadZone";
@@ -10,8 +10,36 @@ import Link from "next/link";
 export default function ApplyPanelPage() {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
+    const [initLoading, setInitLoading] = useState(true);
+    const [isOpen, setIsOpen] = useState(false);
+    const [configData, setConfigData] = useState<{ startDate: string; deadline: string } | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [showSuccess, setShowSuccess] = useState(false);
+    const [copied, setCopied] = useState(false);
+
+    const handleShare = () => {
+        navigator.clipboard.writeText(window.location.href);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+    };
+
+    useEffect(() => {
+        const checkStatus = async () => {
+            try {
+                const res = await fetch("/api/apply-panel");
+                if (res.ok) {
+                    const data = await res.json();
+                    setIsOpen(data.isOpen);
+                    setConfigData({ startDate: data.startDate, deadline: data.deadline });
+                }
+            } catch (err) {
+                console.error(err);
+            } finally {
+                setInitLoading(false);
+            }
+        };
+        checkStatus();
+    }, []);
 
     const [formData, setFormData] = useState({
         name: "",
@@ -74,12 +102,53 @@ export default function ApplyPanelPage() {
                     <h1 className="text-4xl lg:text-5xl font-black text-white mb-6 tracking-tight italic">
                         Apply for <span className="text-gold">Panel Member</span>
                     </h1>
-                    <p className="text-lg text-white/40 font-medium max-w-2xl mx-auto leading-relaxed">
+                    <p className="text-lg text-white/40 font-medium max-w-2xl mx-auto leading-relaxed mb-8">
                         Become a part of the executive team at BAFSK Math Club. Please fill out the application form carefully.
                     </p>
+                    <button
+                        onClick={handleShare}
+                        className="inline-flex items-center space-x-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold py-2.5 px-6 rounded-xl transition-all"
+                    >
+                        {copied ? <CheckSquare className="h-4 w-4 text-emerald-500" /> : <Share2 className="h-4 w-4" />}
+                        <span>{copied ? "Link Copied!" : "Share Application Form"}</span>
+                    </button>
+
+                    {configData && (
+                        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
+                            <div className="bg-white/5 border border-white/10 px-5 py-3 rounded-2xl flex items-center space-x-3 text-sm">
+                                <span className="text-emerald-500">Live Date:</span>
+                                <span className="text-white font-bold">{new Date(configData.startDate).toLocaleDateString()}</span>
+                            </div>
+                            <div className="bg-red-500/10 border border-red-500/20 px-5 py-3 rounded-2xl flex items-center space-x-3 text-sm">
+                                <span className="text-red-500">Deadline:</span>
+                                <span className="text-red-500 font-bold">{new Date(configData.deadline).toLocaleDateString()}</span>
+                            </div>
+                        </div>
+                    )}
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-10">
+                {initLoading ? (
+                    <div className="flex justify-center items-center py-20">
+                        <Loader2 className="h-10 w-10 text-gold animate-spin" />
+                    </div>
+                ) : !isOpen ? (
+                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-[#151515] rounded-[3rem] border border-white/5 shadow-2xl p-12 text-center relative overflow-hidden">
+                        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 bg-red-500/10 blur-[100px] pointer-events-none" />
+                        <div className="h-20 w-20 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <AlertCircle className="h-10 w-10 text-red-500" />
+                        </div>
+                        <h2 className="text-3xl font-black text-white px-2">Recruitment is Closed</h2>
+                        <p className="text-white/50 font-medium mt-4 max-w-lg mx-auto">
+                            The application window for the BAFSK Math Club Panel has officially closed. Keep an eye on our social presence for any future recruitment opportunities! 
+                        </p>
+                        <div className="mt-8">
+                            <Link href="/panel" className="bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold py-3 px-8 rounded-xl transition-all">
+                                Return to Panel
+                            </Link>
+                        </div>
+                    </motion.div>
+                ) : (
+                    <form onSubmit={handleSubmit} className="space-y-10">
                     {error && (
                         <motion.div
                             initial={{ opacity: 0, scale: 0.95 }}
@@ -260,7 +329,7 @@ export default function ApplyPanelPage() {
                             <div className="space-y-3">
                                 <FileUploadZone
                                     type="document"
-                                    label="Upload Signed Testimonial *"
+                                    label="Upload Signed Testimonial (Optional)"
                                     initialUrl={formData.testimonialUrl}
                                     onUploadComplete={(url) => setFormData({ ...formData, testimonialUrl: url })}
                                 />
@@ -329,7 +398,7 @@ export default function ApplyPanelPage() {
                     <div className="flex items-center justify-end pt-8">
                         <button
                             type="submit"
-                            disabled={loading || !agreedToBond || !formData.name || !formData.email || !formData.phone || !formData.studentClass || !formData.section || !formData.firstYearResult || !formData.experience || !formData.pictureUrl || !formData.resultCardUrl || !formData.socialProofUrl || !formData.testimonialUrl}
+                            disabled={loading || !agreedToBond || !formData.name || !formData.email || !formData.phone || !formData.studentClass || !formData.section || !formData.firstYearResult || !formData.experience || !formData.pictureUrl || !formData.resultCardUrl || !formData.socialProofUrl}
                             className="bg-gold text-black px-12 py-5 rounded-2xl font-black text-sm uppercase tracking-[0.2em] flex items-center space-x-3 hover:bg-[#F0C040] shadow-2xl shadow-gold/10 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed group w-full md:w-auto justify-center"
                         >
                             {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : <UploadIcon className="h-5 w-5 group-hover:-translate-y-1 transition-transform" />}
@@ -337,6 +406,7 @@ export default function ApplyPanelPage() {
                         </button>
                     </div>
                 </form>
+                )}
             </div>
         </div>
     );
