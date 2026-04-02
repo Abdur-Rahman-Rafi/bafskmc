@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import NewsTicker from "@/components/NewsTicker";
+import AdvertisementBanner from "@/components/AdvertisementBanner";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -12,6 +13,7 @@ export default function PublicLayout({
         <div className="flex flex-col min-h-screen" style={{ backgroundColor: "#0D0D0D" }}>
             <NewsTicker />
             <Navbar />
+            <AdvertisementBanner />
 
             <main className="flex-grow">{children}</main>
 

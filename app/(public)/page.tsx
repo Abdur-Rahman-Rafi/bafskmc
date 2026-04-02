@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
     ArrowRight, BookOpen, Trophy, Users, Calendar,
-    Sparkles, Facebook, User, Shield,
+    Sparkles, Facebook, User, Shield, Target,
 } from "lucide-react";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -233,6 +233,82 @@ function PanelMembersSection() {
     );
 }
 
+// ── Recruitment Advertisement Section ─────────────────────────────────────────
+function RecruitmentAdvertisement({ configData }: { configData: { startDate: string; deadline: string } | null }) {
+    if (!configData) return null; // Only show if recruitment data is successfully fetched
+
+    return (
+        <section className="py-16 md:py-24 relative overflow-hidden" style={{ backgroundColor: "#0D0D0D" }}>
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <motion.div 
+                    initial={{ opacity: 0, y: 30, scale: 0.98 }}
+                    whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6 }}
+                    className="relative rounded-[3rem] p-10 md:p-16 border shadow-2xl overflow-hidden"
+                    style={{ 
+                        background: "linear-gradient(135deg, rgba(201,150,43,0.1) 0%, rgba(21,21,21,0.9) 100%)",
+                        borderColor: "rgba(201,150,43,0.3)",
+                        boxShadow: "0 20px 60px rgba(0,0,0,0.5), inset 0 0 80px rgba(201,150,43,0.05)"
+                    }}
+                >
+                    <div className="absolute top-0 right-0 w-96 h-96 pointer-events-none" style={{ 
+                        background: "radial-gradient(circle, rgba(201,150,43,0.15) 0%, transparent 60%)",
+                        transform: "translate(30%, -30%)"
+                    }} />
+
+                    <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-center">
+                        <div className="lg:col-span-3">
+                            <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full border mb-6" style={{ background: "rgba(239,68,68,0.1)", borderColor: "rgba(239,68,68,0.3)", color: "#ef4444" }}>
+                                <span className="relative flex h-2 w-2">
+                                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                                  <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                                </span>
+                                <span className="text-[10px] font-black uppercase tracking-[0.2em]">Live Recruitment Call</span>
+                            </div>
+                            
+                            <h2 className="text-4xl lg:text-6xl font-black text-white mb-6 leading-tight tracking-tight">
+                                Become a <span className="shimmer text-[#F0C040]">Panel Member</span>
+                            </h2>
+                            <p className="text-gray-400 text-lg md:text-xl font-medium mb-10 leading-relaxed max-w-2xl">
+                                Are you ready to lead? We are looking for passionate, driven, and committed individuals to steer the BAFSK Math Club towards greatness. Shape the future of mathematics in our college.
+                            </p>
+
+                            <div className="flex flex-col sm:flex-row items-center gap-4">
+                                <Link
+                                    href="/apply-panel"
+                                    className="w-full sm:w-auto px-10 py-5 bg-[#C9962B] hover:bg-[#F0C040] text-black text-sm font-black uppercase tracking-[0.3em] rounded-2xl transition-all shadow-[0_0_30px_rgba(201,150,43,0.3)] hover:shadow-[0_0_40px_rgba(201,150,43,0.5)] hover:-translate-y-1 text-center"
+                                >
+                                    Apply Now
+                                </Link>
+                                <div className="flex items-center justify-center space-x-4 px-6 py-4 rounded-xl border" style={{ borderColor: 'rgba(239, 68, 68, 0.2)', backgroundColor: 'rgba(239, 68, 68, 0.05)' }}>
+                                    <div>
+                                        <p className="text-[10px] font-bold text-red-500 uppercase tracking-widest mb-1 opacity-80">Application Deadline</p>
+                                        <p className="text-red-400 font-bold tracking-widest">{new Date(configData.deadline).toLocaleDateString()}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="lg:col-span-2 flex flex-col gap-4">
+                            <div className="p-6 rounded-3xl border bg-black/40 backdrop-blur-md" style={{ borderColor: "rgba(201,150,43,0.15)" }}>
+                                <Target className="h-8 w-8 mb-4 text-[#F0C040]" />
+                                <h4 className="text-white font-bold mb-2">Leadership Training</h4>
+                                <p className="text-sm font-medium text-gray-500">Master executive event management and collaborative leadership skills directly under veteran guidance.</p>
+                            </div>
+                            <div className="p-6 rounded-3xl border bg-black/40 backdrop-blur-md" style={{ borderColor: "rgba(201,150,43,0.15)" }}>
+                                <Shield className="h-8 w-8 mb-4 text-[#C9962B]" />
+                                <h4 className="text-white font-bold mb-2">Club Authority</h4>
+                                <p className="text-sm font-medium text-gray-500">Dictate the roadmap for upcoming nationwide olympiads, strategic workshops, and official seminars.</p>
+                            </div>
+                        </div>
+                    </div>
+                </motion.div>
+            </div>
+        </section>
+    );
+}
+
 // ── Alumni Section ────────────────────────────────────────────────────────────
 function AlumniSection() {
     const [members, setMembers] = useState<Member[]>([]);
@@ -360,6 +436,19 @@ function AlumniSection() {
 
 // ── Main Page ─────────────────────────────────────────────────────────────────
 export default function HomePage() {
+    const [recruitmentConfig, setRecruitmentConfig] = useState<{ startDate: string; deadline: string; isOpen: boolean } | null>(null);
+
+    useEffect(() => {
+        fetch("/api/apply-panel")
+            .then(res => res.json())
+            .then(data => {
+                if (data.isOpen) {
+                    setRecruitmentConfig({ startDate: data.startDate, deadline: data.deadline, isOpen: data.isOpen });
+                }
+            })
+            .catch(console.error);
+    }, []);
+
     const features = [
         {
             title: "Active Learning",
@@ -578,6 +667,9 @@ export default function HomePage() {
                     </div>
                 </div>
             </section>
+
+            {/* ── Dynamic Recruitment Poster ──────────────────────────────────── */}
+            <RecruitmentAdvertisement configData={recruitmentConfig} />
 
             {/* ── Panel Members ──────────────────────────────────────────────── */}
             <PanelMembersSection />

@@ -1,0 +1,46 @@
+import { NextResponse } from "next/server";
+import { PrismaClient } from "@prisma/client";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+
+const prisma = new PrismaClient();
+
+export async function PUT(req: Request, context: { params: Promise<{ id: string }> }) {
+    const session = await getServerSession(authOptions);
+    if (!session || session.user.role !== "ADMIN") {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    try {
+        const { id } = await context.params;
+        const { isActive } = await req.json();
+
+        const ad = await prisma.advertisement.update({
+            where: { id },
+            data: { isActive },
+        });
+
+        return NextResponse.json(ad);
+    } catch (err: any) {
+        return NextResponse.json({ error: "Failed to update advertisement" }, { status: 500 });
+    }
+}
+
+export async function DELETE(req: Request, context: { params: Promise<{ id: string }> }) {
+    const session = await getServerSession(authOptions);
+    if (!session || session.user.role !== "ADMIN") {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    try {
+        const { id } = await context.params;
+
+        await prisma.advertisement.delete({
+            where: { id },
+        });
+
+        return NextResponse.json({ success: true });
+    } catch (err: any) {
+        return NextResponse.json({ error: "Failed to delete advertisement" }, { status: 500 });
+    }
+}

@@ -279,3 +279,14 @@ model PanelApplication {
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
 }
+
+model Advertisement {
+  id          String   @id @default(cuid())
+  companyName String
+  imageUrl    String
+  targetUrl   String?
+  isActive    Boolean  @default(true)
+  type        String   @default("UNPAID") // PAID or UNPAID
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

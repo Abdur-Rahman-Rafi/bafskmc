@@ -1,15 +1,22 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Loader2, Mail, Users, CheckCircle, Clock, Link as LinkIcon, Edit, X } from "lucide-react";
+import { Loader2, Mail, Users, CheckCircle, Clock, Link as LinkIcon, Edit, X, Download } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface PanelApplication {
     id: string;
     name: string;
     email: string;
+    phone: string | null;
     studentClass: string;
     section: string;
+    pictureUrl: string;
+    firstYearResult: string;
+    resultCardUrl: string;
+    experience: string;
+    testimonialUrl: string | null;
+    socialProofUrl: string;
     status: string;
     vivaTime: string | null;
     vivaLink: string | null;
@@ -130,6 +137,53 @@ export default function PanelApplicationsAdminPage() {
         }
     };
 
+    const exportToCSV = () => {
+        if (apps.length === 0) return;
+
+        const headers = [
+            "Name", "Email", "Phone", "Class", "Section", "Status", 
+            "First Year Result", "Viva Time", "Viva Link", 
+            "Picture URL", "Result Card URL", "Testimonial URL", "Social Proof URL", "Experience"
+        ];
+
+        const escapeCSV = (str: string | null | undefined) => {
+            if (!str) return '""';
+            const escaped = String(str).replace(/"/g, '""');
+            return `"${escaped}"`;
+        };
+
+        const rows = apps.map(app => [
+            escapeCSV(app.name),
+            escapeCSV(app.email),
+            escapeCSV(app.phone),
+            escapeCSV(app.studentClass),
+            escapeCSV(app.section),
+            escapeCSV(app.status),
+            escapeCSV(app.firstYearResult),
+            escapeCSV(app.vivaTime ? new Date(app.vivaTime).toLocaleString() : "Not Scheduled"),
+            escapeCSV(app.vivaLink),
+            escapeCSV(app.pictureUrl),
+            escapeCSV(app.resultCardUrl),
+            escapeCSV(app.testimonialUrl),
+            escapeCSV(app.socialProofUrl),
+            escapeCSV(app.experience)
+        ]);
+
+        const csvContent = [
+            headers.join(","),
+            ...rows.map(row => row.join(","))
+        ].join("\n");
+
+        const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", `panel_applicants_${new Date().toISOString().slice(0, 10)}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
     return (
         <div className="space-y-8 pb-20">
             {/* Header Actions */}
@@ -175,6 +229,15 @@ export default function PanelApplicationsAdminPage() {
                         <Users className="h-5 w-5 text-gold" />
                         <h2 className="font-bold text-lg">Applicants ({apps.length})</h2>
                     </div>
+                    {apps.length > 0 && (
+                        <button
+                            onClick={exportToCSV}
+                            className="flex items-center space-x-2 bg-white/5 hover:bg-white/10 text-white px-4 py-2 rounded-xl text-xs font-bold transition-all border border-white/10"
+                        >
+                            <Download className="h-4 w-4" />
+                            <span>Export CSV</span>
+                        </button>
+                    )}
                 </div>
 
                 {loading ? (
