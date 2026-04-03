@@ -10,6 +10,7 @@ interface TickerItem {
     id: string;
     text: string;
     type: "NEWS" | "EXAM" | "RESOURCE" | "ALERT";
+    link: string;
 }
 
 export default function NewsTicker() {
@@ -19,9 +20,9 @@ export default function NewsTicker() {
     useEffect(() => {
         const fetchTickerItems = async () => {
             const fallback: TickerItem[] = [
-                { id: "wel", text: "Welcome to BAFSK Math Club — BAF Shaheen College Kurmitola", type: "NEWS" },
-                { id: "wsh", text: "Join our weekly math problem-solving sessions!", type: "NEWS" },
-                { id: "res", text: "Check out our latest study resources.", type: "RESOURCE" },
+                { id: "wel", text: "Welcome to BAFSK Math Club — BAF Shaheen College Kurmitola", type: "NEWS", link: "/news" },
+                { id: "wsh", text: "Join our weekly math problem-solving sessions!", type: "NEWS", link: "/news" },
+                { id: "res", text: "Check out our latest study resources.", type: "RESOURCE", link: "/resources" },
             ];
             try {
                 const [newsRes, examsRes, resourcesRes] = await Promise.all([
@@ -43,7 +44,8 @@ export default function NewsTicker() {
                         tickerItems.push({
                             id: n.id,
                             text: `${prefix}: ${n.title}`,
-                            type: n.type === "NOTICE" ? "ALERT" : "NEWS"
+                            type: n.type === "NOTICE" ? "ALERT" : "NEWS",
+                            link: `/news/${n.id}`
                         });
                     });
                 }
@@ -55,10 +57,11 @@ export default function NewsTicker() {
                             tickerItems.push({
                                 id: e.id,
                                 text: `ALERT: ${e.name} — ${e.announcement.slice(0, 60)}${e.announcement.length > 60 ? '...' : ''}`,
-                                type: "ALERT"
+                                type: "ALERT",
+                                link: `/exams/${e.id}`
                             });
                         } else {
-                            tickerItems.push({ id: e.id, text: `EXAM: ${e.name} trials initialized`, type: "EXAM" });
+                            tickerItems.push({ id: e.id, text: `EXAM: ${e.name} trials initialized`, type: "EXAM", link: `/exams/${e.id}` });
                         }
                     });
                 }
@@ -66,7 +69,7 @@ export default function NewsTicker() {
                 // Add Resources
                 if (Array.isArray(resources)) {
                     resources.slice(0, 2).forEach((r: any) => {
-                        tickerItems.push({ id: r.id, text: `RESOURCE: ${r.title} uploaded`, type: "RESOURCE" });
+                        tickerItems.push({ id: r.id, text: `RESOURCE: ${r.title} uploaded`, type: "RESOURCE", link: "/resources" });
                     });
                 }
 
@@ -112,14 +115,7 @@ export default function NewsTicker() {
                     {displayItems.map((item, idx) => (
                         <Link
                             key={`${item.id}-${idx}`}
-                            href={
-                                item.id === "wel" ? "/news" :
-                                    item.id === "wsh" ? "/news" :
-                                        item.id === "res" ? "/resources" :
-                                            item.type === "NEWS" ? `/news/${item.id}` :
-                                                (item.type === "EXAM" || item.type === "ALERT") ? `/exams/${item.id}` :
-                                                    "/resources"
-                            }
+                            href={item.link}
                             className="flex items-center space-x-4 cursor-pointer group relative z-30"
                         >
                             <span className={`text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded border ${item.type === 'ALERT' ? "bg-red-500/10 border-red-500/20 text-red-500" :
