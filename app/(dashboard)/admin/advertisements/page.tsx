@@ -184,8 +184,8 @@ export default function AdminAdvertisementsPage() {
                                 <div className="space-y-3">
                                     <FileUploadZone
                                         type="image"
-                                        label="Ad Image / Poster Banner"
-                                        accept="image/*"
+                                        label="Ad Media (Image/Video)"
+                                        accept="image/*, video/*"
                                         initialUrl={imageUrl}
                                         onUploadComplete={(url) => setImageUrl(url)}
                                     />

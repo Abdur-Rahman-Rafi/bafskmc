@@ -13,7 +13,7 @@ export async function POST(req: Request) {
     }
 
     try {
-        const { subject, message, audience, newSince } = await req.json();
+        const { subject, message, audience, newSince, senderName, specificEmail } = await req.json();
 
         if (!subject || !message) {
             return NextResponse.json({ error: "Subject and Message are required." }, { status: 400 });
@@ -23,6 +23,8 @@ export async function POST(req: Request) {
         const queryConstraints: any = { role: "STUDENT" };
         if (audience === "NEW" && newSince) {
             queryConstraints.createdAt = { gte: new Date(newSince) };
+        } else if (audience === "SPECIFIC" && specificEmail) {
+            queryConstraints.email = specificEmail;
         }
 
         // Fetch all specific target active users (students)
@@ -48,17 +50,30 @@ export async function POST(req: Request) {
                 },
             });
 
+            // Fallback sender name if none provided
+            const finalSenderName = senderName || "BAFSKMC Communications";
+
             // Using BCC to send to all at once and prevent them from seeing each other's emails
             await transporter.sendMail({
-                from: `"BAFSKMC Communications" <${process.env.SMTP_USER}>`,
+                from: `"${finalSenderName}" <${process.env.SMTP_USER}>`,
                 bcc: emails as string[],
                 subject: subject,
                 html: `
-                    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333;">
-                        <h2 style="color: #C9962B;">BAFSK Math Club</h2>
-                        <div style="margin-top: 20px; white-space: pre-wrap; font-size: 16px; line-height: 1.6;">${message}</div>
-                        <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; font-size: 12px; color: #999;">
-                            This is an automated administrative broadcast. Please do not reply to this email.
+                    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 650px; margin: 0 auto; background-color: #0d0d0d; color: #ffffff; border-radius: 16px; overflow: hidden; border: 1px solid #333;">
+                        <div style="background: linear-gradient(135deg, #1A1200 0%, #0d0d0d 100%); padding: 40px 30px; text-align: center; border-bottom: 2px solid #C9962B;">
+                            <h1 style="color: #C9962B; margin: 0; font-size: 28px; font-weight: 900; letter-spacing: 2px;">BAFSK MATH CLUB</h1>
+                            <p style="color: #F0C040; font-size: 11px; text-transform: uppercase; letter-spacing: 4px; margin-top: 8px;">Official Communication Protocol</p>
+                        </div>
+                        <div style="padding: 40px 30px; background-color: #151515;">
+                            <div style="font-size: 16px; line-height: 1.8; color: #e5e7eb; white-space: pre-wrap;">${message}</div>
+                        </div>
+                        <div style="padding: 30px; text-align: center; background-color: #0d0d0d; border-top: 1px solid #222;">
+                            <p style="font-size: 12px; color: #666; margin: 0; text-transform: uppercase; letter-spacing: 1px;">
+                                Sent by ${finalSenderName}
+                            </p>
+                            <p style="font-size: 11px; color: #444; margin-top: 10px;">
+                                This is an automated administrative broadcast. Please do not reply directly to this email address.
+                            </p>
                         </div>
                     </div>
                 `,

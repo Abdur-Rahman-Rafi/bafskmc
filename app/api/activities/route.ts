@@ -21,7 +21,7 @@ export async function POST(req: Request) {
     const session = await getServerSession(authOptions);
     console.log("Activity POST Session:", session);
 
-    if (!session || session.user.role !== "ADMIN") {
+    if (!session || (session.user.role !== "ADMIN" && session.user.role !== "MODERATOR")) {
         console.log("Unauthorized attempt to post activity");
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }

@@ -81,6 +81,7 @@ export default function ApplyPanelPage() {
             }
 
             setShowSuccess(true);
+            window.dispatchEvent(new Event('show-ad'));
             setTimeout(() => {
                 router.push("/panel");
             }, 3000);

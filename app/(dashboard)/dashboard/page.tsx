@@ -44,12 +44,14 @@ export default function StudentDashboard() {
     const [loading, setLoading] = useState(true);
     const [profile, setProfile] = useState<any>(null);
     const [latestPayment, setLatestPayment] = useState<any>(null);
+    const [adsList, setAdsList] = useState<any[]>([]);
 
     useEffect(() => {
         Promise.all([
             fetch("/api/dashboard/stats").then(r => r.json()),
             fetch("/api/profile").then(r => r.json()),
-        ]).then(([dashData, profileData]) => {
+            fetch("/api/advertisements").then(r => r.json()).catch(() => [])
+        ]).then(([dashData, profileData, adsData]) => {
             if (dashData.stats) {
                 setStats([
                     { label: "Points Earned", value: dashData.stats.totalPoints.toLocaleString(), icon: <Zap className="h-5 w-5 text-gold" />, trend: "Total XP" },
@@ -60,12 +62,20 @@ export default function StudentDashboard() {
             if (dashData.activities) setActivities(dashData.activities);
             if (dashData.latestPayment) setLatestPayment(dashData.latestPayment);
             setProfile(profileData);
+            
+            if (Array.isArray(adsData)) {
+                setAdsList(adsData.filter(a => a.isActive));
+            }
+
             setLoading(false);
 
             // Mark login if first time
             if (profileData && !profileData.hasLoggedInBefore) {
                 fetch("/api/auth/mark-login", { method: "POST" });
             }
+
+            // Trigger Advertisement
+            window.dispatchEvent(new Event('show-ad'));
         }).catch(() => setLoading(false));
     }, []);
 
@@ -236,9 +246,9 @@ export default function StudentDashboard() {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Recent Activity */}
-                <div className="bg-[#151515] p-10 rounded-[2.5rem] border border-white/5 shadow-2xl">
+                <div className="bg-[#151515] p-10 rounded-[2.5rem] border border-white/5 shadow-2xl lg:col-span-1">
                     <div className="flex items-center justify-between mb-8">
                         <div className="flex items-center space-x-3">
                             <Activity className="h-5 w-5 text-gold" />
@@ -282,49 +292,43 @@ export default function StudentDashboard() {
                     )}
                 </div>
 
-                {/* Announcement Card */}
-                <div className="bg-gold p-10 rounded-[3rem] text-black shadow-2xl shadow-gold/10 relative overflow-hidden group">
-                    <div className="relative z-10 h-full flex flex-col justify-between">
+                {/* Advertisement Cards */}
+                {adsList.map((adItem) => (
+                    <div key={adItem.id} className="bg-[#151515] p-10 rounded-[3rem] border border-white/5 shadow-2xl relative overflow-hidden group hover:border-gold/30 transition-all flex flex-col justify-between">
                         <div>
-                            <div className="bg-black/10 w-fit px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest mb-6">
-                                Priority Announcement
+                            <div className="flex items-center justify-between mb-6">
+                                <h2 className="text-lg font-black text-white uppercase tracking-wider italic">Partner Showcase</h2>
+                                <span className="px-3 py-1 rounded-md text-[10px] font-black uppercase tracking-[0.2em] bg-white/10 text-gold border border-white/10">
+                                    {adItem.type === 'PAID' ? 'Sponsored' : 'Partner'}
+                                </span>
                             </div>
-                            <h2 className="text-4xl font-black mb-4 italic leading-[0.9] tracking-tighter uppercase">
-                                National Math <br />Selection
-                            </h2>
-                            <p className="text-black/60 mb-8 font-bold leading-relaxed max-w-sm text-sm">
-                                The upcoming selection round for the International Mathematical Olympiad has been scheduled. Ensure your registration is current.
-                            </p>
+                            <div className="w-full relative rounded-2xl overflow-hidden border border-white/5 mb-6 group-hover:scale-[1.02] transition-transform duration-500 bg-black/50">
+                                {adItem.targetUrl ? (
+                                    <a href={adItem.targetUrl} target="_blank" rel="noopener noreferrer">
+                                       {adItem.imageUrl.match(/\.(mp4|webm|ogg)$/i) ? (
+                                           <video src={adItem.imageUrl} autoPlay loop muted playsInline className="w-full h-48 object-cover" />
+                                       ) : (
+                                           <img src={adItem.imageUrl} alt={adItem.companyName} className="w-full h-48 object-cover" />
+                                       )}
+                                    </a>
+                                ) : (
+                                    adItem.imageUrl.match(/\.(mp4|webm|ogg)$/i) ? (
+                                        <video src={adItem.imageUrl} autoPlay loop muted playsInline className="w-full h-48 object-cover" />
+                                    ) : (
+                                        <img src={adItem.imageUrl} alt={adItem.companyName} className="w-full h-48 object-cover" />
+                                    )
+                                )}
+                            </div>
+                            <h3 className="text-white font-black text-2xl tracking-tighter mb-2 shimmer">{adItem.companyName}</h3>
                         </div>
-
-                        <div className="space-y-6">
-                            <div className="flex items-center space-x-6">
-                                <div className="flex items-center space-x-2">
-                                    <Calendar className="h-4 w-4 text-black/40" />
-                                    <span className="font-black text-xs uppercase tracking-widest">March 15, 2026</span>
-                                </div>
-                                <div className="flex items-center space-x-2">
-                                    <Users className="h-4 w-4 text-black/40" />
-                                    <span className="font-black text-xs uppercase tracking-widest">Grand Hall</span>
-                                </div>
-                            </div>
-                            <Link
-                                href="/exams"
-                                className="flex items-center justify-center space-x-3 w-full bg-black text-white px-8 py-5 rounded-[2rem] font-black text-sm hover:bg-black/80 transition-all shadow-2xl active:scale-95"
-                            >
-                                <span>VIEW ACTIVE EXAMS</span>
+                        {adItem.targetUrl && (
+                            <Link href={adItem.targetUrl} target="_blank" rel="noopener noreferrer" className="flex items-center space-x-2 text-gold text-xs font-bold uppercase tracking-widest hover:text-yellow-400 mt-4 transition-colors w-fit">
+                                <span>Visit Website</span>
                                 <ArrowRight className="h-4 w-4" />
                             </Link>
-                        </div>
+                        )}
                     </div>
-                    <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-                        className="absolute -right-20 -top-20 opacity-10"
-                    >
-                        <Zap className="h-80 w-80 text-black" />
-                    </motion.div>
-                </div>
+                ))}
             </div>
         </div>
     );

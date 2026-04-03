@@ -14,27 +14,42 @@ interface Advertisement {
 export default function AdvertisementBanner() {
     const [ads, setAds] = useState<Advertisement[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [isVisible, setIsVisible] = useState(true);
+    const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
         fetch("/api/advertisements")
             .then(res => res.json())
             .then(data => {
                 if (Array.isArray(data) && data.length > 0) {
-                    setAds(data);
+                    // Shuffle the ads
+                    const shuffled = [...data].sort(() => Math.random() - 0.5);
+                    setAds(shuffled);
                 }
             })
             .catch(console.error);
     }, []);
 
     useEffect(() => {
-        if (ads.length > 1) {
+        const handleShowAd = () => {
+             if (ads.length > 0) {
+                 setIsVisible(true);
+                 // If already shown once, shuffle index
+                 setCurrentIndex(prev => (prev + 1) % ads.length);
+             }
+        };
+
+        window.addEventListener('show-ad', handleShowAd);
+        return () => window.removeEventListener('show-ad', handleShowAd);
+    }, [ads.length]);
+
+    useEffect(() => {
+        if (isVisible && ads.length > 1) {
             const interval = setInterval(() => {
                 setCurrentIndex(prev => (prev + 1) % ads.length);
             }, 8000); // Rotate completely different brand ads every 8s
             return () => clearInterval(interval);
         }
-    }, [ads.length]);
+    }, [isVisible, ads.length]);
 
     if (!isVisible || ads.length === 0) return null;
 
@@ -70,16 +85,16 @@ export default function AdvertisementBanner() {
                         </h3>
                     </div>
 
-                    {/* Banner Image */}
+                    {/* Banner Image / Video */}
                     {currentAd.imageUrl && (
                          <div className="w-full relative rounded-2xl overflow-hidden border border-white/5 shadow-2xl group bg-black/50">
                              {currentAd.targetUrl ? (
                                  <a href={currentAd.targetUrl} target="_blank" rel="noopener noreferrer" className="block w-full relative cursor-pointer">
-                                     <img 
-                                         src={currentAd.imageUrl} 
-                                         alt={currentAd.companyName} 
-                                         className="w-full h-auto max-h-[60vh] object-contain mx-auto transition-transform duration-500 group-hover:scale-[1.02]" 
-                                     />
+                                     {currentAd.imageUrl.match(/\.(mp4|webm|ogg)$/i) ? (
+                                         <video src={currentAd.imageUrl} autoPlay loop muted playsInline className="w-full h-auto max-h-[60vh] object-contain mx-auto transition-transform duration-500 group-hover:scale-[1.02]" />
+                                     ) : (
+                                         <img src={currentAd.imageUrl} alt={currentAd.companyName} className="w-full h-auto max-h-[60vh] object-contain mx-auto transition-transform duration-500 group-hover:scale-[1.02]" />
+                                     )}
                                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-all flex items-center justify-center">
                                          <span className="bg-gold text-black rounded-xl px-8 py-3 flex items-center space-x-3 text-sm font-black uppercase tracking-widest shadow-[0_0_30px_rgba(201,150,43,0.3)] opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-4 group-hover:translate-y-0">
                                              <span>Learn More</span>
@@ -88,11 +103,11 @@ export default function AdvertisementBanner() {
                                      </div>
                                  </a>
                              ) : (
-                                 <img 
-                                     src={currentAd.imageUrl} 
-                                     alt={currentAd.companyName} 
-                                     className="w-full h-auto max-h-[60vh] object-contain mx-auto" 
-                                 />
+                                 currentAd.imageUrl.match(/\.(mp4|webm|ogg)$/i) ? (
+                                     <video src={currentAd.imageUrl} autoPlay loop muted playsInline controls className="w-full h-auto max-h-[60vh] object-contain mx-auto" />
+                                 ) : (
+                                     <img src={currentAd.imageUrl} alt={currentAd.companyName} className="w-full h-auto max-h-[60vh] object-contain mx-auto" />
+                                 )
                              )}
                          </div>
                     )}

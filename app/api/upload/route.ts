@@ -24,6 +24,11 @@ export async function POST(req: Request) {
 
         const filename = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9._-]/g, "-")}`;
 
+        if (!process.env.BLOB_READ_WRITE_TOKEN) {
+            console.error("Vercel Blob token is missing! BLOB_READ_WRITE_TOKEN must be in .env");
+            return NextResponse.json({ error: "Vercel Blob Token missing." }, { status: 500 });
+        }
+
         // Upload to Vercel Blob
         const blob = await put(filename, file, {
             access: "public", // This makes the file readable via its URL
@@ -35,8 +40,8 @@ export async function POST(req: Request) {
             size: file.size,
             type: file.type
         });
-    } catch (error) {
-        console.error("Upload error:", error);
-        return NextResponse.json({ error: "Upload failed" }, { status: 500 });
+    } catch (error: any) {
+        console.error("Upload error details:", error);
+        return NextResponse.json({ error: error.message || "Upload failed" }, { status: 500 });
     }
 }

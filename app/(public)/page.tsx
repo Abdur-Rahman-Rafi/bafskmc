@@ -247,31 +247,38 @@ function RecruitmentAdvertisement({ configData }: { configData: { startDate: str
                     transition={{ duration: 0.6 }}
                     className="relative rounded-[3rem] p-10 md:p-16 border shadow-2xl overflow-hidden"
                     style={{ 
-                        background: "linear-gradient(135deg, rgba(201,150,43,0.1) 0%, rgba(21,21,21,0.9) 100%)",
-                        borderColor: "rgba(201,150,43,0.3)",
-                        boxShadow: "0 20px 60px rgba(0,0,0,0.5), inset 0 0 80px rgba(201,150,43,0.05)"
+                        background: "linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(201, 150, 43, 0.05) 50%, rgba(21,21,21,0.9) 100%)",
+                        borderColor: "rgba(239, 68, 68, 0.3)",
+                        boxShadow: "0 20px 60px rgba(0,0,0,0.5), inset 0 0 80px rgba(239, 68, 68, 0.05)"
                     }}
                 >
+                    {/* Festive Elements Overlay */}
                     <div className="absolute top-0 right-0 w-96 h-96 pointer-events-none" style={{ 
-                        background: "radial-gradient(circle, rgba(201,150,43,0.15) 0%, transparent 60%)",
+                        background: "radial-gradient(circle, rgba(239, 68, 68, 0.2) 0%, transparent 60%)",
                         transform: "translate(30%, -30%)"
                     }} />
+                    <div className="absolute top-10 right-10 opacity-10 text-red-500 text-6xl md:text-8xl font-black transform rotate-12 select-none pointer-events-none whitespace-nowrap">
+                        শুভ নববর্ষ
+                    </div>
 
                     <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-center">
                         <div className="lg:col-span-3">
-                            <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full border mb-6" style={{ background: "rgba(239,68,68,0.1)", borderColor: "rgba(239,68,68,0.3)", color: "#ef4444" }}>
+                            <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full border mb-6" style={{ background: "rgba(239,68,68,0.1)", borderColor: "rgba(239,68,68,0.4)", color: "#ef4444" }}>
                                 <span className="relative flex h-2 w-2">
                                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                                   <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
                                 </span>
-                                <span className="text-[10px] font-black uppercase tracking-[0.2em]">Live Recruitment Call</span>
+                                <span className="text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-2">
+                                    <Sparkles className="h-3 w-3" />
+                                    Boishakhi Recruitment Drive
+                                </span>
                             </div>
                             
                             <h2 className="text-4xl lg:text-6xl font-black text-white mb-6 leading-tight tracking-tight">
-                                Become a <span className="shimmer text-[#F0C040]">Panel Member</span>
+                                Become a <span className="shimmer text-red-500">Panel Member</span>
                             </h2>
-                            <p className="text-gray-400 text-lg md:text-xl font-medium mb-10 leading-relaxed max-w-2xl">
-                                Are you ready to lead? We are looking for passionate, driven, and committed individuals to steer the BAFSK Math Club towards greatness. Shape the future of mathematics in our college.
+                            <p className="text-gray-300 text-lg md:text-xl font-medium mb-10 leading-relaxed max-w-2xl border-l-2 border-red-500/50 pl-4">
+                                Embrace the spirit of the New Year by stepping up as a leader. We are looking for passionate, driven individuals to steer the BAFSK Math Club towards greatness. Shape the future of mathematics in our college.
                             </p>
 
                             <div className="flex flex-col sm:flex-row items-center gap-4">
@@ -447,6 +454,13 @@ export default function HomePage() {
                 }
             })
             .catch(console.error);
+            
+        // Trigger Advertisement after a short delay
+        const timer = setTimeout(() => {
+            window.dispatchEvent(new Event('show-ad'));
+        }, 1500);
+        
+        return () => clearTimeout(timer);
     }, []);
 
     const features = [
@@ -483,7 +497,21 @@ export default function HomePage() {
                 className="relative min-h-[90vh] flex items-center pt-12 pb-20"
                 style={{ backgroundColor: "#0D0D0D" }}
             >
-                <div className="absolute inset-0 pointer-events-none">
+                <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                    {/* Festive Boishakh Overlay (Conditionally rendering when recruitment is open) */}
+                    {recruitmentConfig && (
+                        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1.5 }} className="absolute inset-0 z-0">
+                            <div className="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full bg-red-600/10 blur-[120px]" />
+                            <div className="absolute top-1/4 right-0 w-[400px] h-[400px] rounded-full bg-red-500/5 blur-[100px]" />
+                            <div className="absolute top-10 left-4 md:left-20 opacity-[0.03] text-red-500 text-7xl md:text-9xl font-black transform -rotate-12 select-none tracking-widest">
+                                শুভ নববর্ষ
+                            </div>
+                            <div className="absolute bottom-10 right-4 md:right-20 opacity-[0.03] text-red-500 text-5xl md:text-7xl font-black transform rotate-12 select-none tracking-widest">
+                                বৈশাখ ১৪৩১
+                            </div>
+                        </motion.div>
+                    )}
+
                     <div
                         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-20"
                         style={{

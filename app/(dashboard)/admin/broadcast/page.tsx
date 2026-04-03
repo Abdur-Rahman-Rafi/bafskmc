@@ -7,11 +7,14 @@ import { motion } from "framer-motion";
 export default function BroadcastMailPage() {
     const [subject, setSubject] = useState("");
     const [message, setMessage] = useState("");
-    const [audience, setAudience] = useState<"ALL" | "NEW">("ALL");
+    const [audience, setAudience] = useState<"ALL" | "NEW" | "SPECIFIC">("ALL");
+    const [specificEmail, setSpecificEmail] = useState("");
+    const [senderMode, setSenderMode] = useState<"BAFSKMC" | "BAFSKMC Communications" | "CUSTOM">("BAFSKMC Communications");
+    const [customSenderName, setCustomSenderName] = useState("");
     const [newSince, setNewSince] = useState(() => {
         const d = new Date();
         d.setDate(d.getDate() - 7);
-        return d.toISOString().slice(0, 10); // default to 7 days ago
+        return d.toISOString().slice(0, 10);
     });
     const [loading, setLoading] = useState(false);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -20,7 +23,16 @@ export default function BroadcastMailPage() {
     const handleSendBroadcast = async (e: React.FormEvent) => {
         e.preventDefault();
         
-        if (!confirm("Are you absolutely sure you want to email ALL registered students? This cannot be undone.")) return;
+        let confirmMsg = "Are you sure you want to send this email?";
+        if (audience === "ALL") {
+            confirmMsg = "Are you absolutely sure you want to email ALL registered students? This cannot be undone.";
+        } else if (audience === "NEW") {
+            confirmMsg = "Are you sure you want to email only the NEW students? This cannot be undone.";
+        } else if (audience === "SPECIFIC") {
+            confirmMsg = `Are you sure you want to email ${specificEmail}? This cannot be undone.`;
+        }
+
+        if (!confirm(confirmMsg)) return;
 
         setLoading(true);
         setError(null);
@@ -34,7 +46,9 @@ export default function BroadcastMailPage() {
                     subject, 
                     message,
                     audience,
-                    newSince: audience === "NEW" ? new Date(newSince).toISOString() : null
+                    newSince: audience === "NEW" ? new Date(newSince).toISOString() : null,
+                    senderName: senderMode === "CUSTOM" ? customSenderName : senderMode,
+                    specificEmail: audience === "SPECIFIC" ? specificEmail : null
                 })
             });
 
@@ -97,23 +111,32 @@ export default function BroadcastMailPage() {
                         <label className="text-[10px] font-black text-white/30 uppercase tracking-widest pl-1 shadow-sm">
                             Target Audience
                         </label>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <label className={`cursor-pointer p-5 border rounded-2xl flex items-center space-x-3 transition-all ${audience === 'ALL' ? 'bg-blue-500/10 border-blue-500/30' : 'bg-white/5 border-white/5 hover:border-white/20'}`}>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <label className={`cursor-pointer p-4 border rounded-2xl flex items-center space-x-3 transition-all ${audience === 'ALL' ? 'bg-blue-500/10 border-blue-500/30' : 'bg-white/5 border-white/5 hover:border-white/20'}`}>
                                 <input type="radio" className="hidden" checked={audience === 'ALL'} onChange={() => setAudience('ALL')} />
-                                <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${audience === 'ALL' ? 'border-blue-400' : 'border-white/20'}`}>
+                                <div className={`w-4 h-4 rounded-full border-2 flex shrink-0 items-center justify-center ${audience === 'ALL' ? 'border-blue-400' : 'border-white/20'}`}>
                                     {audience === 'ALL' && <div className="w-2 h-2 rounded-full bg-blue-400" />}
                                 </div>
-                                <span className={`font-bold ${audience === 'ALL' ? 'text-blue-400' : 'text-white'}`}>All Registered Students</span>
+                                <span className={`font-bold text-xs ${audience === 'ALL' ? 'text-blue-400' : 'text-white'}`}>All Students</span>
                             </label>
                             
-                            <label className={`cursor-pointer p-5 border rounded-2xl flex items-center space-x-3 transition-all ${audience === 'NEW' ? 'bg-gold/10 border-gold/30' : 'bg-white/5 border-white/5 hover:border-white/20'}`}>
+                            <label className={`cursor-pointer p-4 border rounded-2xl flex items-center space-x-3 transition-all ${audience === 'NEW' ? 'bg-gold/10 border-gold/30' : 'bg-white/5 border-white/5 hover:border-white/20'}`}>
                                 <input type="radio" className="hidden" checked={audience === 'NEW'} onChange={() => setAudience('NEW')} />
-                                <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${audience === 'NEW' ? 'border-gold' : 'border-white/20'}`}>
+                                <div className={`w-4 h-4 rounded-full border-2 flex shrink-0 items-center justify-center ${audience === 'NEW' ? 'border-gold' : 'border-white/20'}`}>
                                     {audience === 'NEW' && <div className="w-2 h-2 rounded-full bg-gold" />}
                                 </div>
-                                <span className={`font-bold ${audience === 'NEW' ? 'text-gold' : 'text-white'}`}>New Students Only</span>
+                                <span className={`font-bold text-xs ${audience === 'NEW' ? 'text-gold' : 'text-white'}`}>New Enrolls</span>
+                            </label>
+
+                            <label className={`cursor-pointer p-4 border rounded-2xl flex items-center space-x-3 transition-all ${audience === 'SPECIFIC' ? 'bg-purple-500/10 border-purple-500/30' : 'bg-white/5 border-white/5 hover:border-white/20'}`}>
+                                <input type="radio" className="hidden" checked={audience === 'SPECIFIC'} onChange={() => setAudience('SPECIFIC')} />
+                                <div className={`w-4 h-4 rounded-full border-2 flex shrink-0 items-center justify-center ${audience === 'SPECIFIC' ? 'border-purple-400' : 'border-white/20'}`}>
+                                    {audience === 'SPECIFIC' && <div className="w-2 h-2 rounded-full bg-purple-400" />}
+                                </div>
+                                <span className={`font-bold text-xs ${audience === 'SPECIFIC' ? 'text-purple-400' : 'text-white'}`}>Specific Email</span>
                             </label>
                         </div>
+
                         
                         {audience === 'NEW' && (
                             <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="pt-2 pl-1">
@@ -125,6 +148,48 @@ export default function BroadcastMailPage() {
                                     className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl outline-none focus:border-gold/50 transition-all font-bold text-white text-sm [color-scheme:dark]"
                                 />
                                 <p className="text-white/30 text-xs mt-2 italic">Only students who registered strictly on or after this date will receive the email.</p>
+                            </motion.div>
+                        )}
+                        {audience === 'SPECIFIC' && (
+                            <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="pt-2 pl-1">
+                                <label className="text-[10px] font-black text-white/30 uppercase tracking-widest block mb-2">Recipient Email Address</label>
+                                <input
+                                    type="email"
+                                    required={audience === "SPECIFIC"}
+                                    value={specificEmail}
+                                    onChange={(e) => setSpecificEmail(e.target.value)}
+                                    placeholder="student@example.com"
+                                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl outline-none focus:border-purple-500/50 transition-all font-bold text-white text-sm"
+                                />
+                            </motion.div>
+                        )}
+                    </div>
+
+                    <div className="space-y-4 pt-4 border-t border-white/5">
+                        <label className="text-[10px] font-black text-white/30 uppercase tracking-widest pl-1 shadow-sm">
+                            Sender Alias (From Name)
+                        </label>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            {['BAFSKMC', 'BAFSKMC Communications', 'CUSTOM'].map(mode => (
+                                <label key={mode} className={`cursor-pointer p-4 border rounded-2xl flex items-center space-x-3 transition-all ${senderMode === mode ? 'bg-emerald-500/10 border-emerald-500/30' : 'bg-white/5 border-white/5 hover:border-white/20'}`}>
+                                    <input type="radio" className="hidden" checked={senderMode === mode} onChange={() => setSenderMode(mode as any)} />
+                                    <div className={`w-4 h-4 shrink-0 rounded-full border-2 flex items-center justify-center ${senderMode === mode ? 'border-emerald-400' : 'border-white/20'}`}>
+                                        {senderMode === mode && <div className="w-2 h-2 rounded-full bg-emerald-400" />}
+                                    </div>
+                                    <span className={`font-bold text-xs truncate ${senderMode === mode ? 'text-emerald-400' : 'text-white'}`}>{mode === 'CUSTOM' ? 'Custom Name' : mode}</span>
+                                </label>
+                            ))}
+                        </div>
+                        {senderMode === 'CUSTOM' && (
+                            <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="pt-2 pl-1">
+                                <input
+                                    type="text"
+                                    required={senderMode === "CUSTOM"}
+                                    value={customSenderName}
+                                    onChange={(e) => setCustomSenderName(e.target.value)}
+                                    placeholder="Enter Custom Sender Name"
+                                    className="w-full px-4 py-3 bg-white/5 border border-emerald-500/30 rounded-xl outline-none focus:border-emerald-500/70 transition-all font-bold text-emerald-100 text-sm"
+                                />
                             </motion.div>
                         )}
                     </div>

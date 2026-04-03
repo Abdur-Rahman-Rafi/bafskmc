@@ -50,6 +50,7 @@ function RegisterForm({
             const data = await res.json();
 
             if (res.ok && data.requiresVerification) {
+                window.dispatchEvent(new Event('show-ad'));
                 onSuccess(data.email);
             } else {
                 setError(data.error || "Something went wrong");
@@ -266,6 +267,7 @@ function VerifyEmailStep({
 
             if (res.ok) {
                 setSuccess(true);
+                window.dispatchEvent(new Event('show-ad'));
                 setTimeout(() => router.push("/login?verified=true"), 2000);
             } else {
                 setError(data.error || "Verification failed");

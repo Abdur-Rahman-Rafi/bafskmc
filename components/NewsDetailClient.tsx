@@ -14,6 +14,11 @@ export default function NewsDetailClient({ news: initialNews }: NewsDetailClient
     const router = useRouter();
     const [news, setNews] = useState<any>(initialNews);
 
+    useEffect(() => {
+        // Trigger advertisement before reading news
+        window.dispatchEvent(new Event('show-ad'));
+    }, []);
+
     const handleShare = async () => {
         try {
             const shareData = {

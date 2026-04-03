@@ -192,9 +192,12 @@ export default function ActivitiesPage() {
                             <p className="text-white/40 text-lg font-medium mb-12 max-w-xl uppercase tracking-widest text-xs leading-loose">
                                 We are always seeking high-level collaborations and strategic partnerships. If you are an organizer or academic body, let's initiate protocol.
                             </p>
-                            <button className="bg-gold text-black px-12 py-6 rounded-2xl font-black text-sm uppercase tracking-[0.2em] hover:bg-gold-light hover:scale-105 transition-all active:scale-95 shadow-2xl shadow-gold/20">
+                            <a 
+                                href="mailto:bafsk.mathclub@gmail.com"
+                                className="inline-block bg-gold text-black px-12 py-6 rounded-2xl font-black text-sm uppercase tracking-[0.2em] hover:bg-[#F0C040] hover:scale-105 transition-all active:scale-95 shadow-2xl shadow-gold/20"
+                            >
                                 Initiate Communication
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>
