@@ -42,6 +42,12 @@ export default function FileUploadZone({
             setPreview(null);
         }
 
+        // Pre-validate size matching Vercel Serverless payload limits (approx 4.5MB)
+        if (file.size > 4.5 * 1024 * 1024) {
+            setError("File is too large! Maximum allowed size is 4.5MB due to server limits.");
+            return;
+        }
+
         setUploading(true);
         const formData = new FormData();
         formData.append("file", file);
@@ -50,8 +56,17 @@ export default function FileUploadZone({
             const res = await fetch("/api/upload", { method: "POST", body: formData });
 
             if (!res.ok) {
-                const d = await res.json();
-                throw new Error(d.error || "Upload failed");
+                const text = await res.text();
+                let errMsg = "Upload failed";
+                try {
+                    const parsed = JSON.parse(text);
+                    if (parsed.error) errMsg = parsed.error;
+                } catch {
+                    // Not JSON string (e.g. 413 Payload Too Large 'Request Entity Too Large')
+                    if (res.status === 413) errMsg = "File exceeds the maximum 4.5MB server payload limit.";
+                    else errMsg = `Server Error: ${res.statusText || text.substring(0, 40)}`;
+                }
+                throw new Error(errMsg);
             }
 
             const data = await res.json();

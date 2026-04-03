@@ -152,15 +152,16 @@ export default function BroadcastMailPage() {
                         )}
                         {audience === 'SPECIFIC' && (
                             <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="pt-2 pl-1">
-                                <label className="text-[10px] font-black text-white/30 uppercase tracking-widest block mb-2">Recipient Email Address</label>
+                                <label className="text-[10px] font-black text-white/30 uppercase tracking-widest block mb-2">Recipient Email Address or Domain</label>
                                 <input
-                                    type="email"
+                                    type="text"
                                     required={audience === "SPECIFIC"}
                                     value={specificEmail}
                                     onChange={(e) => setSpecificEmail(e.target.value)}
-                                    placeholder="student@example.com"
+                                    placeholder="student@example.com or @example.com"
                                     className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl outline-none focus:border-purple-500/50 transition-all font-bold text-white text-sm"
                                 />
+                                <p className="text-white/30 text-xs mt-2 italic">Enter a full email, or start with @ to email all users of a specific domain.</p>
                             </motion.div>
                         )}
                     </div>

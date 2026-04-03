@@ -19,21 +19,27 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "Subject and Message are required." }, { status: 400 });
         }
 
-        // Build query constraints based on audience selection
-        const queryConstraints: any = { role: "STUDENT" };
-        if (audience === "NEW" && newSince) {
-            queryConstraints.createdAt = { gte: new Date(newSince) };
-        } else if (audience === "SPECIFIC" && specificEmail) {
-            queryConstraints.email = specificEmail;
-        }
+        let emails: string[] = [];
 
-        // Fetch all specific target active users (students)
-        const users = await prisma.user.findMany({
-            where: queryConstraints,
-            select: { email: true }
-        });
-        
-        const emails = users.map(u => u.email).filter(Boolean);
+        if (audience === "SPECIFIC" && specificEmail && !specificEmail.startsWith("@")) {
+            emails = [specificEmail];
+        } else {
+            // Build query constraints based on audience selection
+            const queryConstraints: any = { role: "STUDENT" };
+            if (audience === "NEW" && newSince) {
+                queryConstraints.createdAt = { gte: new Date(newSince) };
+            }
+            if (audience === "SPECIFIC" && specificEmail?.startsWith("@")) {
+                queryConstraints.email = { endsWith: specificEmail };
+            }
+
+            // Fetch all specific target active users (students)
+            const users = await prisma.user.findMany({
+                where: queryConstraints,
+                select: { email: true }
+            });
+            emails = users.map(u => u.email).filter(Boolean) as string[];
+        }
 
         if (emails.length === 0) {
             return NextResponse.json({ error: "No users found to email." }, { status: 404 });
