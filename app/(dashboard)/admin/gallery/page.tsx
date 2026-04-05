@@ -69,7 +69,7 @@ export default function AdminGalleryPage() {
             {/* Header / Actions */}
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
                 <div>
-                    <h1 className="text-4xl font-black text-white italic tracking-tighter uppercase">
+                    <h1 className="text-4xl font-black text-white tracking-tighter uppercase">
                         GALLERY <span className="text-gold">VAULT</span>
                     </h1>
                     <p className="text-white/40 font-bold uppercase text-[10px] tracking-[0.2em] mt-1">
@@ -117,7 +117,7 @@ export default function AdminGalleryPage() {
             ) : filteredItems.length === 0 ? (
                 <div className="text-center py-40 bg-[#151515] rounded-[3rem] border border-dashed border-white/5">
                     <ImageIcon className="h-20 w-20 text-white/5 mx-auto mb-6" />
-                    <h3 className="text-2xl font-black text-white/20 uppercase italic">Gallery Empty</h3>
+                    <h3 className="text-2xl font-black text-white/20 uppercase">Gallery Empty</h3>
                     <p className="text-[10px] text-white/10 font-bold uppercase tracking-widest mt-2 px-10">No visual assets detected in this query range.</p>
                 </div>
             ) : (
@@ -167,7 +167,7 @@ export default function AdminGalleryPage() {
                                         {new Date(item.date).toLocaleDateString()}
                                     </span>
                                 </div>
-                                <h3 className="text-xl font-black text-white italic tracking-tight group-hover:text-gold transition-colors">
+                                <h3 className="text-xl font-black text-white tracking-tight group-hover:text-gold transition-colors">
                                     {item.title}
                                 </h3>
                             </div>

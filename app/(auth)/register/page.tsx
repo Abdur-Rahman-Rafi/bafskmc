@@ -77,11 +77,11 @@ function RegisterForm({
                         <img src="/logo.jpg" alt="BAFSKMC" className="h-full w-full object-cover" />
                     </div>
                     <div className="text-left">
-                        <p className="text-white font-black text-lg tracking-tight italic">BAFSKMC</p>
+                        <p className="text-white font-black text-lg tracking-tight">BAFSKMC</p>
                         <p className="text-gold/60 font-black text-[10px] uppercase tracking-[0.2em]">Math Club Portal</p>
                     </div>
                 </Link>
-                <h1 className="text-5xl font-black text-white italic tracking-tighter uppercase mb-2">
+                <h1 className="text-5xl font-black text-white tracking-tighter uppercase mb-2">
                     Join The <span className="text-gold">Club</span>
                 </h1>
                 <p className="text-white/30 font-bold text-sm">Create your student account to access the portal.</p>
@@ -337,7 +337,7 @@ function VerifyEmailStep({
                     style={{ background: "rgba(201,150,43,0.1)", border: "1px solid rgba(201,150,43,0.25)" }}>
                     <ShieldCheck className="h-8 w-8" style={{ color: "#F0C040" }} />
                 </div>
-                <h1 className="text-4xl font-black text-white italic tracking-tighter uppercase mb-2">
+                <h1 className="text-4xl font-black text-white tracking-tighter uppercase mb-2">
                     Verify <span className="text-gold">Email</span>
                 </h1>
                 <p className="text-white/30 font-bold text-sm max-w-xs mx-auto">

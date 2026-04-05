@@ -67,7 +67,7 @@ export default function AdminNewsPage() {
             {/* Header / Actions */}
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
                 <div>
-                    <h1 className="text-4xl font-black text-white italic tracking-tighter uppercase">
+                    <h1 className="text-4xl font-black text-white tracking-tighter uppercase">
                         NEWS <span className="text-gold">FEED</span>
                     </h1>
                     <p className="text-white/40 font-bold uppercase text-[10px] tracking-[0.2em] mt-1">
@@ -113,7 +113,7 @@ export default function AdminNewsPage() {
                     ) : news.length === 0 ? (
                         <div className="text-center py-32 bg-[#0D0D0D]/30">
                             <FileText className="h-16 w-16 text-white/5 mx-auto mb-6" />
-                            <h3 className="text-xl font-black text-white/40 uppercase italic">Archive Empty</h3>
+                            <h3 className="text-xl font-black text-white/40 uppercase">Archive Empty</h3>
                             <p className="text-[10px] text-white/20 font-bold uppercase tracking-widest mt-2">Start publishing to populate the club news feed.</p>
                         </div>
                     ) : (
@@ -141,7 +141,7 @@ export default function AdminNewsPage() {
                                                     <FileText className="h-6 w-6" />
                                                 </div>
                                                 <div>
-                                                    <span className="font-black text-white italic tracking-tight group-hover:text-gold transition-colors text-lg line-clamp-1 max-w-[400px]">
+                                                    <span className="font-black text-white tracking-tight group-hover:text-gold transition-colors text-lg line-clamp-1 max-w-[400px]">
                                                         {item.title}
                                                     </span>
                                                     <div className="flex items-center space-x-2 mt-1">
@@ -158,7 +158,7 @@ export default function AdminNewsPage() {
                                                 <div className="h-8 w-8 bg-white/5 rounded-full border border-white/10 flex items-center justify-center">
                                                     <UserIcon className="h-4 w-4 text-white/30" />
                                                 </div>
-                                                <span className="text-xs font-black text-white/60 uppercase tracking-tight italic">{item.author.name}</span>
+                                                <span className="text-xs font-black text-white/60 uppercase tracking-tight">{item.author.name}</span>
                                             </div>
                                         </td>
                                         <td className="px-10 py-8">

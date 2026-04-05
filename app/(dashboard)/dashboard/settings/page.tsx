@@ -140,7 +140,7 @@ export default function StudentSettingsPage() {
 
             {/* Header */}
             <div>
-                <h1 className="text-4xl font-black text-white italic tracking-tighter uppercase">
+                <h1 className="text-4xl font-black text-white tracking-tighter uppercase">
                     MY <span className="text-gold">PROFILE</span>
                 </h1>
                 <p className="text-white/30 font-bold uppercase text-[10px] tracking-[0.2em] mt-1">

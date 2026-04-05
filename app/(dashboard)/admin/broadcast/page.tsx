@@ -72,7 +72,7 @@ export default function BroadcastMailPage() {
         <div className="max-w-4xl space-y-8 pb-20">
             {/* Header section */}
             <div>
-                <h1 className="text-3xl font-black text-white italic tracking-tighter uppercase mb-2 flex items-center">
+                <h1 className="text-3xl font-black text-white tracking-tighter uppercase mb-2 flex items-center">
                     Broadcast <span className="text-gold ml-2">Mail</span>
                 </h1>
                 <p className="text-white/40 text-xs font-black uppercase tracking-widest mt-1">Mass communication protocol</p>
@@ -147,7 +147,7 @@ export default function BroadcastMailPage() {
                                     onChange={(e) => setNewSince(e.target.value)}
                                     className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl outline-none focus:border-gold/50 transition-all font-bold text-white text-sm [color-scheme:dark]"
                                 />
-                                <p className="text-white/30 text-xs mt-2 italic">Only students who registered strictly on or after this date will receive the email.</p>
+                                <p className="text-white/30 text-xs mt-2">Only students who registered strictly on or after this date will receive the email.</p>
                             </motion.div>
                         )}
                         {audience === 'SPECIFIC' && (
@@ -161,7 +161,7 @@ export default function BroadcastMailPage() {
                                     placeholder="student@example.com or @example.com"
                                     className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl outline-none focus:border-purple-500/50 transition-all font-bold text-white text-sm"
                                 />
-                                <p className="text-white/30 text-xs mt-2 italic">Enter a full email, or start with @ to email all users of a specific domain.</p>
+                                <p className="text-white/30 text-xs mt-2">Enter a full email, or start with @ to email all users of a specific domain.</p>
                             </motion.div>
                         )}
                     </div>
@@ -221,7 +221,7 @@ export default function BroadcastMailPage() {
                             placeholder="Type the full announcement content here. This will be sent as a formatted HTML email..."
                             className="w-full px-6 py-5 bg-white/5 border border-white/10 rounded-2xl outline-none focus:border-gold/50 transition-all text-white/80 font-medium placeholder:text-white/20 resize-none leading-relaxed"
                         />
-                        <p className="text-white/20 text-xs italic pl-2 mt-2">Line breaks will be preserved.</p>
+                        <p className="text-white/20 text-xs pl-2 mt-2">Line breaks will be preserved.</p>
                     </div>
 
                     <div className="pt-6 border-t border-white/5 flex justify-end">

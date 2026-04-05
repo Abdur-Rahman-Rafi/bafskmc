@@ -53,7 +53,7 @@ export default function AdminActivitiesPage() {
             {/* Command Header */}
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
                 <div>
-                    <h1 className="text-4xl font-black text-white italic tracking-tighter uppercase">
+                    <h1 className="text-4xl font-black text-white tracking-tighter uppercase">
                         ACTIVITY <span className="text-gold">NEXUS</span>
                     </h1>
                     <p className="text-white/40 font-bold uppercase text-[10px] tracking-[0.2em] mt-1">
@@ -111,7 +111,7 @@ export default function AdminActivitiesPage() {
                     <div className="bg-white/5 h-20 w-20 rounded-[1.5rem] flex items-center justify-center mx-auto mb-6">
                         <Zap className="h-8 w-8 text-white/20" />
                     </div>
-                    <h3 className="text-xl font-black text-white mb-2 italic">Nexus Silent</h3>
+                    <h3 className="text-xl font-black text-white mb-2">Nexus Silent</h3>
                     <p className="text-white/30 font-bold uppercase tracking-[0.2em] text-[10px] max-w-sm mx-auto">
                         No active operations found matching your current search parameters.
                     </p>
@@ -163,7 +163,7 @@ export default function AdminActivitiesPage() {
                                         </div>
 
                                         <div className="p-8 flex-1 flex flex-col">
-                                            <h4 className="text-xl font-black text-white group-hover:text-gold transition-colors mb-4 italic tracking-tight">{activity.title}</h4>
+                                            <h4 className="text-xl font-black text-white group-hover:text-gold transition-colors mb-4 tracking-tight">{activity.title}</h4>
 
                                             <div className="space-y-2 mb-6">
                                                 <div className="flex items-center text-white/40 space-x-3">
@@ -178,7 +178,7 @@ export default function AdminActivitiesPage() {
                                                 )}
                                             </div>
 
-                                            <p className="text-white/30 text-xs font-medium leading-relaxed line-clamp-2 mb-8 flex-1 italic">
+                                            <p className="text-white/30 text-xs font-medium leading-relaxed line-clamp-2 mb-8 flex-1">
                                                 {activity.description || "System log: No operational details provided for this activity deployment."}
                                             </p>
 
@@ -217,7 +217,7 @@ export default function AdminActivitiesPage() {
                                             )}
                                         </div>
                                         <div className="flex-1 min-w-0 pr-6">
-                                            <h4 className="text-base font-black text-white truncate italic uppercase tracking-tighter">{activity.title}</h4>
+                                            <h4 className="text-base font-black text-white truncate uppercase tracking-tighter">{activity.title}</h4>
                                             <div className="flex items-center space-x-4 mt-1">
                                                 <span className="text-[8px] font-black text-gold uppercase tracking-widest">{activity.category}</span>
                                                 <span className="h-1 w-1 bg-white/10 rounded-full" />

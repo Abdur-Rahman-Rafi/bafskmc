@@ -59,7 +59,7 @@ export default function GalleryForm({ onSuccess, onCancel, initialData }: Galler
 
             <div className="flex items-center justify-between">
                 <div>
-                    <h2 className="text-3xl font-black text-white italic tracking-tighter uppercase">
+                    <h2 className="text-3xl font-black text-white tracking-tighter uppercase">
                         {initialData ? "UPDATE" : "ADD"} <span className="text-gold">MEMORY</span>
                     </h2>
                     <p className="text-white/30 font-bold uppercase text-[10px] tracking-[0.2em] mt-1">

@@ -104,7 +104,7 @@ export default function ExamForm({ initialData }: ExamFormProps) {
                     <ChevronLeft className="h-5 w-5" />
                 </Link>
                 <div>
-                    <h1 className="text-3xl font-black text-white italic tracking-tighter uppercase">
+                    <h1 className="text-3xl font-black text-white tracking-tighter uppercase">
                         {initialData ? "Refine" : "Initialize"} <span className="text-gold">Trial</span>
                     </h1>
                     <p className="text-white/20 font-black uppercase text-[10px] tracking-[0.2em] mt-1 pl-0.5">Enforcement Protocol • Assessment Oracle</p>
@@ -158,7 +158,7 @@ export default function ExamForm({ initialData }: ExamFormProps) {
                                     type="text"
                                     required
                                     placeholder="E.G., WEEKLY CALCULUS CHALLENGE #01"
-                                    className="w-full px-8 py-6 bg-white/[0.03] border border-white/10 rounded-2xl outline-none focus:border-gold/50 transition-all font-black text-white text-xl italic tracking-tight placeholder:text-white/5"
+                                    className="w-full px-8 py-6 bg-white/[0.03] border border-white/10 rounded-2xl outline-none focus:border-gold/50 transition-all font-black text-white text-xl tracking-tight placeholder:text-white/5"
                                     value={formData.name}
                                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                                 />
@@ -233,7 +233,7 @@ export default function ExamForm({ initialData }: ExamFormProps) {
                                     <input
                                         type="number"
                                         required
-                                        className="w-full px-8 py-5 bg-white/[0.03] border border-white/10 rounded-2xl outline-none focus:border-gold/50 transition-all font-black text-white text-xl italic tracking-tight placeholder:text-white/5"
+                                        className="w-full px-8 py-5 bg-white/[0.03] border border-white/10 rounded-2xl outline-none focus:border-gold/50 transition-all font-black text-white text-xl tracking-tight placeholder:text-white/5"
                                         value={formData.duration}
                                         onChange={(e) => setFormData({ ...formData, duration: parseInt(e.target.value) || 0 })}
                                     />

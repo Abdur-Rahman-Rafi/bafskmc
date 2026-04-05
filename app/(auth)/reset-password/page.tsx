@@ -100,7 +100,7 @@ function ResetPasswordContent() {
                         <div className="mx-auto h-20 w-20 bg-red-500/10 border border-red-500/20 rounded-[1.5rem] flex items-center justify-center mb-6">
                             <XCircle className="h-9 w-9 text-red-400" />
                         </div>
-                        <h2 className="text-2xl font-black text-white tracking-tighter italic mb-3">Link Expired</h2>
+                        <h2 className="text-2xl font-black text-white tracking-tighter mb-3">Link Expired</h2>
                         <p className="text-white/30 text-sm font-medium leading-relaxed mb-8">
                             This password reset link is invalid or has expired. Links are only valid for 1 hour.
                         </p>
@@ -123,7 +123,7 @@ function ResetPasswordContent() {
                         <div className="mx-auto h-20 w-20 bg-emerald-500/10 border border-emerald-500/20 rounded-[1.5rem] flex items-center justify-center mb-6">
                             <CheckCircle className="h-9 w-9 text-emerald-400" />
                         </div>
-                        <h2 className="text-2xl font-black text-white tracking-tighter italic mb-3">Password Updated!</h2>
+                        <h2 className="text-2xl font-black text-white tracking-tighter mb-3">Password Updated!</h2>
                         <p className="text-white/30 text-sm font-medium leading-relaxed mb-2">
                             Your password has been successfully reset.
                         </p>
@@ -148,7 +148,7 @@ function ResetPasswordContent() {
                             <div className="mx-auto h-20 w-20 bg-gold/10 border border-gold/20 rounded-[1.5rem] flex items-center justify-center mb-6 shadow-xl shadow-gold/5">
                                 <ShieldCheck className="text-gold h-9 w-9" />
                             </div>
-                            <h1 className="text-3xl font-black text-white tracking-tighter italic">
+                            <h1 className="text-3xl font-black text-white tracking-tighter">
                                 Set New Password
                             </h1>
                             {tokenEmail && (

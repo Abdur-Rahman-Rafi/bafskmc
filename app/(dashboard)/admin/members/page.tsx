@@ -46,7 +46,7 @@ export default function AdminMembersPage() {
             {/* Command Header */}
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
                 <div>
-                    <h1 className="text-4xl font-black text-white italic tracking-tighter uppercase">
+                    <h1 className="text-4xl font-black text-white tracking-tighter uppercase">
                         COMMUNITY <span className="text-gold">REGISTRY</span>
                     </h1>
                     <p className="text-white/40 font-bold uppercase text-[10px] tracking-[0.2em] mt-1">
@@ -105,7 +105,7 @@ export default function AdminMembersPage() {
                             <div className="bg-white/5 h-20 w-20 rounded-[1.5rem] flex items-center justify-center mx-auto mb-6">
                                 <Users className="h-8 w-8 text-white/10" />
                             </div>
-                            <h3 className="text-xl font-black text-white/40 uppercase italic">Archive Empty</h3>
+                            <h3 className="text-xl font-black text-white/40 uppercase">Archive Empty</h3>
                             <p className="text-[10px] text-white/20 font-bold uppercase tracking-widest mt-2">
                                 No records found in the {activeTab === "PANEL" ? "Executive" : "Alumni"} node.
                             </p>
@@ -165,7 +165,7 @@ export default function AdminMembersPage() {
                                             <Hash className="h-2.5 w-2.5 text-gold/40" />
                                             <span className="text-[9px] font-black text-white/40">{member.priority}</span>
                                         </div>
-                                        <h4 className="text-xl font-black text-white italic group-hover:text-gold transition-colors tracking-tight">{member.name}</h4>
+                                        <h4 className="text-xl font-black text-white group-hover:text-gold transition-colors tracking-tight">{member.name}</h4>
                                     </div>
 
                                     <p className="text-gold/60 font-black text-[10px] uppercase tracking-[0.15em] mb-4">
@@ -178,7 +178,7 @@ export default function AdminMembersPage() {
                                     <div className="mt-8 pt-6 border-t border-white/5 flex items-center justify-between">
                                         <div className="flex flex-col">
                                             <span className="text-[8px] font-black text-white/10 uppercase tracking-widest">Enrollment</span>
-                                            <span className="text-[10px] font-black text-white/40 uppercase tracking-[0.2em] italic">Session {member.session || "N/A"}</span>
+                                            <span className="text-[10px] font-black text-white/40 uppercase tracking-[0.2em]">Session {member.session || "N/A"}</span>
                                         </div>
                                         <div className="flex items-center space-x-2 text-white/10 group-hover:text-gold transition-colors">
                                             <span className="text-[8px] font-black uppercase tracking-widest">Profile</span>

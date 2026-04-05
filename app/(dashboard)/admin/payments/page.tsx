@@ -90,7 +90,7 @@ export default function AdminPaymentsPage() {
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
                 <div>
-                    <h1 className="text-4xl font-black text-white italic tracking-tighter uppercase">
+                    <h1 className="text-4xl font-black text-white tracking-tighter uppercase">
                         PAYMENT <span className="text-gold">AUDIT</span>
                     </h1>
                     <p className="text-white/40 font-bold uppercase text-[10px] tracking-[0.2em] mt-1">
@@ -145,7 +145,7 @@ export default function AdminPaymentsPage() {
                     <div className="bg-white/5 h-20 w-20 rounded-[1.5rem] flex items-center justify-center mx-auto mb-6">
                         <ShieldCheck className="h-10 w-10 text-white/10" />
                     </div>
-                    <h3 className="text-xl font-black text-white/40 uppercase italic">
+                    <h3 className="text-xl font-black text-white/40 uppercase">
                         {filter === "PENDING" ? "Queue Clear" : "No Records"}
                     </h3>
                     <p className="text-[10px] text-white/20 font-bold uppercase tracking-widest mt-2 max-w-sm mx-auto">
@@ -169,7 +169,7 @@ export default function AdminPaymentsPage() {
                                 <div>
                                     <div className="flex items-center space-x-2 mb-1">
                                         <User className="h-3.5 w-3.5 text-gold/50" />
-                                        <h3 className="text-xl font-black text-white italic tracking-tighter group-hover:text-gold transition-colors">{payment.user.name}</h3>
+                                        <h3 className="text-xl font-black text-white tracking-tighter group-hover:text-gold transition-colors">{payment.user.name}</h3>
                                     </div>
                                     <p className="text-white/20 font-bold text-[10px] uppercase tracking-widest">{payment.user.email}</p>
                                     {(payment.user.class || payment.user.roll) && (

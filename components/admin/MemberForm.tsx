@@ -91,7 +91,7 @@ export default function MemberForm({ initialData }: MemberFormProps) {
                     <ChevronLeft className="h-5 w-5" />
                 </Link>
                 <div>
-                    <h1 className="text-3xl font-black text-white italic tracking-tighter uppercase">
+                    <h1 className="text-3xl font-black text-white tracking-tighter uppercase">
                         {initialData ? "Edit" : "Register"} <span className="text-gold">Personnel</span>
                     </h1>
                     <p className="text-white/20 font-black uppercase text-[10px] tracking-[0.2em] mt-1 pl-0.5">Registry Management • Personnel Protocol</p>
@@ -135,7 +135,7 @@ export default function MemberForm({ initialData }: MemberFormProps) {
                                 type="text"
                                 required
                                 placeholder="E.G., AHSAN HABIB"
-                                className="w-full px-8 py-6 bg-white/[0.03] border border-white/10 rounded-2xl outline-none focus:border-gold/50 transition-all font-black text-white text-xl italic tracking-tight placeholder:text-white/5"
+                                className="w-full px-8 py-6 bg-white/[0.03] border border-white/10 rounded-2xl outline-none focus:border-gold/50 transition-all font-black text-white text-xl tracking-tight placeholder:text-white/5"
                                 value={formData.name}
                                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                             />
@@ -150,7 +150,7 @@ export default function MemberForm({ initialData }: MemberFormProps) {
                                 type="text"
                                 required
                                 placeholder="E.G., PRESIDENT"
-                                className="w-full px-8 py-6 bg-white/[0.03] border border-white/10 rounded-2xl outline-none focus:border-gold/50 transition-all font-black text-white/70 italic tracking-widest text-xs uppercase"
+                                className="w-full px-8 py-6 bg-white/[0.03] border border-white/10 rounded-2xl outline-none focus:border-gold/50 transition-all font-black text-white/70 tracking-widest text-xs uppercase"
                                 value={formData.position}
                                 onChange={(e) => setFormData({ ...formData, position: e.target.value })}
                             />
@@ -179,7 +179,7 @@ export default function MemberForm({ initialData }: MemberFormProps) {
                             <input
                                 type="text"
                                 placeholder="E.G., ahsan.habib.123"
-                                className="w-full px-8 py-6 bg-white/[0.03] border border-white/10 rounded-2xl outline-none focus:border-gold/50 transition-all font-bold text-white/60 placeholder:text-white/5 text-xs tracking-widest uppercase italic"
+                                className="w-full px-8 py-6 bg-white/[0.03] border border-white/10 rounded-2xl outline-none focus:border-gold/50 transition-all font-bold text-white/60 placeholder:text-white/5 text-xs tracking-widest uppercase"
                                 value={formData.fbId}
                                 onChange={(e) => setFormData({ ...formData, fbId: e.target.value })}
                             />
@@ -194,7 +194,7 @@ export default function MemberForm({ initialData }: MemberFormProps) {
                                 <select
                                     value={formData.type}
                                     onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-                                    className="w-full px-8 py-6 bg-white/[0.03] border border-white/10 rounded-2xl outline-none focus:border-gold/50 transition-all font-black text-white/60 appearance-none text-xs uppercase tracking-widest italic"
+                                    className="w-full px-8 py-6 bg-white/[0.03] border border-white/10 rounded-2xl outline-none focus:border-gold/50 transition-all font-black text-white/60 appearance-none text-xs uppercase tracking-widest"
                                 >
                                     <option value="PANEL" className="bg-[#0D0D0D]">Executive Panel</option>
                                     <option value="ALUMNI" className="bg-[#0D0D0D]">Alumni Association</option>
@@ -213,7 +213,7 @@ export default function MemberForm({ initialData }: MemberFormProps) {
                             <input
                                 type="text"
                                 placeholder="E.G., 2024-2025"
-                                className="w-full px-8 py-6 bg-white/[0.03] border border-white/10 rounded-2xl outline-none focus:border-gold/50 transition-all font-bold text-white/60 placeholder:text-white/5 text-xs tracking-widest uppercase italic"
+                                className="w-full px-8 py-6 bg-white/[0.03] border border-white/10 rounded-2xl outline-none focus:border-gold/50 transition-all font-bold text-white/60 placeholder:text-white/5 text-xs tracking-widest uppercase"
                                 value={formData.session}
                                 onChange={(e) => setFormData({ ...formData, session: e.target.value })}
                             />

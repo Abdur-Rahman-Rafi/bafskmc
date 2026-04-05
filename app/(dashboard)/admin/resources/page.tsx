@@ -49,7 +49,7 @@ export default function AdminResourcesPage() {
             {/* Command Header */}
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
                 <div>
-                    <h1 className="text-4xl font-black text-white italic tracking-tighter uppercase">
+                    <h1 className="text-4xl font-black text-white tracking-tighter uppercase">
                         KNOWLEDGE <span className="text-gold">VAULT</span>
                     </h1>
                     <p className="text-white/40 font-bold uppercase text-[10px] tracking-[0.2em] mt-1">
@@ -93,7 +93,7 @@ export default function AdminResourcesPage() {
                     <div className="bg-white/5 h-20 w-20 rounded-[1.5rem] flex items-center justify-center mx-auto mb-6">
                         <FolderClosed className="h-8 w-8 text-white/20" />
                     </div>
-                    <h3 className="text-xl font-black text-white mb-2 italic">Vault Empty</h3>
+                    <h3 className="text-xl font-black text-white mb-2">Vault Empty</h3>
                     <p className="text-white/30 font-bold uppercase tracking-[0.2em] text-[10px] max-w-sm mx-auto">
                         No intellectual assets found matching your current search parameters.
                     </p>
@@ -134,7 +134,7 @@ export default function AdminResourcesPage() {
                                 </div>
                             </div>
 
-                            <h4 className="text-xl font-black text-white group-hover:text-gold transition-colors mb-2 italic tracking-tight">{resource.title}</h4>
+                            <h4 className="text-xl font-black text-white group-hover:text-gold transition-colors mb-2 tracking-tight">{resource.title}</h4>
                             <div className="flex items-center space-x-2 mb-4">
                                 <span className="px-2.5 py-1 bg-gold/10 border border-gold/20 rounded-md text-[9px] font-black text-gold uppercase tracking-[0.15em]">
                                     {resource.category}

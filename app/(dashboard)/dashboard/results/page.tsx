@@ -46,7 +46,7 @@ export default function ResultsPage() {
                     <ArrowLeft className="h-5 w-5" />
                 </Link>
                 <div>
-                    <h1 className="text-3xl font-black text-white italic tracking-tighter">
+                    <h1 className="text-3xl font-black text-white tracking-tighter">
                         PERFORMANCE <span className="text-gold">HISTORY</span>
                     </h1>
                     <p className="text-white/40 font-bold uppercase text-[10px] tracking-[0.2em]">Comprehensive Exam Analytics & Scores</p>

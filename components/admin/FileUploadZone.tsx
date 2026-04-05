@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react";
 import { Upload, X, File as FileIcon, Image as ImageIcon, Loader2, CheckCircle2 } from "lucide-react";
+import imageCompression from "browser-image-compression";
 
 interface FileUploadZoneProps {
     onUploadComplete: (url: string, name?: string, size?: number, type?: string) => void;
@@ -26,33 +27,42 @@ export default function FileUploadZone({
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
+        let file = e.target.files?.[0];
         if (!file) return;
 
         setError(null);
         setSuccess(false);
         setFileName(file.name);
 
-        // Preview for images
-        if (file.type.startsWith("image/")) {
-            const reader = new FileReader();
-            reader.onloadend = () => setPreview(reader.result as string);
-            reader.readAsDataURL(file);
-        } else {
-            setPreview(null);
-        }
-
-        // Pre-validate size matching Vercel Serverless payload limits (approx 4.5MB)
-        if (file.size > 4.5 * 1024 * 1024) {
-            setError("File is too large! Maximum allowed size is 4.5MB due to server limits.");
-            return;
-        }
-
         setUploading(true);
-        const formData = new FormData();
-        formData.append("file", file);
 
         try {
+            // Compress images automatically
+            if (file.type.startsWith("image/")) {
+                const options = {
+                    maxSizeMB: 4.0,
+                    maxWidthOrHeight: 1920,
+                    useWebWorker: true,
+                };
+                file = await imageCompression(file, options);
+                
+                const reader = new FileReader();
+                reader.onloadend = () => setPreview(reader.result as string);
+                reader.readAsDataURL(file);
+            } else {
+                setPreview(null);
+            }
+
+            // Pre-validate size matching Vercel Serverless payload limits (approx 4.5MB)
+            if (file.size > 4.5 * 1024 * 1024) {
+                setError("File is too large! Maximum allowed size is 4.5MB due to server limits.");
+                setUploading(false);
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("file", file);
+
             const res = await fetch("/api/upload", { method: "POST", body: formData });
 
             if (!res.ok) {
@@ -62,7 +72,6 @@ export default function FileUploadZone({
                     const parsed = JSON.parse(text);
                     if (parsed.error) errMsg = parsed.error;
                 } catch {
-                    // Not JSON string (e.g. 413 Payload Too Large 'Request Entity Too Large')
                     if (res.status === 413) errMsg = "File exceeds the maximum 4.5MB server payload limit.";
                     else errMsg = `Server Error: ${res.statusText || text.substring(0, 40)}`;
                 }

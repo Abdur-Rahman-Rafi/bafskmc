@@ -105,7 +105,7 @@ export default function StudentDashboard() {
                     <motion.h1
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="text-5xl font-black text-white italic tracking-tighter"
+                        className="text-5xl font-black text-white tracking-tighter"
                     >
                         {isFirstLogin ? "Welcome," : "Welcome Back,"}{" "}
                         <span className="text-gold">{firstName}</span>
@@ -173,7 +173,7 @@ export default function StudentDashboard() {
                             <Clock className="h-8 w-8 animate-pulse" />
                         </div>
                         <div>
-                            <h3 className="text-white font-black italic uppercase tracking-tight text-lg">Payment Verification In Progress</h3>
+                            <h3 className="text-white font-black uppercase tracking-tight text-lg">Payment Verification In Progress</h3>
                             <p className="text-white/40 text-[10px] font-black uppercase tracking-[0.2em] mt-1">
                                 Submission for <span className="text-gold">৳{latestPayment.amount}</span> • {latestPayment.note}
                             </p>
@@ -205,7 +205,7 @@ export default function StudentDashboard() {
                             <CheckCircle className="h-8 w-8" />
                         </div>
                         <div>
-                            <h3 className="text-white font-black italic uppercase tracking-tight text-lg">Transaction Verified</h3>
+                            <h3 className="text-white font-black uppercase tracking-tight text-lg">Transaction Verified</h3>
                             <p className="text-white/40 text-[10px] font-black uppercase tracking-[0.2em] mt-1">
                                 Your payment of <span className="text-emerald-400">৳{latestPayment.amount}</span> has been confirmed by the Treasury.
                             </p>
@@ -252,7 +252,7 @@ export default function StudentDashboard() {
                     <div className="flex items-center justify-between mb-8">
                         <div className="flex items-center space-x-3">
                             <Activity className="h-5 w-5 text-gold" />
-                            <h2 className="text-lg font-black text-white uppercase tracking-wider italic">Activity Log</h2>
+                            <h2 className="text-lg font-black text-white uppercase tracking-wider">Activity Log</h2>
                         </div>
                         <Link href="/dashboard/results" className="text-white/20 text-[10px] font-black uppercase tracking-widest hover:text-gold transition-colors flex items-center space-x-1">
                             <span>All Results</span>
@@ -297,7 +297,7 @@ export default function StudentDashboard() {
                     <div key={adItem.id} className="bg-[#151515] p-10 rounded-[3rem] border border-white/5 shadow-2xl relative overflow-hidden group hover:border-gold/30 transition-all flex flex-col justify-between">
                         <div>
                             <div className="flex items-center justify-between mb-6">
-                                <h2 className="text-lg font-black text-white uppercase tracking-wider italic">Partner Showcase</h2>
+                                <h2 className="text-lg font-black text-white uppercase tracking-wider">Partner Showcase</h2>
                                 <span className="px-3 py-1 rounded-md text-[10px] font-black uppercase tracking-[0.2em] bg-white/10 text-gold border border-white/10">
                                     {adItem.type === 'PAID' ? 'Sponsored' : 'Partner'}
                                 </span>

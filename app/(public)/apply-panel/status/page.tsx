@@ -73,7 +73,7 @@ export default function ApplicationStatusPage() {
         <div className="bg-[#0D0D0D] min-h-screen pt-32 pb-20">
             <div className="max-w-2xl mx-auto px-6">
                 <div className="text-center mb-12">
-                    <h1 className="text-4xl font-black text-white italic tracking-tight mb-4">
+                    <h1 className="text-4xl font-black text-white tracking-tight mb-4">
                         Applicant <span className="text-gold">Status</span>
                     </h1>
                     <p className="text-white/50 text-sm">Enter your registered email to check your Panel Application and Viva status.</p>

@@ -107,7 +107,7 @@ export default function AdminAdvertisementsPage() {
             {/* Header */}
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-3xl font-black text-white italic tracking-tighter uppercase flex items-center">
+                    <h1 className="text-3xl font-black text-white tracking-tighter uppercase flex items-center">
                         Advertisements <span className="text-gold ml-2">& Sponsors</span>
                     </h1>
                     <p className="text-white/40 text-xs font-black uppercase tracking-widest mt-1">Manage network wide ad deployments</p>

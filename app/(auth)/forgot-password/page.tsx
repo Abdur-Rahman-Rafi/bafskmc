@@ -64,7 +64,7 @@ export default function ForgotPasswordPage() {
                                 <div className="mx-auto h-20 w-20 bg-gold/10 border border-gold/20 rounded-[1.5rem] flex items-center justify-center mb-6 shadow-xl shadow-gold/5">
                                     <KeyRound className="text-gold h-9 w-9" />
                                 </div>
-                                <h1 className="text-3xl font-black text-white tracking-tighter italic">
+                                <h1 className="text-3xl font-black text-white tracking-tighter">
                                     Forgot Password?
                                 </h1>
                                 <p className="mt-3 text-sm text-white/30 font-medium leading-relaxed max-w-xs mx-auto">
@@ -139,7 +139,7 @@ export default function ForgotPasswordPage() {
                             <div className="mx-auto h-20 w-20 bg-gold/10 border border-gold/20 rounded-[1.5rem] flex items-center justify-center mb-6 shadow-xl">
                                 <ShieldCheck className="h-9 w-9 text-gold" />
                             </div>
-                            <h2 className="text-3xl font-black text-white tracking-tighter italic mb-3">
+                            <h2 className="text-3xl font-black text-white tracking-tighter mb-3">
                                 Link Dispatched!
                             </h2>
                             <p className="text-white/40 text-sm font-medium leading-relaxed mb-6">

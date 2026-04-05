@@ -48,7 +48,7 @@ export default function AboutPage() {
                         <span>The Legacy of Logical Brilliance</span>
                     </motion.div>
                     
-                    <motion.h1 variants={fadeIn} className="text-5xl md:text-7xl font-black mb-8 italic tracking-tighter uppercase leading-[0.9]">
+                    <motion.h1 variants={fadeIn} className="text-5xl md:text-7xl font-black mb-8 tracking-tighter uppercase leading-[0.9]">
                         Defining <br/><span className="text-gold">Excellence</span> in Mathematics.
                     </motion.h1>
                     
@@ -74,7 +74,7 @@ export default function AboutPage() {
                         <div className="h-20 w-20 bg-white/5 rounded-[2rem] flex items-center justify-center text-gold mb-10 group-hover:scale-110 transition-transform duration-500">
                             <Target className="h-10 w-10" />
                         </div>
-                        <h2 className="text-3xl font-black uppercase italic tracking-tight mb-6">Our Mission</h2>
+                        <h2 className="text-3xl font-black uppercase tracking-tight mb-6">Our Mission</h2>
                         <p className="text-white/40 leading-loose font-medium text-sm tracking-wide">
                             To cultivate a hyper-focused environment where students break their cognitive limits. 
                             We equip individuals with advanced analytical frameworks, bridging the gap between standard academics 
@@ -91,7 +91,7 @@ export default function AboutPage() {
                             <div className="h-20 w-20 bg-black/10 rounded-[2rem] flex items-center justify-center text-black mb-10 group-hover:scale-110 transition-transform duration-500 backdrop-blur-md border border-black/10">
                                 <Lightbulb className="h-10 w-10" />
                             </div>
-                            <h2 className="text-3xl font-black uppercase italic tracking-tight mb-6">Our Vision</h2>
+                            <h2 className="text-3xl font-black uppercase tracking-tight mb-6">Our Vision</h2>
                             <p className="text-black/70 leading-loose font-bold text-sm tracking-wide">
                                 To dominate the national stage and establish BAFSK as a central powerhouse of absolute mathematical brilliance. 
                                 We envision a self-sustaining ecosystem of mentorship and continuous intellectual growth.
@@ -105,7 +105,7 @@ export default function AboutPage() {
             <div className="border-y border-white/5 bg-[#0A0A0A] py-32 mb-32 relative">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-20">
-                        <h2 className="text-4xl font-black italic tracking-tighter uppercase mb-4">The Four <span className="text-gold">Pillars</span></h2>
+                        <h2 className="text-4xl font-black tracking-tighter uppercase mb-4">The Four <span className="text-gold">Pillars</span></h2>
                         <p className="text-white/30 text-xs font-black uppercase tracking-[0.2em]">Our operational methodology</p>
                     </div>
 
@@ -127,7 +127,7 @@ export default function AboutPage() {
                                 <div className="h-14 w-14 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center text-gold mb-6 group-hover:bg-gold group-hover:text-black transition-colors">
                                     {pillar.icon}
                                 </div>
-                                <h3 className="text-xl font-black uppercase italic tracking-tight mb-3">{pillar.title}</h3>
+                                <h3 className="text-xl font-black uppercase tracking-tight mb-3">{pillar.title}</h3>
                                 <p className="text-white/40 text-xs font-medium leading-relaxed">{pillar.desc}</p>
                             </motion.div>
                         ))}
@@ -146,7 +146,7 @@ export default function AboutPage() {
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-[500px] bg-gold/5 blur-[120px] rounded-full pointer-events-none" />
                     
                     <div className="relative z-10">
-                        <h2 className="text-4xl md:text-5xl font-black uppercase italic tracking-tighter mb-6">
+                        <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter mb-6">
                             Ready to face the <span className="text-gold">Challenge?</span>
                         </h2>
                         <p className="text-white/40 max-w-xl mx-auto mb-10 text-xs font-black uppercase tracking-widest leading-loose">

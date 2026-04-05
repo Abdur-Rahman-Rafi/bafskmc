@@ -137,7 +137,7 @@ export default function AdminExamsPage() {
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
                 <div>
-                    <h1 className="text-4xl font-black text-white italic tracking-tighter uppercase">
+                    <h1 className="text-4xl font-black text-white tracking-tighter uppercase">
                         EXAM <span className="text-gold">CONTROL</span>
                     </h1>
                     <p className="text-white/40 font-bold uppercase text-[10px] tracking-[0.2em] mt-1">
@@ -184,7 +184,7 @@ export default function AdminExamsPage() {
                                 <div className="bg-white/5 h-20 w-20 rounded-[1.5rem] flex items-center justify-center mx-auto mb-6">
                                     <ClipboardList className="h-8 w-8 text-white/20" />
                                 </div>
-                                <h3 className="text-xl font-black text-white/40 uppercase italic">No Exams Yet</h3>
+                                <h3 className="text-xl font-black text-white/40 uppercase">No Exams Yet</h3>
                                 <p className="text-[10px] text-white/20 font-bold uppercase tracking-widest mt-2">Create a new exam session to get started.</p>
                             </div>
                         ) : (
@@ -206,7 +206,7 @@ export default function AdminExamsPage() {
                                                     <Target className="h-7 w-7" />
                                                 </div>
                                                 <div>
-                                                    <h4 className="text-xl font-black text-white tracking-tighter italic group-hover:text-gold transition-colors">{exam.name}</h4>
+                                                    <h4 className="text-xl font-black text-white tracking-tighter group-hover:text-gold transition-colors">{exam.name}</h4>
                                                     <div className="flex items-center space-x-2 mt-1">
                                                         <span className="px-2 py-0.5 bg-white/5 rounded-lg text-[9px] font-black text-white/30 uppercase tracking-widest border border-white/5">{exam.duration} MINS</span>
                                                         {exam.questionFileUrl && (
@@ -299,7 +299,7 @@ export default function AdminExamsPage() {
                                     <div className="flex items-center space-x-4">
                                         <Megaphone className="h-6 w-6 text-gold" />
                                         <div>
-                                            <h2 className="text-xl font-black text-white italic tracking-tight">{selectedExam.name}</h2>
+                                            <h2 className="text-xl font-black text-white tracking-tight">{selectedExam.name}</h2>
                                             <p className="text-[10px] font-black text-white/20 uppercase tracking-widest mt-0.5">Announcement Board</p>
                                         </div>
                                     </div>
@@ -368,7 +368,7 @@ export default function AdminExamsPage() {
                         {selectedExam && (
                             <>
                                 <div className="flex items-center justify-between">
-                                    <h2 className="text-xl font-black text-white italic tracking-tight">
+                                    <h2 className="text-xl font-black text-white tracking-tight">
                                         Submissions — <span className="text-gold">{selectedExam.name}</span>
                                     </h2>
                                     <span className="text-[10px] font-black text-white/20 uppercase tracking-widest bg-white/5 px-4 py-2 rounded-xl border border-white/5">
@@ -465,7 +465,7 @@ export default function AdminExamsPage() {
                                                                                 <span>Review Payload</span>
                                                                             </a>
                                                                         ) : (
-                                                                            <span className="text-[9px] font-black text-red-500/40 uppercase tracking-widest italic">No File Found</span>
+                                                                            <span className="text-[9px] font-black text-red-500/40 uppercase tracking-widest">No File Found</span>
                                                                         )}
                                                                     </div>
 

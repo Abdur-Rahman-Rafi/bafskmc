@@ -82,7 +82,7 @@ export default function ResourceForm({ initialData }: ResourceFormProps) {
                     <ChevronLeft className="h-5 w-5" />
                 </Link>
                 <div>
-                    <h1 className="text-3xl font-black text-white italic tracking-tighter uppercase">
+                    <h1 className="text-3xl font-black text-white tracking-tighter uppercase">
                         {initialData ? "Edit" : "Archive"} <span className="text-gold">Asset</span>
                     </h1>
                     <p className="text-white/20 font-black uppercase text-[10px] tracking-[0.2em] mt-1 pl-0.5">Library Expansion • Information Sovereignty</p>
@@ -125,7 +125,7 @@ export default function ResourceForm({ initialData }: ResourceFormProps) {
                                 type="text"
                                 required
                                 placeholder="E.G., DIFFERENTIAL EQUATIONS MASTERCLASS"
-                                className="w-full px-8 py-6 bg-white/[0.03] border border-white/10 rounded-2xl outline-none focus:border-gold/50 transition-all font-black text-white text-xl italic tracking-tight placeholder:text-white/5"
+                                className="w-full px-8 py-6 bg-white/[0.03] border border-white/10 rounded-2xl outline-none focus:border-gold/50 transition-all font-black text-white text-xl tracking-tight placeholder:text-white/5"
                                 value={formData.title}
                                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                             />
@@ -140,7 +140,7 @@ export default function ResourceForm({ initialData }: ResourceFormProps) {
                                 <select
                                     value={formData.category}
                                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                                    className="w-full px-8 py-5 bg-white/[0.03] border border-white/10 rounded-2xl outline-none focus:border-gold/50 transition-all font-black text-white/60 appearance-none text-xs uppercase tracking-widest italic"
+                                    className="w-full px-8 py-5 bg-white/[0.03] border border-white/10 rounded-2xl outline-none focus:border-gold/50 transition-all font-black text-white/60 appearance-none text-xs uppercase tracking-widest"
                                 >
                                     <option value="Calculus" className="bg-[#0D0D0D]">Calculus</option>
                                     <option value="Algebra" className="bg-[#0D0D0D]">Algebra</option>

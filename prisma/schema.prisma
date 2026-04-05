@@ -276,6 +276,7 @@ model PanelApplication {
   vivaLink        String?
   vivaTime        DateTime?
   status          String    @default("PENDING")
+  confirmationEmailSent Boolean @default(false)
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
 }

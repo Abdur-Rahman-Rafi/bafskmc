@@ -85,7 +85,7 @@ export default function NewsForm({ initialData }: NewsFormProps) {
                     <ChevronLeft className="h-5 w-5" />
                 </Link>
                 <div>
-                    <h1 className="text-3xl font-black text-white italic tracking-tighter uppercase">
+                    <h1 className="text-3xl font-black text-white tracking-tighter uppercase">
                         {initialData ? "Refine" : "Create"} <span className="text-gold">Bulletin</span>
                     </h1>
                     <p className="text-white/20 font-black uppercase text-[10px] tracking-[0.2em] mt-1 pl-0.5">Editorial Interface • Public Records Update</p>
@@ -127,7 +127,7 @@ export default function NewsForm({ initialData }: NewsFormProps) {
                             type="text"
                             required
                             placeholder="TRANSMIT ARTICLE TITLE..."
-                            className="w-full px-8 py-6 bg-white/[0.03] border border-white/10 rounded-2xl outline-none focus:border-gold/50 transition-all font-black text-white text-xl italic tracking-tight placeholder:text-white/5"
+                            className="w-full px-8 py-6 bg-white/[0.03] border border-white/10 rounded-2xl outline-none focus:border-gold/50 transition-all font-black text-white text-xl tracking-tight placeholder:text-white/5"
                             value={formData.title}
                             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                         />

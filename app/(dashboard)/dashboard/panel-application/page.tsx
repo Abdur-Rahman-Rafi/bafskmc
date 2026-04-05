@@ -100,7 +100,7 @@ export default function StudentPanelApplicationStatus() {
     return (
         <div className="max-w-4xl space-y-8 pb-20">
             <div>
-                <h1 className="text-3xl font-black text-white italic tracking-tighter uppercase mb-1">
+                <h1 className="text-3xl font-black text-white tracking-tighter uppercase mb-1">
                     Panel <span className="text-gold">Application</span>
                 </h1>
                 <p className="text-white/40 text-xs font-black uppercase tracking-widest mt-1">Review your executive application & Viva status</p>

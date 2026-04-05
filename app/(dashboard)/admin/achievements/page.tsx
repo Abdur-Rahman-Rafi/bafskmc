@@ -43,7 +43,7 @@ export default function AdminAchievementsPage() {
             {/* Command Header */}
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
                 <div>
-                    <h1 className="text-4xl font-black text-white italic tracking-tighter uppercase">
+                    <h1 className="text-4xl font-black text-white tracking-tighter uppercase">
                         HALL OF <span className="text-gold">FAME</span>
                     </h1>
                     <p className="text-white/40 font-bold uppercase text-[10px] tracking-[0.2em] mt-1">
@@ -81,7 +81,7 @@ export default function AdminAchievementsPage() {
                                 <div className="h-12 w-12 bg-gold/10 rounded-xl flex items-center justify-center text-gold">
                                     <Sparkles className="h-6 w-6" />
                                 </div>
-                                <h2 className="text-2xl font-black text-white italic uppercase tracking-tight">
+                                <h2 className="text-2xl font-black text-white uppercase tracking-tight">
                                     {editingBadge ? "Modify Record" : "New Award Protocol"}
                                 </h2>
                             </div>
@@ -120,7 +120,7 @@ export default function AdminAchievementsPage() {
                                 <div className="bg-white/5 h-20 w-20 rounded-[1.5rem] flex items-center justify-center mx-auto mb-6">
                                     <Award className="h-8 w-8 text-white/10" />
                                 </div>
-                                <h3 className="text-xl font-black text-white/40 uppercase italic">Hall Empty</h3>
+                                <h3 className="text-xl font-black text-white/40 uppercase">Hall Empty</h3>
                                 <p className="text-[10px] text-white/20 font-bold uppercase tracking-widest mt-2 max-w-sm mx-auto">
                                     No student achievements currently registered. Initiate a protocol above.
                                 </p>
@@ -165,7 +165,7 @@ export default function AdminAchievementsPage() {
                                             </div>
                                         </div>
 
-                                        <h4 className="text-xl font-black text-white italic group-hover:text-gold transition-colors tracking-tight line-clamp-1">{badge.title}</h4>
+                                        <h4 className="text-xl font-black text-white group-hover:text-gold transition-colors tracking-tight line-clamp-1">{badge.title}</h4>
                                         <div className="flex items-center justify-between mt-1 mb-4">
                                             <div className="flex items-center space-x-2">
                                                 <User className="h-3 w-3 text-gold/40" />
@@ -191,7 +191,7 @@ export default function AdminAchievementsPage() {
                                             </div>
                                             <div className="flex items-center space-x-1.5 px-3 py-1 bg-white/5 rounded-full border border-white/5">
                                                 <div className="h-1 w-1 bg-gold rounded-full animate-pulse" />
-                                                <span className="text-[8px] font-black text-gold/60 uppercase tracking-widest italic">Verified Honor</span>
+                                                <span className="text-[8px] font-black text-gold/60 uppercase tracking-widest">Verified Honor</span>
                                             </div>
                                         </div>
                                     </motion.div>

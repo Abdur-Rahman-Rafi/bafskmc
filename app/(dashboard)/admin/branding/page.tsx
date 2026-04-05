@@ -59,7 +59,7 @@ export default function AdminBrandingPage() {
     return (
         <div className="space-y-10 pb-20">
             <div>
-                <h1 className="text-4xl font-black text-white italic tracking-tighter">
+                <h1 className="text-4xl font-black text-white tracking-tighter">
                     BRANDING & <span className="text-gold">IDENTITY</span>
                 </h1>
                 <p className="text-white/40 font-bold uppercase text-[10px] tracking-[0.2em] mt-1">
@@ -78,7 +78,7 @@ export default function AdminBrandingPage() {
                         <div className="bg-[#151515] rounded-[3rem] border border-white/5 shadow-2xl p-10 space-y-8">
                             <div className="flex items-center space-x-3 text-gold mb-2">
                                 <Palette className="h-5 w-5" />
-                                <h2 className="text-xl font-black text-white uppercase tracking-wider italic">Core Parameters</h2>
+                                <h2 className="text-xl font-black text-white uppercase tracking-wider">Core Parameters</h2>
                             </div>
 
                             <div className="space-y-3">
@@ -131,7 +131,7 @@ export default function AdminBrandingPage() {
                             <div className="flex items-center justify-between mb-10">
                                 <div className="flex items-center space-x-3 text-gold">
                                     <Eye className="h-5 w-5" />
-                                    <h2 className="text-xl font-black text-white uppercase tracking-wider italic">Live Render</h2>
+                                    <h2 className="text-xl font-black text-white uppercase tracking-wider">Live Render</h2>
                                 </div>
                                 <div className="px-3 py-1 bg-white/5 rounded-full border border-white/10">
                                     <span className="text-[9px] font-black text-white/30 uppercase tracking-widest">Real-time Simulation</span>
@@ -141,7 +141,7 @@ export default function AdminBrandingPage() {
                             <div className="space-y-10">
                                 {/* Navigation Interface */}
                                 <div className="space-y-4">
-                                    <p className="text-[10px] font-black text-white/20 uppercase tracking-[0.2em] px-1 italic">Header Interface</p>
+                                    <p className="text-[10px] font-black text-white/20 uppercase tracking-[0.2em] px-1">Header Interface</p>
                                     <div className="bg-[#0D0D0D] border border-white/5 rounded-2xl p-5 flex items-center space-x-4 shadow-xl">
                                         <div className="h-12 w-12 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center overflow-hidden flex-shrink-0">
                                             {logoUrl ? (
@@ -151,7 +151,7 @@ export default function AdminBrandingPage() {
                                             )}
                                         </div>
                                         <div className="flex flex-col">
-                                            <span className="text-white font-black text-xl italic tracking-tighter leading-none">
+                                            <span className="text-white font-black text-xl tracking-tighter leading-none">
                                                 {siteName || "BAFSK"} <span className="text-gold">PORTAL</span>
                                             </span>
                                             <span className="text-[9px] font-black text-white/20 uppercase tracking-[0.2em] mt-1">Status: Operational</span>
@@ -161,7 +161,7 @@ export default function AdminBrandingPage() {
 
                                 {/* Sidebar Interface */}
                                 <div className="space-y-4">
-                                    <p className="text-[10px] font-black text-white/20 uppercase tracking-[0.2em] px-1 italic">Sidebar Architecture</p>
+                                    <p className="text-[10px] font-black text-white/20 uppercase tracking-[0.2em] px-1">Sidebar Architecture</p>
                                     <div className="bg-[#0D0D0D] border-r border-gold/20 rounded-2xl p-6 flex flex-col items-center space-y-4 w-48 shadow-2xl">
                                         <div className="h-16 w-16 bg-white/5 border border-gold/30 rounded-2xl flex items-center justify-center overflow-hidden flex-shrink-0 shadow-lg">
                                             {logoUrl ? (
@@ -187,7 +187,7 @@ export default function AdminBrandingPage() {
                             <div className="flex space-x-4">
                                 <AlertCircle className="h-5 w-5 text-gold flex-shrink-0 mt-0.5" />
                                 <div>
-                                    <p className="font-black text-white text-sm uppercase tracking-widest italic">Protocol Information</p>
+                                    <p className="font-black text-white text-sm uppercase tracking-widest">Protocol Information</p>
                                     <p className="text-white/40 text-xs font-bold mt-2 leading-relaxed">
                                         Changes to branding parameters are injected globally via the Config API. Modern browsers will reflect updates instantly, while edge nodes may require up to 60 seconds to propagate cache resets.
                                     </p>

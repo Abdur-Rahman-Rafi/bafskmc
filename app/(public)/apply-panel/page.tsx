@@ -100,7 +100,7 @@ export default function ApplyPanelPage() {
                         <span className="h-1.5 w-1.5 bg-gold rounded-full animate-pulse" />
                         <span className="text-gold font-black text-[10px] uppercase tracking-[0.3em]">Join the Leadership</span>
                     </div>
-                    <h1 className="text-4xl lg:text-5xl font-black text-white mb-6 tracking-tight italic">
+                    <h1 className="text-4xl lg:text-5xl font-black text-white mb-6 tracking-tight">
                         Apply for <span className="text-gold">Panel Member</span>
                     </h1>
                     <p className="text-lg text-white/40 font-medium max-w-2xl mx-auto leading-relaxed mb-8">
@@ -261,7 +261,7 @@ export default function ApplyPanelPage() {
                                         initialUrl={formData.pictureUrl}
                                         onUploadComplete={(url) => setFormData({ ...formData, pictureUrl: url })}
                                     />
-                                    <p className="text-white/20 text-xs italic pl-2">Passport/standard formal photo.</p>
+                                    <p className="text-white/20 text-xs pl-2">Passport/standard formal photo.</p>
                                 </div>
                                 <div className="space-y-3">
                                     <FileUploadZone

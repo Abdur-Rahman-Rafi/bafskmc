@@ -74,7 +74,7 @@ export default function StudentPaymentPage() {
             {/* Header */}
             <div className="flex items-end justify-between">
                 <div>
-                    <h1 className="text-4xl font-black text-white italic tracking-tighter uppercase">
+                    <h1 className="text-4xl font-black text-white tracking-tighter uppercase">
                         MY <span className="text-gold">PAYMENTS</span>
                     </h1>
                     <p className="text-white/30 font-bold uppercase text-[10px] tracking-[0.2em] mt-1">
@@ -112,7 +112,7 @@ export default function StudentPaymentPage() {
                     className="bg-[#151515] rounded-[2.5rem] border border-gold/20 p-10 shadow-2xl relative overflow-hidden"
                 >
                     <div className="absolute top-0 right-0 w-48 h-48 bg-gold/5 blur-[80px] pointer-events-none" />
-                    <h2 className="text-white font-black text-lg uppercase tracking-widest mb-8 italic">Submit Payment Record</h2>
+                    <h2 className="text-white font-black text-lg uppercase tracking-widest mb-8">Submit Payment Record</h2>
                     <form onSubmit={handleSubmit} className="space-y-5">
                         <div className="grid grid-cols-2 gap-5">
                             <div>

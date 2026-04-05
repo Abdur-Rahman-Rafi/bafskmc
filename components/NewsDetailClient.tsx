@@ -132,7 +132,7 @@ export default function NewsDetailClient({ news: initialNews }: NewsDetailClient
                                     <Paperclip className="h-6 w-6" />
                                 </div>
                                 <div>
-                                    <h4 className="text-white font-black italic uppercase tracking-tight text-lg">Official Attachment</h4>
+                                    <h4 className="text-white font-black uppercase tracking-tight text-lg">Official Attachment</h4>
                                     <p className="text-[10px] text-white/30 font-black uppercase tracking-[0.2em] mt-1">Classified Document • Protocol Asset</p>
                                 </div>
                             </div>

@@ -92,8 +92,8 @@ export default function NewsTicker() {
             {/* Pulsing "Live" Indicator */}
             <div className="h-full px-4 flex-shrink-0 flex items-center bg-gold text-black font-black uppercase text-[10px] tracking-[0.2em] relative z-20 shadow-[8px_0_20px_rgba(0,0,0,0.8)]">
                 <Radio className="h-3 w-3 mr-2 animate-pulse" />
-                <span className="whitespace-nowrap italic hidden sm:inline">LIVE FEED</span>
-                <span className="whitespace-nowrap italic sm:hidden">LIVE</span>
+                <span className="whitespace-nowrap hidden sm:inline">LIVE FEED</span>
+                <span className="whitespace-nowrap sm:hidden">LIVE</span>
             </div>
 
             {/* Scrolling Track */}

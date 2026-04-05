@@ -20,6 +20,7 @@ interface PanelApplication {
     status: string;
     vivaTime: string | null;
     vivaLink: string | null;
+    confirmationEmailSent: boolean;
     createdAt: string;
 }
 
@@ -34,6 +35,7 @@ export default function PanelApplicationsAdminPage() {
     const [editStatus, setEditStatus] = useState("");
     const [editVivaTime, setEditVivaTime] = useState("");
     const [editVivaLink, setEditVivaLink] = useState("");
+    const [editConfirmationEmailSent, setEditConfirmationEmailSent] = useState(false);
 
     const fetchApps = async () => {
         setLoading(true);
@@ -108,6 +110,7 @@ export default function PanelApplicationsAdminPage() {
         const formattedDate = app.vivaTime ? new Date(app.vivaTime).toISOString().slice(0, 16) : "";
         setEditVivaTime(formattedDate);
         setEditVivaLink(app.vivaLink || "");
+        setEditConfirmationEmailSent(app.confirmationEmailSent || false);
     };
 
     const handleUpdateViva = async () => {
@@ -121,6 +124,7 @@ export default function PanelApplicationsAdminPage() {
                     status: editStatus,
                     vivaTime: editVivaTime ? new Date(editVivaTime).toISOString() : null,
                     vivaLink: editVivaLink || null,
+                    confirmationEmailSent: editConfirmationEmailSent,
                 })
             });
             if (res.ok) {
@@ -141,7 +145,7 @@ export default function PanelApplicationsAdminPage() {
         if (apps.length === 0) return;
 
         const headers = [
-            "Name", "Email", "Phone", "Class", "Section", "Status", 
+            "Name", "Email", "Phone", "Class", "Section", "Status", "Confirmation Sent",
             "First Year Result", "Viva Time", "Viva Link", 
             "Picture URL", "Result Card URL", "Testimonial URL", "Social Proof URL", "Experience"
         ];
@@ -159,6 +163,7 @@ export default function PanelApplicationsAdminPage() {
             escapeCSV(app.studentClass),
             escapeCSV(app.section),
             escapeCSV(app.status),
+            escapeCSV(app.confirmationEmailSent ? "Yes" : "No"),
             escapeCSV(app.firstYearResult),
             escapeCSV(app.vivaTime ? new Date(app.vivaTime).toLocaleString() : "Not Scheduled"),
             escapeCSV(app.vivaLink),
@@ -189,7 +194,7 @@ export default function PanelApplicationsAdminPage() {
             {/* Header Actions */}
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-3xl font-black text-white italic tracking-tighter uppercase flex items-center">
+                    <h1 className="text-3xl font-black text-white tracking-tighter uppercase flex items-center">
                         Panel <span className="text-gold ml-2 mr-3">Applications</span>
                         {isOpen ? (
                             <span className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-lg text-[10px] uppercase font-black tracking-widest">Open</span>
@@ -256,6 +261,7 @@ export default function PanelApplicationsAdminPage() {
                                     <th className="p-6">Applicant</th>
                                     <th className="p-6">Class/Sec</th>
                                     <th className="p-6">Status</th>
+                                    <th className="p-6">Confirmation</th>
                                     <th className="p-6">Viva Time</th>
                                     <th className="p-6 text-right">Action</th>
                                 </tr>
@@ -282,12 +288,19 @@ export default function PanelApplicationsAdminPage() {
                                             </span>
                                         </td>
                                         <td className="p-6">
+                                            <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border ${
+                                                app.confirmationEmailSent ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-red-500/10 text-red-400 border-red-500/20'
+                                            }`}>
+                                                {app.confirmationEmailSent ? 'Sent' : 'Pending'}
+                                            </span>
+                                        </td>
+                                        <td className="p-6">
                                             {app.vivaTime ? (
                                                 <div className="text-xs text-blue-300 font-medium whitespace-nowrap">
                                                     {new Date(app.vivaTime).toLocaleString()}
                                                 </div>
                                             ) : (
-                                                <span className="text-xs text-white/20 italic">Not scheduled</span>
+                                                <span className="text-xs text-white/20">Not scheduled</span>
                                             )}
                                         </td>
                                         <td className="p-6 text-right">
@@ -359,6 +372,18 @@ export default function PanelApplicationsAdminPage() {
                                         placeholder="https://meet.google.com/..."
                                         className="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-xl outline-none focus:border-gold/50 text-sm text-white"
                                     />
+                                </div>
+                                
+                                <div>
+                                    <label className="flex items-center space-x-3 cursor-pointer p-4 bg-white/5 border border-white/10 rounded-xl hover:border-gold/50 transition-colors">
+                                        <input 
+                                            type="checkbox" 
+                                            checked={editConfirmationEmailSent} 
+                                            onChange={(e) => setEditConfirmationEmailSent(e.target.checked)}
+                                            className="w-4 h-4 bg-[#111] border border-white/20 rounded accent-gold"
+                                        />
+                                        <span className="text-sm font-bold text-white tracking-widest">Mark Confirmation Email Sent</span>
+                                    </label>
                                 </div>
                             </div>
 

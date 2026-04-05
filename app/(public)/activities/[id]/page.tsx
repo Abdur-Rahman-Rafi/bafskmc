@@ -90,7 +90,7 @@ export default function ActivityDetailPage() {
                             <Zap className="h-3 w-3" />
                             <span className="font-black text-[10px] uppercase tracking-[0.2em]">{activity.category}</span>
                         </div>
-                        <h1 className="text-4xl md:text-7xl font-black mb-8 leading-[0.9] tracking-tighter italic uppercase max-w-4xl">
+                        <h1 className="text-4xl md:text-7xl font-black mb-8 leading-[0.9] tracking-tighter uppercase max-w-4xl">
                             {activity.title}
                         </h1>
 
@@ -127,7 +127,7 @@ export default function ActivityDetailPage() {
                                 className="prose prose-invert prose-gold max-w-none"
                             >
                                 <div className="bg-[#151515] p-10 rounded-[2.5rem] border border-white/5 shadow-xl">
-                                    <h2 className="text-white font-black italic uppercase tracking-tight text-2xl mb-8 flex items-center">
+                                    <h2 className="text-white font-black uppercase tracking-tight text-2xl mb-8 flex items-center">
                                         <FileText className="h-6 w-6 mr-3 text-gold" />
                                         Protocol Description
                                     </h2>
@@ -143,13 +143,13 @@ export default function ActivityDetailPage() {
                         {/* Attachments Card */}
                         <div className="bg-[#151515] p-10 rounded-[2.5rem] border border-white/5 shadow-xl relative overflow-hidden group">
                             <div className="absolute top-0 right-0 w-32 h-32 bg-gold/5 blur-3xl rounded-full" />
-                            <h2 className="text-white font-black italic uppercase tracking-tight text-xl mb-8 flex items-center relative z-10">
+                            <h2 className="text-white font-black uppercase tracking-tight text-xl mb-8 flex items-center relative z-10">
                                 <Paperclip className="h-5 w-5 mr-3 text-gold" />
                                 Mission Assets
                             </h2>
 
                             {files.length === 0 ? (
-                                <p className="text-white/20 text-xs font-black uppercase tracking-widest italic">No classified files attached.</p>
+                                <p className="text-white/20 text-xs font-black uppercase tracking-widest">No classified files attached.</p>
                             ) : (
                                 <div className="space-y-4 relative z-10">
                                     {files.map((file: any, idx: number) => (

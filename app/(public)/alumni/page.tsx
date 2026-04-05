@@ -45,7 +45,7 @@ export default function AlumniPage() {
                         <GraduationCap className="h-3.5 w-3.5 text-gold" />
                         <span className="text-gold font-black text-[10px] uppercase tracking-[0.3em]">Alumni Network</span>
                     </div>
-                    <h1 className="text-4xl lg:text-6xl font-black text-white mb-6 tracking-tight italic">
+                    <h1 className="text-4xl lg:text-6xl font-black text-white mb-6 tracking-tight">
                         Alumni <span className="text-gold">Association</span>
                     </h1>
                     <p className="text-lg text-white/40 font-medium max-w-2xl mx-auto leading-relaxed">

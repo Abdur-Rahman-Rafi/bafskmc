@@ -54,7 +54,7 @@ export default function ActivitiesPage() {
                         <Zap className="h-3 w-3" />
                         <span>Operations Hub</span>
                     </motion.div>
-                    <h1 className="text-5xl lg:text-7xl font-black text-white mb-6 tracking-tighter italic uppercase">
+                    <h1 className="text-5xl lg:text-7xl font-black text-white mb-6 tracking-tighter uppercase">
                         ACITIVITY <span className="text-gold">NEXUS</span>
                     </h1>
                     <p className="text-white/40 font-bold max-w-2xl mx-auto leading-relaxed text-sm uppercase tracking-widest">
@@ -73,7 +73,7 @@ export default function ActivitiesPage() {
                             <div className="h-16 w-16 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center text-gold/40 mb-10 group-hover:text-gold transition-colors">
                                 <Zap className="h-8 w-8" />
                             </div>
-                            <h3 className="text-3xl font-black text-white mb-4 italic uppercase tracking-tight">Upcoming Competitions</h3>
+                            <h3 className="text-3xl font-black text-white mb-4 uppercase tracking-tight">Upcoming Competitions</h3>
                             <p className="text-white/30 font-medium leading-relaxed mb-12 uppercase text-[10px] tracking-[0.2em]">
                                 Our strategic planning department is currently finalizing the next major deployment. Standard protocols remain active.
                             </p>
@@ -91,7 +91,7 @@ export default function ActivitiesPage() {
                             <div className="absolute top-0 right-0 p-12 opacity-10">
                                 <Users className="h-48 w-48 text-black" />
                             </div>
-                            <h3 className="text-3xl font-black mb-4 italic uppercase tracking-tight">Weekly Workshops</h3>
+                            <h3 className="text-3xl font-black mb-4 uppercase tracking-tight">Weekly Workshops</h3>
                             <p className="text-black/60 font-medium leading-relaxed mb-12 uppercase text-[10px] tracking-[0.1em]">
                                 Join the elite circle every Wednesday for intensive problem-solving sessions and advanced cognitive training.
                             </p>
@@ -136,7 +136,7 @@ export default function ActivitiesPage() {
                                     </div>
 
                                     <div className="p-8 flex-1 flex flex-col">
-                                        <h3 className="text-2xl font-black text-white group-hover:text-gold transition-colors mb-6 italic tracking-tight">{activity.title}</h3>
+                                        <h3 className="text-2xl font-black text-white group-hover:text-gold transition-colors mb-6 tracking-tight">{activity.title}</h3>
 
                                         <div className="space-y-3 mb-8">
                                             <div className="flex items-center text-white/40 space-x-3">
@@ -153,7 +153,7 @@ export default function ActivitiesPage() {
                                             )}
                                         </div>
 
-                                        <p className="text-white/30 text-xs font-medium leading-relaxed italic line-clamp-3 mb-8 border-l-2 border-white/5 pl-4 flex-1">
+                                        <p className="text-white/30 text-xs font-medium leading-relaxed line-clamp-3 mb-8 border-l-2 border-white/5 pl-4 flex-1">
                                             {activity.description || "System Log: No tactical description provided for this specific event deployment."}
                                         </p>
 
@@ -188,7 +188,7 @@ export default function ActivitiesPage() {
                             >
                                 <ExternalLink className="h-8 w-8" />
                             </motion.div>
-                            <h2 className="text-4xl lg:text-6xl font-black text-white mb-8 tracking-tighter italic uppercase leading-tight">Got a challenge for our <span className="text-gold">Personnel</span>?</h2>
+                            <h2 className="text-4xl lg:text-6xl font-black text-white mb-8 tracking-tighter uppercase leading-tight">Got a challenge for our <span className="text-gold">Personnel</span>?</h2>
                             <p className="text-white/40 text-lg font-medium mb-12 max-w-xl uppercase tracking-widest text-xs leading-loose">
                                 We are always seeking high-level collaborations and strategic partnerships. If you are an organizer or academic body, let's initiate protocol.
                             </p>

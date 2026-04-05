@@ -40,7 +40,7 @@ export default function GalleryPage() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                     >
-                        <h1 className="text-5xl lg:text-7xl font-black text-white italic tracking-tighter uppercase leading-[0.8]">
+                        <h1 className="text-5xl lg:text-7xl font-black text-white tracking-tighter uppercase leading-[0.8]">
                             VISUAL <span className="text-gold shimmer">ARCHIVES</span>
                         </h1>
                         <p className="text-white/40 font-bold uppercase text-xs tracking-[0.3em] mt-6 max-w-2xl mx-auto">
@@ -80,7 +80,7 @@ export default function GalleryPage() {
                 ) : items.length === 0 ? (
                     <div className="text-center py-40 bg-white/[0.02] rounded-[4rem] border border-dashed border-white/5">
                         <Camera className="h-20 w-20 text-white/5 mx-auto mb-6" />
-                        <h3 className="text-2xl font-black text-white/20 uppercase italic tracking-tighter">Vault Empty</h3>
+                        <h3 className="text-2xl font-black text-white/20 uppercase tracking-tighter">Vault Empty</h3>
                         <p className="text-[10px] text-white/10 font-bold uppercase tracking-widest mt-2">No photographic assets have been archived yet.</p>
                     </div>
                 ) : (
@@ -124,7 +124,7 @@ export default function GalleryPage() {
                                             {new Date(item.date).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}
                                         </span>
                                     </div>
-                                    <h3 className="text-xl md:text-2xl font-black text-white italic tracking-tighter uppercase group-hover:text-gold transition-colors leading-[1.1]">
+                                    <h3 className="text-xl md:text-2xl font-black text-white tracking-tighter uppercase group-hover:text-gold transition-colors leading-[1.1]">
                                         {item.title}
                                     </h3>
                                 </div>
@@ -144,7 +144,7 @@ export default function GalleryPage() {
                         <div className="h-20 w-20 bg-gold/10 rounded-[2rem] flex items-center justify-center text-gold mb-8 border border-gold/20">
                             <ImageIcon className="h-10 w-10" />
                         </div>
-                        <h2 className="text-3xl font-black text-white italic uppercase tracking-tighter mb-4">WANT TO CONTRIBUTE?</h2>
+                        <h2 className="text-3xl font-black text-white uppercase tracking-tighter mb-4">WANT TO CONTRIBUTE?</h2>
                         <p className="text-white/30 text-xs font-bold uppercase tracking-widest mb-10 leading-relaxed">
                             OUr gallery is a living archive. If you have high-quality photos from club events, please submit them for moderation.
                         </p>

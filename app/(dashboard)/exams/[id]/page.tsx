@@ -236,7 +236,7 @@ export default function ExamDetailPage() {
                             <div className="lg:col-span-2 space-y-12">
                                 <section>
                                     <h3 className="text-white/30 text-[10px] font-black uppercase tracking-[0.2em] mb-4">Briefing</h3>
-                                    <p className="text-white/70 leading-relaxed text-lg font-medium italic border-l-4 border-gold/20 pl-6">
+                                    <p className="text-white/70 leading-relaxed text-lg font-medium border-l-4 border-gold/20 pl-6">
                                         {exam.description || "No briefing provided for this mathematical challenge."}
                                     </p>
                                 </section>

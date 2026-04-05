@@ -44,7 +44,7 @@ export default function DashboardLayout({
                                 <img src="/logo.jpg" alt="Logo" className="h-full w-full object-cover" />
                             </div>
                             <div className="flex flex-col">
-                                <h2 className="text-lg md:text-xl font-black text-white tracking-tight italic leading-none mb-1">
+                                <h2 className="text-lg md:text-xl font-black text-white tracking-tight leading-none mb-1">
                                     BAFSKMC <span className="text-gold">PORTAL</span>
                                 </h2>
                                 <div className="flex items-center space-x-2">

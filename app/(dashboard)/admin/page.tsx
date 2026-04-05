@@ -46,7 +46,7 @@ export default function AdminDashboard() {
         <div className="space-y-12 pb-20">
             {/* Command Header */}
             <div>
-                <h1 className="text-4xl font-black text-white italic tracking-tighter uppercase">
+                <h1 className="text-4xl font-black text-white tracking-tighter uppercase">
                     CONTROL <span className="text-gold">CENTER</span>
                 </h1>
                 <p className="text-white/40 font-bold uppercase text-[10px] tracking-[0.2em] mt-1">
@@ -70,7 +70,7 @@ export default function AdminDashboard() {
                         </div>
                         <p className="text-white/30 text-[10px] font-black uppercase tracking-[0.2em] mb-1">{stat.label}</p>
                         <div className="flex items-end space-x-2">
-                            <p className="text-4xl font-black text-white tracking-tighter italic">
+                            <p className="text-4xl font-black text-white tracking-tighter">
                                 {loading ? <Loader2 className="h-8 w-8 animate-spin inline text-gold" /> : stat.value}
                             </p>
                             <span className="text-[9px] font-black text-gold/60 uppercase tracking-widest mb-1.5">{stat.trend}</span>
@@ -85,7 +85,7 @@ export default function AdminDashboard() {
                     <div className="bg-[#151515] p-10 rounded-[3rem] border border-white/5 shadow-2xl">
                         <div className="flex items-center space-x-3 text-gold mb-8">
                             <Zap className="h-5 w-5" />
-                            <h2 className="text-xl font-black text-white uppercase tracking-wider italic">Management Protocols</h2>
+                            <h2 className="text-xl font-black text-white uppercase tracking-wider">Management Protocols</h2>
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             <Link
@@ -132,7 +132,7 @@ export default function AdminDashboard() {
                         <div className="flex items-center justify-between mb-8">
                             <div className="flex items-center space-x-3 text-red-500">
                                 <Activity className="h-5 w-5" />
-                                <h2 className="text-xl font-black text-white uppercase tracking-wider italic">System Alerts</h2>
+                                <h2 className="text-xl font-black text-white uppercase tracking-wider">System Alerts</h2>
                             </div>
                             <span className="px-4 py-1.5 bg-red-500/10 border border-red-500/20 text-red-500 text-[9px] font-black uppercase tracking-widest rounded-full">Monitoring Live</span>
                         </div>
@@ -168,7 +168,7 @@ export default function AdminDashboard() {
                 {/* Audit Terminal */}
                 <div className="bg-[#0D0D0D] p-10 rounded-[3rem] border border-gold/20 shadow-2xl relative overflow-hidden group">
                     <div className="absolute top-0 left-0 w-full h-1 bg-gold shadow-[0_0_15px_rgba(193,153,61,0.5)]" />
-                    <h2 className="text-xl font-black text-white italic uppercase tracking-wider mb-8 flex items-center">
+                    <h2 className="text-xl font-black text-white uppercase tracking-wider mb-8 flex items-center">
                         <span className="h-2 w-2 bg-gold rounded-full mr-3 animate-pulse" />
                         Audit Terminal
                     </h2>
@@ -181,7 +181,7 @@ export default function AdminDashboard() {
                         ].map((log, idx) => (
                             <div key={idx} className="flex flex-col space-y-1 relative pl-6 border-l border-white/5 group/log">
                                 <div className="absolute left-[-4.5px] top-1.5 w-2 h-2 bg-gold/20 rounded-full border border-gold/40 group-hover/log:bg-gold transition-colors"></div>
-                                <p className="text-[9px] font-black text-gold/60 uppercase tracking-widest italic">{log.user}</p>
+                                <p className="text-[9px] font-black text-gold/60 uppercase tracking-widest">{log.user}</p>
                                 <p className="text-xs font-black text-white tracking-tight uppercase leading-relaxed">{log.action}</p>
                                 <p className="text-[8px] font-black text-white/10 uppercase tracking-widest pt-1">{log.time}</p>
                             </div>

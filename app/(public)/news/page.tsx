@@ -63,7 +63,7 @@ export default function NewsPage() {
                     {/* News Section */}
                     <section>
                         <div className="flex items-center space-x-6 mb-12">
-                            <h2 className="text-3xl font-black text-white italic tracking-tighter uppercase whitespace-nowrap">
+                            <h2 className="text-3xl font-black text-white tracking-tighter uppercase whitespace-nowrap">
                                 FEATURED <span className="text-gold">ARTICLES</span>
                             </h2>
                             <div className="h-px bg-white/5 flex-1" />
@@ -94,7 +94,7 @@ export default function NewsPage() {
                                                 <div className="absolute inset-0 bg-gold/5 blur-3xl rounded-full translate-x-1/2 -translate-y-1/2" />
                                             )}
                                             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
-                                            <h3 className="text-xl font-black text-white line-clamp-2 relative z-10 px-8 pb-6 group-hover:text-gold transition-colors italic tracking-tight uppercase leading-[1.1]">{item.title}</h3>
+                                            <h3 className="text-xl font-black text-white line-clamp-2 relative z-10 px-8 pb-6 group-hover:text-gold transition-colors tracking-tight uppercase leading-[1.1]">{item.title}</h3>
                                         </div>
                                         <div className="p-8">
                                             <div className="flex items-center space-x-4 text-[10px] font-black text-white/30 uppercase tracking-[0.2em] mb-6">
@@ -127,7 +127,7 @@ export default function NewsPage() {
                     {/* Notice Section */}
                     <section id="notices">
                         <div className="flex items-center space-x-6 mb-12">
-                            <h2 className="text-3xl font-black text-white italic tracking-tighter uppercase whitespace-nowrap">
+                            <h2 className="text-3xl font-black text-white tracking-tighter uppercase whitespace-nowrap">
                                 OFFICIAL <span className="text-gold">NOTICES</span>
                             </h2>
                             <div className="h-px bg-white/5 flex-1" />
@@ -157,7 +157,7 @@ export default function NewsPage() {
                                             </div>
                                         </div>
 
-                                        <h3 className="text-xl font-black text-white mb-4 line-clamp-2 uppercase italic tracking-tight">{item.title}</h3>
+                                        <h3 className="text-xl font-black text-white mb-4 line-clamp-2 uppercase tracking-tight">{item.title}</h3>
 
                                         <p className="text-white/40 text-xs font-bold leading-relaxed line-clamp-2 mb-8 uppercase tracking-widest">
                                             {item.content}

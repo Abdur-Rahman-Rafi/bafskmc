@@ -48,7 +48,7 @@ export default function LeaderboardPage() {
                         <ArrowLeft className="h-5 w-5" />
                     </Link>
                     <div>
-                        <h1 className="text-4xl font-black text-white italic tracking-tighter uppercase">
+                        <h1 className="text-4xl font-black text-white tracking-tighter uppercase">
                             GLOBAL <span className="text-gold">RANKINGS</span>
                         </h1>
                         <p className="text-white/40 font-bold uppercase text-[10px] tracking-[0.2em] mt-1 pl-0.5">
@@ -77,7 +77,7 @@ export default function LeaderboardPage() {
             ) : filteredUsers.length === 0 ? (
                 <div className="py-24 text-center bg-[#151515] rounded-[3rem] border border-dashed border-white/5">
                     <Trophy className="h-16 w-16 text-white/5 mx-auto mb-6" />
-                    <h3 className="text-xl font-black text-white/40 uppercase italic">No Match Found</h3>
+                    <h3 className="text-xl font-black text-white/40 uppercase">No Match Found</h3>
                     <p className="text-[10px] text-white/20 font-bold uppercase tracking-widest mt-2 max-w-sm mx-auto">
                         We couldn't find any students matching your search criteria.
                     </p>
@@ -105,8 +105,8 @@ export default function LeaderboardPage() {
                                             )}
                                         </div>
                                         <div className="absolute top-4 left-4 h-10 w-10 bg-slate-400 rounded-xl flex items-center justify-center text-black font-black text-lg skew-x-[-10deg]">2</div>
-                                        <h3 className="text-white font-black text-xl tracking-tight italic mb-2">{top3[1].name}</h3>
-                                        <div className="px-4 py-2 bg-slate-400/10 border border-slate-400/20 rounded-xl text-slate-400 font-black text-xs tracking-tighter italic">
+                                        <h3 className="text-white font-black text-xl tracking-tight mb-2">{top3[1].name}</h3>
+                                        <div className="px-4 py-2 bg-slate-400/10 border border-slate-400/20 rounded-xl text-slate-400 font-black text-xs tracking-tighter">
                                             {top3[1].totalPoints} XP
                                         </div>
                                     </div>
@@ -133,8 +133,8 @@ export default function LeaderboardPage() {
                                                 </div>
                                             )}
                                         </div>
-                                        <h3 className="text-white font-black text-2xl tracking-tight italic mb-2 group-hover:text-gold transition-colors">{top3[0].name}</h3>
-                                        <div className="px-6 py-3 bg-gold/10 border border-gold/20 rounded-2xl text-gold font-black text-sm tracking-tighter italic shadow-xl">
+                                        <h3 className="text-white font-black text-2xl tracking-tight mb-2 group-hover:text-gold transition-colors">{top3[0].name}</h3>
+                                        <div className="px-6 py-3 bg-gold/10 border border-gold/20 rounded-2xl text-gold font-black text-sm tracking-tighter shadow-xl">
                                             {top3[0].totalPoints} XP
                                         </div>
                                     </div>
@@ -160,8 +160,8 @@ export default function LeaderboardPage() {
                                             )}
                                         </div>
                                         <div className="absolute top-4 left-4 h-10 w-10 bg-amber-700 rounded-xl flex items-center justify-center text-black font-black text-lg skew-x-[-10deg]">3</div>
-                                        <h3 className="text-white font-black text-lg tracking-tight italic mb-2">{top3[2].name}</h3>
-                                        <div className="px-4 py-2 bg-amber-700/10 border border-amber-700/20 rounded-xl text-amber-700 font-black text-xs tracking-tighter italic">
+                                        <h3 className="text-white font-black text-lg tracking-tight mb-2">{top3[2].name}</h3>
+                                        <div className="px-4 py-2 bg-amber-700/10 border border-amber-700/20 rounded-xl text-amber-700 font-black text-xs tracking-tighter">
                                             {top3[2].totalPoints} XP
                                         </div>
                                     </div>
@@ -189,7 +189,7 @@ export default function LeaderboardPage() {
                                     className="grid grid-cols-12 p-8 items-center group hover:bg-white/[0.02] transition-colors"
                                 >
                                     <div className="col-span-1 text-center">
-                                        <span className="text-sm font-black text-white/40 italic">{(searchQuery === "" ? 4 + idx : 1 + idx)}</span>
+                                        <span className="text-sm font-black text-white/40">{(searchQuery === "" ? 4 + idx : 1 + idx)}</span>
                                     </div>
                                     <div className="col-span-8 md:col-span-7 flex items-center space-x-6 pl-6">
                                         <div className="h-12 w-12 rounded-2xl overflow-hidden border border-white/10 group-hover:border-gold/30 transition-all flex-shrink-0">
@@ -215,7 +215,7 @@ export default function LeaderboardPage() {
                                     </div>
                                     <div className="col-span-3 md:col-span-2 text-right">
                                         <div className="flex flex-col items-end">
-                                            <span className="text-xl font-black text-white tracking-tighter italic">{user.totalPoints}</span>
+                                            <span className="text-xl font-black text-white tracking-tighter">{user.totalPoints}</span>
                                             <span className="text-[9px] font-black text-gold/60 uppercase tracking-widest">Global XP</span>
                                         </div>
                                     </div>

@@ -137,7 +137,7 @@ export default function AdminUsersPage() {
             {/* Command Header */}
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
                 <div>
-                    <h1 className="text-4xl font-black text-white italic tracking-tighter uppercase">
+                    <h1 className="text-4xl font-black text-white tracking-tighter uppercase">
                         AUTHORITY <span className="text-gold">MATRIX</span>
                     </h1>
                     <p className="text-white/40 font-bold uppercase text-[10px] tracking-[0.2em] mt-1">
@@ -204,7 +204,7 @@ export default function AdminUsersPage() {
                             <div className="bg-white/5 h-20 w-20 rounded-[1.5rem] flex items-center justify-center mx-auto mb-6">
                                 <UserX className="h-8 w-8 text-white/10" />
                             </div>
-                            <h3 className="text-xl font-black text-white/40 uppercase italic">Archive Empty</h3>
+                            <h3 className="text-xl font-black text-white/40 uppercase">Archive Empty</h3>
                             <p className="text-[10px] text-white/20 font-bold uppercase tracking-widest mt-2 max-w-sm mx-auto">
                                 No personnel records detected in the system database.
                             </p>
@@ -239,7 +239,7 @@ export default function AdminUsersPage() {
                                                         )}
                                                     </div>
                                                     <div>
-                                                        <p className="text-lg font-black text-white italic tracking-tight group-hover:text-gold transition-colors">{user.name || "UNIDENTIFIED"}</p>
+                                                        <p className="text-lg font-black text-white tracking-tight group-hover:text-gold transition-colors">{user.name || "UNIDENTIFIED"}</p>
                                                         <p className="text-[10px] font-bold text-white/20 uppercase tracking-widest">{user.email}</p>
                                                     </div>
                                                 </div>
