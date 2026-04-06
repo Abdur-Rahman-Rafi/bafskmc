@@ -260,6 +260,7 @@ export default function ApplyPanelPage() {
                                         accept="image/*"
                                         initialUrl={formData.pictureUrl}
                                         onUploadComplete={(url) => setFormData({ ...formData, pictureUrl: url })}
+                                        isPublic={true}
                                     />
                                     <p className="text-white/20 text-xs pl-2">Passport/standard formal photo.</p>
                                 </div>
@@ -269,6 +270,7 @@ export default function ApplyPanelPage() {
                                         label="First Year Result Card Upload (Drive/File) *"
                                         initialUrl={formData.resultCardUrl}
                                         onUploadComplete={(url) => setFormData({ ...formData, resultCardUrl: url })}
+                                        isPublic={true}
                                     />
                                     <div className="flex items-center space-x-2">
                                         <div className="h-px bg-white/10 flex-1"/>
@@ -333,6 +335,7 @@ export default function ApplyPanelPage() {
                                     label="Upload Signed Testimonial (Optional)"
                                     initialUrl={formData.testimonialUrl}
                                     onUploadComplete={(url) => setFormData({ ...formData, testimonialUrl: url })}
+                                    isPublic={true}
                                 />
                             </div>
                         </div>
@@ -352,6 +355,7 @@ export default function ApplyPanelPage() {
                                     label="Upload Proof (Screenshot) *"
                                     initialUrl={formData.socialProofUrl}
                                     onUploadComplete={(url) => setFormData({ ...formData, socialProofUrl: url })}
+                                    isPublic={true}
                                 />
                                 <div className="flex items-center space-x-2 mt-4">
                                     <div className="h-px bg-white/10 flex-1"/>

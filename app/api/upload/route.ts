@@ -6,11 +6,13 @@ import { authOptions } from "@/lib/auth";
 export async function POST(req: Request) {
     try {
         const session = await getServerSession(authOptions);
-        if (!session?.user?.id) {
+        const formData = await req.formData();
+        const isPublic = formData.get("isPublic") === "true";
+
+        if (!session?.user?.id && !isPublic) {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
-        const formData = await req.formData();
         const file = formData.get("file") as File;
 
         if (!file) {

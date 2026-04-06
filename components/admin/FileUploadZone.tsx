@@ -10,6 +10,7 @@ interface FileUploadZoneProps {
     accept?: string;
     label?: string;
     type?: "image" | "document";
+    isPublic?: boolean;
 }
 
 export default function FileUploadZone({
@@ -17,7 +18,8 @@ export default function FileUploadZone({
     initialUrl,
     accept = "*/*",
     label = "Upload File",
-    type = "image"
+    type = "image",
+    isPublic = false
 }: FileUploadZoneProps) {
     const [preview, setPreview] = useState<string | null>(initialUrl || null);
     const [fileName, setFileName] = useState<string | null>(null);
@@ -62,6 +64,9 @@ export default function FileUploadZone({
 
             const formData = new FormData();
             formData.append("file", file);
+            if (isPublic) {
+                formData.append("isPublic", "true");
+            }
 
             const res = await fetch("/api/upload", { method: "POST", body: formData });
 
