@@ -1,19 +1,27 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { Plus, Search, Award, Loader2, Trash2, Edit, User, Calendar, ExternalLink, Filter, Sparkles, X, Zap } from "lucide-react";
 import BadgeForm from "@/components/admin/BadgeForm";
 import { motion, AnimatePresence } from "framer-motion";
+import { useSearchParams } from "next/navigation";
 
-export default function AdminAchievementsPage() {
+function AchievementsContent() {
+    const searchParams = useSearchParams();
     const [achievements, setAchievements] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [showForm, setShowForm] = useState(false);
     const [editingBadge, setEditingBadge] = useState<any | null>(null);
+    const [prefilledUserId, setPrefilledUserId] = useState<string | null>(null);
 
     useEffect(() => {
+        const userId = searchParams.get("userId");
+        if (userId) {
+            setPrefilledUserId(userId);
+            setShowForm(true);
+        }
         fetchAchievements();
-    }, []);
+    }, [searchParams]);
 
     const fetchAchievements = async () => {
         setLoading(true);
@@ -54,6 +62,7 @@ export default function AdminAchievementsPage() {
                     <button
                         onClick={() => {
                             setEditingBadge(null);
+                            setPrefilledUserId(null);
                             setShowForm(true);
                         }}
                         className="flex items-center justify-center space-x-3 px-8 py-5 bg-gold hover:bg-[#F0C040] text-black rounded-2xl font-black shadow-2xl shadow-gold/20 transition-all active:scale-95 group"
@@ -95,6 +104,7 @@ export default function AdminAchievementsPage() {
 
                         <BadgeForm
                             initialData={editingBadge}
+                            userId={prefilledUserId || undefined}
                             onSuccess={() => {
                                 setShowForm(false);
                                 fetchAchievements();
@@ -150,6 +160,7 @@ export default function AdminAchievementsPage() {
                                                 <button
                                                     onClick={() => {
                                                         setEditingBadge(badge);
+                                                        setPrefilledUserId(null);
                                                         setShowForm(true);
                                                     }}
                                                     className="p-3 bg-white/5 text-white/20 hover:text-gold hover:bg-gold/10 hover:border-gold/20 rounded-xl border border-white/5 transition-all"
@@ -202,5 +213,18 @@ export default function AdminAchievementsPage() {
                 )}
             </AnimatePresence>
         </div>
+    );
+}
+
+export default function AdminAchievementsPage() {
+    return (
+        <Suspense fallback={
+            <div className="flex flex-col items-center justify-center py-32 space-y-4">
+                <Loader2 className="h-12 w-12 text-gold animate-spin" />
+                <p className="text-[10px] font-black text-white/20 uppercase tracking-[0.2em]">Initializing Component...</p>
+            </div>
+        }>
+            <AchievementsContent />
+        </Suspense>
     );
 }
