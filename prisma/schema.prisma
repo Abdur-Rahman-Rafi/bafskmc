@@ -36,6 +36,7 @@ model User {
   resources         Resource[]     @relation("ResourceCreator")
   submissions       Submission[]
   activities        Activity[]     @relation("ActivityCreator")
+  notifications     Notification[]
 }
 
 model Member {
@@ -290,4 +291,17 @@ model Advertisement {
   type        String   @default("UNPAID") // PAID or UNPAID
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  title     String
+  message   String   @db.Text
+  type      String   @default("INFO") // INFO, SUCCESS, WARNING, URGENT
+  isRead    Boolean  @default(false)
+  link      String?
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }

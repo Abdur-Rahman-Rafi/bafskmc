@@ -33,6 +33,19 @@ export async function POST(req: Request) {
             }
         });
 
+        // Trigger Notification
+        if (data.userId) {
+            await prisma.notification.create({
+                data: {
+                    userId: data.userId,
+                    title: "🏆 New Honor Awarded!",
+                    message: `You've been decorated with the honor: ${data.title}. +${data.points} XP added to your profile.`,
+                    type: "SUCCESS",
+                    link: "/dashboard/results"
+                }
+            });
+        }
+
         return NextResponse.json(achievement, { status: 201 });
     } catch (error) {
         console.error("Achievement creation error:", error);

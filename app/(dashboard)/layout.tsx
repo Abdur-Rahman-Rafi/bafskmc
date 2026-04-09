@@ -1,8 +1,9 @@
 "use client";
 
 import DashboardSidebar from "@/components/DashboardSidebar";
+import NotificationBell from "@/components/NotificationBell";
 import { useSession } from "next-auth/react";
-import { User, Bell, ChevronDown, Menu, X } from "lucide-react";
+import { User, ChevronDown, Menu } from "lucide-react";
 import { useState } from "react";
 
 export default function DashboardLayout({
@@ -73,10 +74,7 @@ export default function DashboardLayout({
                             <ChevronDown className="h-3 w-3 text-white/20" />
                         </div>
 
-                        <button className="p-2.5 md:p-3 bg-white/5 border border-white/10 rounded-xl text-white/30 hover:text-gold hover:border-gold/30 transition-all relative">
-                            <Bell className="h-4 w-4" />
-                            <span className="absolute top-2 right-2 h-1.5 w-1.5 bg-gold rounded-full border border-[#111111]" />
-                        </button>
+                        <NotificationBell />
                     </div>
                 </header>
                 <main className="p-4 md:p-8 pb-16 relative overflow-x-hidden">
