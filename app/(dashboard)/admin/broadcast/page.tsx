@@ -7,8 +7,9 @@ import { motion } from "framer-motion";
 export default function BroadcastMailPage() {
     const [subject, setSubject] = useState("");
     const [message, setMessage] = useState("");
-    const [audience, setAudience] = useState<"ALL" | "NEW" | "SPECIFIC">("ALL");
+    const [audience, setAudience] = useState<"ALL" | "NEW" | "SPECIFIC" | "BCC">("ALL");
     const [specificEmail, setSpecificEmail] = useState("");
+    const [bccEmails, setBccEmails] = useState("");
     const [senderMode, setSenderMode] = useState<"BAFSKMC" | "BAFSKMC Communications" | "CUSTOM">("BAFSKMC Communications");
     const [customSenderName, setCustomSenderName] = useState("");
     const [newSince, setNewSince] = useState(() => {
@@ -30,6 +31,8 @@ export default function BroadcastMailPage() {
             confirmMsg = "Are you sure you want to email only the NEW students? This cannot be undone.";
         } else if (audience === "SPECIFIC") {
             confirmMsg = `Are you sure you want to email ${specificEmail}? This cannot be undone.`;
+        } else if (audience === "BCC") {
+            confirmMsg = `Are you sure you want to BCC these multiple emails? This cannot be undone.`;
         }
 
         if (!confirm(confirmMsg)) return;
@@ -48,7 +51,7 @@ export default function BroadcastMailPage() {
                     audience,
                     newSince: audience === "NEW" ? new Date(newSince).toISOString() : null,
                     senderName: senderMode === "CUSTOM" ? customSenderName : senderMode,
-                    specificEmail: audience === "SPECIFIC" ? specificEmail : null
+                    specificEmail: audience === "SPECIFIC" ? specificEmail : (audience === "BCC" ? bccEmails : null)
                 })
             });
 
@@ -133,7 +136,15 @@ export default function BroadcastMailPage() {
                                 <div className={`w-4 h-4 rounded-full border-2 flex shrink-0 items-center justify-center ${audience === 'SPECIFIC' ? 'border-purple-400' : 'border-white/20'}`}>
                                     {audience === 'SPECIFIC' && <div className="w-2 h-2 rounded-full bg-purple-400" />}
                                 </div>
-                                <span className={`font-bold text-xs ${audience === 'SPECIFIC' ? 'text-purple-400' : 'text-white'}`}>Specific Email</span>
+                                <span className={`font-bold text-xs ${audience === 'SPECIFIC' ? 'text-purple-400' : 'text-white'}`}>Specific</span>
+                            </label>
+
+                            <label className={`cursor-pointer p-4 border rounded-2xl flex items-center space-x-3 transition-all ${audience === 'BCC' ? 'bg-orange-500/10 border-orange-500/30' : 'bg-white/5 border-white/5 hover:border-white/20'}`}>
+                                <input type="radio" className="hidden" checked={audience === 'BCC'} onChange={() => setAudience('BCC')} />
+                                <div className={`w-4 h-4 rounded-full border-2 flex shrink-0 items-center justify-center ${audience === 'BCC' ? 'border-orange-400' : 'border-white/20'}`}>
+                                    {audience === 'BCC' && <div className="w-2 h-2 rounded-full bg-orange-400" />}
+                                </div>
+                                <span className={`font-bold text-xs ${audience === 'BCC' ? 'text-orange-400' : 'text-white'}`}>BCC Multiple</span>
                             </label>
                         </div>
 
@@ -162,6 +173,20 @@ export default function BroadcastMailPage() {
                                     className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl outline-none focus:border-purple-500/50 transition-all font-bold text-white text-sm"
                                 />
                                 <p className="text-white/30 text-xs mt-2">Enter a full email, or start with @ to email all users of a specific domain.</p>
+                            </motion.div>
+                        )}
+                        {audience === 'BCC' && (
+                            <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="pt-2 pl-1">
+                                <label className="text-[10px] font-black text-white/30 uppercase tracking-widest block mb-2">Multiple Recipient Emails (Comma Separated)</label>
+                                <textarea
+                                    required={audience === "BCC"}
+                                    value={bccEmails}
+                                    onChange={(e) => setBccEmails(e.target.value)}
+                                    placeholder="student1@example.com, student2@example.com"
+                                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl outline-none focus:border-orange-500/50 transition-all font-bold text-white text-sm resize-none"
+                                    rows={3}
+                                />
+                                <p className="text-white/30 text-xs mt-2">Enter multiple email addresses separated by commas.</p>
                             </motion.div>
                         )}
                     </div>

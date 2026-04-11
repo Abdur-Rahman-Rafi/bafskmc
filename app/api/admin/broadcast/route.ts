@@ -21,7 +21,9 @@ export async function POST(req: Request) {
 
         let emails: string[] = [];
 
-        if (audience === "SPECIFIC" && specificEmail && !specificEmail.startsWith("@")) {
+        if (audience === "BCC" && specificEmail) {
+            emails = specificEmail.split(',').map((e: string) => e.trim()).filter(Boolean);
+        } else if (audience === "SPECIFIC" && specificEmail && !specificEmail.startsWith("@")) {
             emails = [specificEmail];
         } else {
             // Build query constraints based on audience selection
@@ -38,7 +40,7 @@ export async function POST(req: Request) {
                 where: queryConstraints,
                 select: { email: true }
             });
-            emails = users.map(u => u.email).filter(Boolean) as string[];
+            emails = users.map((u: any) => u.email).filter(Boolean);
         }
 
         if (emails.length === 0) {
