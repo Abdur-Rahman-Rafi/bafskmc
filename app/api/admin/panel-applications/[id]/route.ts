@@ -50,10 +50,14 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
                     },
                 });
 
-                await transporter.sendMail({
-                    from: `"BAFSK Math Club" <${process.env.SMTP_USER}>`,
-                    to: application.email,
-                    subject: "Panel Application Form Fill-up Confirmation",
+                const recipientEmail = application.email.trim();
+                const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(recipientEmail);
+
+                if (isValidEmail) {
+                    await transporter.sendMail({
+                        from: `"BAFSK Math Club" <${process.env.SMTP_USER}>`,
+                        to: recipientEmail,
+                        subject: "Panel Application Form Fill-up Confirmation",
                     html: `
                         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333;">
                             <h2 style="color: #C9962B;">Application Received</h2>
@@ -66,7 +70,8 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
                             <p><strong>BAFSK Math Club Team</strong></p>
                         </div>
                     `,
-                }).catch(e => console.error("Email send failed:", e));
+                    }).catch(e => console.error("Email send failed:", e));
+                }
             } else {
                 console.log("[Mock Email] Application confirmation sent to:", application.email);
             }

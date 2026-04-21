@@ -47,16 +47,17 @@ export async function POST(req: Request) {
                 }
             });
 
-            // 2. Fetch all student emails to notify
+            // 2. Fetch and normalize student emails
             const users = await prisma.user.findMany({
                 where: { role: "STUDENT" },
                 select: { email: true }
             });
-            const emails = users.map(u => u.email).filter(Boolean);
+            const emails = users
+                .map(u => u.email.trim())
+                .filter((e: string) => e && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e));
 
-            // 3. Send automated emails (Mock or Real via nodemailer)
-            // Using standard env var setup if exists
-            if (process.env.SMTP_USER && process.env.SMTP_PASS) {
+            // 3. Send automated emails
+            if (process.env.SMTP_USER && process.env.SMTP_PASS && emails.length > 0) {
                 const transporter = nodemailer.createTransport({
                     host: process.env.SMTP_HOST || "smtp.gmail.com",
                     port: parseInt(process.env.SMTP_PORT || "587"),
@@ -67,17 +68,22 @@ export async function POST(req: Request) {
                     },
                 });
 
-                // Send in chunks or BCC all
-                // For simplicity, we send one BCC email
-                if (emails.length > 0) {
-                    await transporter.sendMail({
-                        from: `"BAFSK Math Club" <${process.env.SMTP_USER}>`,
-                        bcc: emails as string[],
-                        subject: announcementTitle || "Panel Applications are Open!",
-                        html: `<p>${announcementContent || "Panel applications are now officially open. Visit our website to apply!"}</p>`,
-                    });
+                // Send in chunks of 50 to prevent Gmail/SMTP limits and isolation of errors
+                const CHUNK_SIZE = 50;
+                for (let i = 0; i < emails.length; i += CHUNK_SIZE) {
+                    const chunk = emails.slice(i, i + CHUNK_SIZE);
+                    try {
+                        await transporter.sendMail({
+                            from: `"BAFSK Math Club" <${process.env.SMTP_USER}>`,
+                            bcc: chunk,
+                            subject: announcementTitle || "Panel Applications are Open!",
+                            html: `<p>${announcementContent || "Panel applications are now officially open. Visit our website to apply!"}</p>`,
+                        });
+                    } catch (err) {
+                        console.error("Panel Announcement Batch Error:", err);
+                    }
                 }
-            } else {
+            } else if (emails.length > 0) {
                 console.log("[Mock Email] Sending application announcement to:", emails.length, "students.");
             }
 

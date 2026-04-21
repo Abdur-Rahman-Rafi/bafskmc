@@ -46,10 +46,15 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "All required fields must be filled." }, { status: 400 });
         }
 
+        const normalizedEmail = data.email.toLowerCase().trim();
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) {
+            return NextResponse.json({ error: "Invalid email format." }, { status: 400 });
+        }
+
         const application = await prisma.panelApplication.create({
             data: {
                 name: data.name,
-                email: data.email,
+                email: normalizedEmail,
                 phone: data.phone,
                 studentClass: data.studentClass,
                 section: data.section,
