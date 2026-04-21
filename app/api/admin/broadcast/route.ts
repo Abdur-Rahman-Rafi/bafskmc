@@ -22,7 +22,7 @@ export async function POST(req: Request) {
         let emails: string[] = [];
 
         if (audience === "BCC" && specificEmail) {
-            emails = specificEmail.split(/[;,]/).map((e: string) => e.trim()).filter(e => e && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e));
+            emails = specificEmail.split(/[;,]/).map((e: string) => e.trim()).filter((e: string) => e && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e));
         } else if (audience === "SPECIFIC" && specificEmail && !specificEmail.startsWith("@")) {
             const trimmed = specificEmail.trim();
             if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
@@ -47,7 +47,7 @@ export async function POST(req: Request) {
             // Trim and validate fetched emails
             emails = users
                 .map((u: any) => u.email.trim())
-                .filter(e => e && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e));
+                .filter((e: string) => e && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e));
         }
 
         if (emails.length === 0) {
