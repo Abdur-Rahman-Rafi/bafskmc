@@ -3,14 +3,6 @@ import { prisma } from "@/lib/prisma";
 
 export async function GET() {
     try {
-        const config = await prisma.siteConfig.findUnique({
-            where: { key: "leaderboard_visible" }
-        });
-        
-        if (config && config.value === "false") {
-            return NextResponse.json({ hidden: true });
-        }
-
         const users = await prisma.user.findMany({
             where: {
                 role: "STUDENT"
@@ -40,7 +32,7 @@ export async function GET() {
 
         return NextResponse.json(leaderboard);
     } catch (error) {
-        console.error("Leaderboard fetch error:", error);
+        console.error("Admin leaderboard fetch error:", error);
         return NextResponse.json({ error: "Failed to fetch leaderboard" }, { status: 500 });
     }
 }

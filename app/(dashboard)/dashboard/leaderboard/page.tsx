@@ -18,11 +18,17 @@ export default function LeaderboardPage() {
     const [users, setUsers] = useState<LeaderboardUser[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState("");
+    const [isHidden, setIsHidden] = useState(false);
 
     useEffect(() => {
         fetch("/api/leaderboard")
             .then(res => res.json())
             .then(data => {
+                if (data.hidden) {
+                    setIsHidden(true);
+                    setLoading(false);
+                    return;
+                }
                 setUsers(Array.isArray(data) ? data : []);
                 setLoading(false);
             })
@@ -73,6 +79,14 @@ export default function LeaderboardPage() {
                 <div className="flex flex-col items-center justify-center py-32 space-y-4">
                     <Loader2 className="h-12 w-12 text-gold animate-spin" />
                     <p className="text-[10px] font-black text-white/20 uppercase tracking-[0.2em]">Calculating Ranks...</p>
+                </div>
+            ) : isHidden ? (
+                <div className="py-24 text-center bg-[#151515] rounded-[3rem] border border-dashed border-white/5 shadow-2xl">
+                    <Crown className="h-16 w-16 text-white/5 mx-auto mb-6 opacity-50" />
+                    <h3 className="text-xl font-black text-white/40 uppercase tracking-widest">Rankings Hidden</h3>
+                    <p className="text-[10px] text-white/20 font-bold uppercase tracking-widest mt-2 max-w-sm mx-auto leading-relaxed">
+                        The global leaderboard is currently hidden by the administrator. Please check back later.
+                    </p>
                 </div>
             ) : filteredUsers.length === 0 ? (
                 <div className="py-24 text-center bg-[#151515] rounded-[3rem] border border-dashed border-white/5">
