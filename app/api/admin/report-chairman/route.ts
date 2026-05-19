@@ -84,6 +84,10 @@ export async function POST(req: Request) {
         }
     } catch (error: any) {
         console.error("Report Generation Error:", error);
-        return NextResponse.json({ error: "Failed to generate or send the report." }, { status: 500 });
+        return NextResponse.json({ 
+            error: "Failed to generate or send the report.",
+            details: error?.message || String(error),
+            stack: error?.stack 
+        }, { status: 500 });
     }
 }

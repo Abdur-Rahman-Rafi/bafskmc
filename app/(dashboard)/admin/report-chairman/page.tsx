@@ -25,7 +25,7 @@ export default function ReportChairmanPage() {
 
             if (!res.ok) {
                 const data = await res.json();
-                throw new Error(data.error || "Failed to send report");
+                throw new Error(data.details || data.error || "Failed to send report");
             }
 
             setSuccess(true);
