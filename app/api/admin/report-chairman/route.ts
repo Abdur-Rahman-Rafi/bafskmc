@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import nodemailer from "nodemailer";
-import PDFDocument from "pdfkit";
+import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
 
 export async function POST(req: Request) {
     const session = await getServerSession(authOptions);
@@ -17,32 +17,99 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "Title and content are required." }, { status: 400 });
         }
 
-        const pdfBuffer = await new Promise<Buffer>((resolve, reject) => {
-            const doc = new PDFDocument({ margin: 50 });
-            const buffers: Buffer[] = [];
-            
-            doc.on("data", (chunk) => buffers.push(chunk));
-            doc.on("end", () => resolve(Buffer.concat(buffers)));
-            doc.on("error", reject);
+        const pdfDoc = await PDFDocument.create();
+        const timesRomanFont = await pdfDoc.embedFont(StandardFonts.TimesRoman);
+        const timesRomanBoldFont = await pdfDoc.embedFont(StandardFonts.TimesRomanBold);
 
-            // Branding and Title
-            doc.fontSize(24).fillColor('#C9962B').text("BAFSKMC Alumni Association", { align: "center" });
-            doc.moveDown(0.5);
-            doc.fontSize(12).fillColor('#666666').text("Confidential Report to Chairman", { align: "center" });
-            doc.moveDown(2);
+        let page = pdfDoc.addPage([600, 800]);
+        const { width, height } = page.getSize();
+        let yPos = height - 50;
 
-            // Report Meta
-            doc.fontSize(14).fillColor('#000000').text(`Subject: ${title}`, { underline: true });
-            doc.moveDown(0.5);
-            doc.fontSize(12).text(`Submitted By: ${session.user.name} (${session.user.role})`);
-            doc.text(`Date: ${new Date().toLocaleString()}`);
-            doc.moveDown(2);
-
-            // Report Content
-            doc.fontSize(12).text(content, { align: 'justify', lineGap: 4 });
-            
-            doc.end();
+        // Branding and Title
+        page.drawText("BAFSKMC Alumni Association", {
+            x: 50,
+            y: yPos,
+            size: 24,
+            font: timesRomanBoldFont,
+            color: rgb(0.788, 0.588, 0.169), // #C9962B equivalent
         });
+        
+        yPos -= 30;
+        
+        page.drawText("Confidential Report to Chairman", {
+            x: 50,
+            y: yPos,
+            size: 14,
+            font: timesRomanFont,
+            color: rgb(0.4, 0.4, 0.4),
+        });
+
+        yPos -= 50;
+
+        // Report Meta
+        page.drawText(`Subject: ${title}`, {
+            x: 50,
+            y: yPos,
+            size: 14,
+            font: timesRomanBoldFont,
+            color: rgb(0, 0, 0),
+        });
+        
+        yPos -= 25;
+        
+        page.drawText(`Submitted By: ${session.user.name} (${session.user.role})`, {
+            x: 50,
+            y: yPos,
+            size: 12,
+            font: timesRomanFont,
+        });
+
+        yPos -= 20;
+
+        page.drawText(`Date: ${new Date().toLocaleString()}`, {
+            x: 50,
+            y: yPos,
+            size: 12,
+            font: timesRomanFont,
+        });
+
+        yPos -= 40;
+
+        // Content wrapping logic (simple)
+        const maxWidth = width - 100;
+        const words = content.split(' ');
+        let line = '';
+        const lines: string[] = [];
+        for (const word of words) {
+            const testLine = line + word + ' ';
+            const textWidth = timesRomanFont.widthOfTextAtSize(testLine, 12);
+            if (textWidth > maxWidth && line !== '') {
+                lines.push(line);
+                line = word + ' ';
+            } else {
+                line = testLine;
+            }
+        }
+        lines.push(line);
+
+        // Draw content
+        for (const lineText of lines) {
+            if (yPos < 50) {
+                // simple page break if needed
+                page = pdfDoc.addPage([600, 800]);
+                yPos = height - 50;
+            }
+            page.drawText(lineText, {
+                x: 50,
+                y: yPos,
+                size: 12,
+                font: timesRomanFont,
+            });
+            yPos -= 16;
+        }
+
+        const pdfBytes = await pdfDoc.save();
+        const pdfBuffer = Buffer.from(pdfBytes);
 
         if (process.env.SMTP_USER && process.env.SMTP_PASS) {
             const transporter = nodemailer.createTransport({
