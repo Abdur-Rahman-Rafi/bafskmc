@@ -71,6 +71,7 @@ export default function DashboardSidebar({ onClose }: { onClose?: () => void }) 
         { name: "Manage Gallery", href: "/admin/gallery", icon: <Camera className="h-4 w-4" /> },
         { name: "Advertisements", href: "/admin/advertisements", icon: <Megaphone className="h-4 w-4" /> },
         { name: "Branding & Logo", href: "/admin/branding", icon: <Palette className="h-4 w-4" /> },
+        { name: "Report to Chairman", href: "/admin/report-chairman", icon: <FileText className="h-4 w-4" /> },
     ];
 
     const activeItems = showAdminMenu ? adminItems : studentItems;

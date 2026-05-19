@@ -108,7 +108,7 @@ export default function LeaderboardPage() {
                                     animate={{ opacity: 1, y: 0 }}
                                     className="order-2 md:order-1 h-full"
                                 >
-                                    <div className="bg-[#151515] border border-white/5 rounded-[3rem] p-8 text-center relative group hover:border-white/20 transition-all flex flex-col items-center">
+                                    <div className="bg-gradient-to-b from-[#151515] to-[#0D0D0D] border border-white/5 rounded-[3rem] p-8 text-center relative group hover:border-white/20 transition-all flex flex-col items-center">
                                         <div className="h-24 w-24 rounded-3xl border-4 border-slate-400/50 overflow-hidden mb-6 relative z-10 shadow-2xl">
                                             {top3[1].image ? (
                                                 <img src={top3[1].image} alt="" className="h-full w-full object-cover" />
@@ -120,8 +120,8 @@ export default function LeaderboardPage() {
                                         </div>
                                         <div className="absolute top-4 left-4 h-10 w-10 bg-slate-400 rounded-xl flex items-center justify-center text-black font-black text-lg skew-x-[-10deg]">2</div>
                                         <h3 className="text-white font-black text-xl tracking-tight mb-2">{top3[1].name}</h3>
-                                        <div className="px-4 py-2 bg-slate-400/10 border border-slate-400/20 rounded-xl text-slate-400 font-black text-xs tracking-tighter">
-                                            {top3[1].totalPoints} XP
+                                        <div className="px-4 py-2 bg-slate-400/10 border border-slate-400/20 rounded-xl text-slate-400 font-black text-xs tracking-tighter shadow-lg shadow-slate-400/5">
+                                            {top3[1].totalPoints} RATING POINT
                                         </div>
                                     </div>
                                 </motion.div>
@@ -134,7 +134,7 @@ export default function LeaderboardPage() {
                                     animate={{ opacity: 1, scale: 1 }}
                                     className="order-1 md:order-2 h-full"
                                 >
-                                    <div className="bg-[#151515] border border-gold/40 rounded-[3rem] p-10 text-center relative group shadow-[0_0_50px_rgba(201,150,43,0.1)] -mt-10 flex flex-col items-center">
+                                    <div className="bg-gradient-to-b from-[#1A150D] to-[#0D0D0D] border border-gold/40 rounded-[3rem] p-10 text-center relative group shadow-[0_0_50px_rgba(201,150,43,0.1)] -mt-10 flex flex-col items-center">
                                         <div className="absolute -top-10 left-1/2 -translate-x-1/2">
                                             <Crown className="h-16 w-16 text-gold drop-shadow-[0_0_15px_rgba(201,150,43,0.5)]" />
                                         </div>
@@ -148,8 +148,8 @@ export default function LeaderboardPage() {
                                             )}
                                         </div>
                                         <h3 className="text-white font-black text-2xl tracking-tight mb-2 group-hover:text-gold transition-colors">{top3[0].name}</h3>
-                                        <div className="px-6 py-3 bg-gold/10 border border-gold/20 rounded-2xl text-gold font-black text-sm tracking-tighter shadow-xl">
-                                            {top3[0].totalPoints} XP
+                                        <div className="px-6 py-3 bg-gold/10 border border-gold/20 rounded-2xl text-gold font-black text-sm tracking-tighter shadow-[0_0_20px_rgba(201,150,43,0.3)]">
+                                            {top3[0].totalPoints} RATING POINT
                                         </div>
                                     </div>
                                 </motion.div>
@@ -163,7 +163,7 @@ export default function LeaderboardPage() {
                                     transition={{ delay: 0.2 }}
                                     className="order-3 h-full"
                                 >
-                                    <div className="bg-[#151515] border border-white/5 rounded-[3rem] p-8 text-center relative group hover:border-white/20 transition-all flex flex-col items-center">
+                                    <div className="bg-gradient-to-b from-[#151515] to-[#0D0D0D] border border-white/5 rounded-[3rem] p-8 text-center relative group hover:border-white/20 transition-all flex flex-col items-center">
                                         <div className="h-20 w-20 rounded-3xl border-4 border-amber-700/50 overflow-hidden mb-6 relative z-10 shadow-2xl">
                                             {top3[2].image ? (
                                                 <img src={top3[2].image} alt="" className="h-full w-full object-cover" />
@@ -175,8 +175,8 @@ export default function LeaderboardPage() {
                                         </div>
                                         <div className="absolute top-4 left-4 h-10 w-10 bg-amber-700 rounded-xl flex items-center justify-center text-black font-black text-lg skew-x-[-10deg]">3</div>
                                         <h3 className="text-white font-black text-lg tracking-tight mb-2">{top3[2].name}</h3>
-                                        <div className="px-4 py-2 bg-amber-700/10 border border-amber-700/20 rounded-xl text-amber-700 font-black text-xs tracking-tighter">
-                                            {top3[2].totalPoints} XP
+                                        <div className="px-4 py-2 bg-amber-700/10 border border-amber-700/20 rounded-xl text-amber-700 font-black text-xs tracking-tighter shadow-lg shadow-amber-700/5">
+                                            {top3[2].totalPoints} RATING POINT
                                         </div>
                                     </div>
                                 </motion.div>
@@ -185,7 +185,7 @@ export default function LeaderboardPage() {
                     )}
 
                     {/* Rankings Table */}
-                    <div className="max-w-5xl mx-auto bg-[#151515] rounded-[3rem] border border-white/5 overflow-hidden shadow-2xl">
+                    <div className="max-w-5xl mx-auto bg-gradient-to-br from-[#121212] to-[#0A0A0A] rounded-[3rem] border border-white/5 overflow-hidden shadow-2xl">
                         <div className="grid grid-cols-12 p-8 border-b border-white/5 text-[10px] font-black text-white/20 uppercase tracking-[0.2em]">
                             <div className="col-span-1 text-center">Rank</div>
                             <div className="col-span-8 md:col-span-7 pl-6">Participant</div>
@@ -230,7 +230,7 @@ export default function LeaderboardPage() {
                                     <div className="col-span-3 md:col-span-2 text-right">
                                         <div className="flex flex-col items-end">
                                             <span className="text-xl font-black text-white tracking-tighter">{user.totalPoints}</span>
-                                            <span className="text-[9px] font-black text-gold/60 uppercase tracking-widest">Global XP</span>
+                                            <span className="text-[9px] font-black text-gold/60 uppercase tracking-widest">Rating Point</span>
                                         </div>
                                     </div>
                                 </motion.div>

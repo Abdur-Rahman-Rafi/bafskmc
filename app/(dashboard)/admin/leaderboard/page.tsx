@@ -120,7 +120,7 @@ export default function AdminLeaderboardPage() {
                     <h3 className="text-white font-bold text-lg">System Status</h3>
                     <p className="text-white/40 text-sm mt-1">
                         The leaderboard is currently {isVisible ? <span className="text-emerald-500 font-bold">VISIBLE</span> : <span className="text-red-500 font-bold">HIDDEN</span>} to students. 
-                        You can manually override a student's total XP here. This will automatically generate a background achievement to adjust their rating.
+                        You can manually override a student's total rating points here. This will automatically generate a background achievement to adjust their rating.
                     </p>
                 </div>
             </div>
@@ -146,7 +146,7 @@ export default function AdminLeaderboardPage() {
                     <div className="grid grid-cols-12 p-8 border-b border-white/5 text-[10px] font-black text-white/20 uppercase tracking-[0.2em]">
                         <div className="col-span-1 text-center">Rank</div>
                         <div className="col-span-7 pl-6">Participant</div>
-                        <div className="col-span-4 text-right pr-4">Total XP / Action</div>
+                        <div className="col-span-4 text-right pr-4">Total Points / Action</div>
                     </div>
 
                     <div className="divide-y divide-white/[0.03]">
@@ -204,7 +204,7 @@ export default function AdminLeaderboardPage() {
                                         </div>
                                     ) : (
                                         <div className="flex items-center space-x-4">
-                                            <span className="text-xl font-black text-white tracking-tighter">{user.totalPoints} <span className="text-[10px] text-gold/60">XP</span></span>
+                                            <span className="text-xl font-black text-white tracking-tighter">{user.totalPoints} <span className="text-[10px] text-gold/60">RATING POINTS</span></span>
                                             <button
                                                 onClick={() => {
                                                     setEditingUserId(user.id);
