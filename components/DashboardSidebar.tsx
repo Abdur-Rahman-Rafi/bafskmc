@@ -52,6 +52,7 @@ export default function DashboardSidebar({ onClose }: { onClose?: () => void }) 
         { name: "Gallery", href: "/dashboard/gallery", icon: <Camera className="h-4 w-4" /> },
         { name: "My Payments", href: "/dashboard/payments", icon: <CreditCard className="h-4 w-4" /> },
         { name: "Leaderboard", href: "/dashboard/leaderboard", icon: <Trophy className="h-4 w-4" /> },
+        { name: "Apply for Document", href: "/dashboard/apply-document", icon: <FileText className="h-4 w-4" /> },
         { name: "Settings", href: "/dashboard/settings", icon: <Settings className="h-4 w-4" /> },
     ];
 

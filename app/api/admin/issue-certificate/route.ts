@@ -14,7 +14,7 @@ export async function POST(req: Request) {
     }
 
     try {
-        const { email, reason, collegeLogoUrl, clubLogoUrl } = await req.json();
+        const { email, reason, collegeLogoUrl, clubLogoUrl, signatureUrl, signerName, signerTitle } = await req.json();
 
         if (!email || !reason) {
             return NextResponse.json({ error: "Email and reason are required." }, { status: 400 });
@@ -25,6 +25,22 @@ export async function POST(req: Request) {
         if (!user) {
             return NextResponse.json({ error: "User not found." }, { status: 404 });
         }
+
+        // Persist Configuration
+        const updateConfig = async (key: string, value: string) => {
+            if (value !== undefined) {
+                await prisma.siteConfig.upsert({
+                    where: { key },
+                    update: { value },
+                    create: { key, value }
+                });
+            }
+        };
+        await updateConfig('cert_college_logo', collegeLogoUrl || '');
+        await updateConfig('cert_club_logo', clubLogoUrl || '');
+        await updateConfig('cert_signature_url', signatureUrl || '');
+        await updateConfig('cert_signer_name', signerName || '');
+        await updateConfig('cert_signer_title', signerTitle || '');
 
         const userName = user.name || "Valued Member";
 
@@ -109,6 +125,7 @@ export async function POST(req: Request) {
             });
         };
 
+        drawCenteredText("BAFSK MATH CLUB", height - 110, 24, boldFont, rgb(0.1, 0.1, 0.1));
         drawCenteredText("CERTIFICATE OF ACHIEVEMENT", height - 160, 36, boldFont, goldColor);
         drawCenteredText("This is proudly presented to", height - 240, 18, regularFont, rgb(0.3, 0.3, 0.3));
 
@@ -130,10 +147,40 @@ export async function POST(req: Request) {
         page.drawText(`Date: ${dateStr}`, { x: 100, y: 80, size: 14, font: regularFont });
         page.drawLine({ start: { x: 90, y: 75 }, end: { x: 250, y: 75 }, thickness: 1 });
 
-        // Authorized Signature (Rafi Abdur Rahman)
-        page.drawText("A.R Rafi", { x: width - 250 + 20, y: 90, size: 28, font: signatureFont, color: rgb(0.1, 0.2, 0.6), rotate: degrees(4) });
-        page.drawText("Authorized Signature", { x: width - 250, y: 60, size: 14, font: regularFont });
-        page.drawLine({ start: { x: width - 260, y: 80 }, end: { x: width - 100, y: 80 }, thickness: 1 });
+        const finalSignerName = signerName || "A.R Rafi";
+        const finalSignerTitle = signerTitle || "Authorized Signature";
+
+        // Render Signature
+        let renderedImage = false;
+        if (signatureUrl) {
+            try {
+                const imgBytes = await fetch(signatureUrl).then(res => res.arrayBuffer());
+                let image;
+                try {
+                    image = await pdfDoc.embedPng(imgBytes);
+                } catch {
+                    image = await pdfDoc.embedJpg(imgBytes);
+                }
+                const dims = image.scaleToFit(140, 60);
+                page.drawImage(image, {
+                    x: (width - 180) - (dims.width / 2),
+                    y: 78,
+                    width: dims.width,
+                    height: dims.height,
+                });
+                renderedImage = true;
+            } catch (e) {
+                console.error("Failed to load signature image", e);
+            }
+        }
+        
+        if (!renderedImage) {
+            page.drawText(finalSignerName, { x: width - 250 + 20, y: 90, size: 28, font: signatureFont, color: rgb(0.1, 0.2, 0.6), rotate: degrees(4) });
+        }
+
+        const titleWidth = regularFont.widthOfTextAtSize(finalSignerTitle, 14);
+        page.drawText(finalSignerTitle, { x: (width - 180) - (titleWidth / 2), y: 60, size: 14, font: regularFont });
+        page.drawLine({ start: { x: width - 260, y: 75 }, end: { x: width - 100, y: 75 }, thickness: 1 });
 
         const pdfBytes = await pdfDoc.save();
         const pdfBuffer = Buffer.from(pdfBytes);
