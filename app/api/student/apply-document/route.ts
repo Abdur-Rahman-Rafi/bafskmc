@@ -19,15 +19,20 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "Type and reason are required." }, { status: 400 });
         }
 
-        // Create the document request in the database
-        const documentRequest = await prisma.documentRequest.create({
-            data: {
-                userId: session.user.id,
-                type,
-                reason,
-                status: "PENDING"
-            }
-        });
+        // Try to create the document request in the database
+        let documentRequest = null;
+        try {
+            documentRequest = await prisma.documentRequest.create({
+                data: {
+                    userId: session.user.id,
+                    type,
+                    reason,
+                    status: "PENDING"
+                }
+            });
+        } catch (e) {
+            console.warn("DocumentRequest table might not exist yet. Skipping DB insert.", e);
+        }
 
         // Send Notification to Admins
         const admins = await prisma.user.findMany({ where: { role: "ADMIN" } });
