@@ -48,23 +48,39 @@ export async function POST(req: Request) {
             borderWidth: 1,
         });
 
-        // Add Fonts
+        // Register fontkit for custom fonts
+        const fontkit = require('@pdf-lib/fontkit');
+        pdfDoc.registerFontkit(fontkit);
+
+        // Add standard Fonts
         const boldFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
         const regularFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
 
-        // Helper function to load and draw images
-        const drawImage = async (url: string, xPos: number, isRight: boolean = false) => {
+        // Fetch signature handwriting font (Great Vibes)
+        let signatureFont = regularFont;
+        try {
+            const fontUrl = "https://raw.githubusercontent.com/google/fonts/main/ofl/greatvibes/GreatVibes-Regular.ttf";
+            const fontBytes = await fetch(fontUrl).then(res => res.arrayBuffer());
+            signatureFont = await pdfDoc.embedFont(fontBytes);
+        } catch (e) {
+            console.error("Failed to load signature font, falling back to regular font", e);
+            signatureFont = await pdfDoc.embedFont(StandardFonts.TimesRomanItalic);
+        }
+
+        // Helper function to load and draw images robustly
+        const drawImage = async (url: string, isRight: boolean = false) => {
             if (!url) return;
             try {
                 const imgBytes = await fetch(url).then(res => res.arrayBuffer());
                 let image;
-                if (url.toLowerCase().endsWith('.png') || url.includes('png') || url.includes('PNG')) {
+                try {
                     image = await pdfDoc.embedPng(imgBytes);
-                } else {
+                } catch {
                     image = await pdfDoc.embedJpg(imgBytes);
                 }
-                const dims = image.scaleToFit(100, 100);
-                const x = isRight ? width - dims.width - 50 : xPos;
+                const dims = image.scaleToFit(120, 120);
+                // Position logos at the top left and top right
+                const x = isRight ? width - dims.width - 60 : 60;
                 page.drawImage(image, {
                     x,
                     y: height - dims.height - 50,
@@ -72,12 +88,14 @@ export async function POST(req: Request) {
                     height: dims.height,
                 });
             } catch (e) {
-                console.error("Failed to load image from url:", url, e);
+                console.error("Failed to load or embed image from url:", url, e);
             }
         };
 
-        await drawImage(collegeLogoUrl, 50, false);
-        await drawImage(clubLogoUrl, 0, true);
+        // College Logo (Top Left)
+        await drawImage(collegeLogoUrl, false);
+        // Club Logo (Top Right)
+        await drawImage(clubLogoUrl, true);
 
         // Draw Texts
         const drawCenteredText = (text: string, yPos: number, size: number, font: any, color: any = rgb(0,0,0)) => {
@@ -112,8 +130,10 @@ export async function POST(req: Request) {
         page.drawText(`Date: ${dateStr}`, { x: 100, y: 80, size: 14, font: regularFont });
         page.drawLine({ start: { x: 90, y: 75 }, end: { x: 250, y: 75 }, thickness: 1 });
         
-        page.drawText("Authorized Signature", { x: width - 250, y: 80, size: 14, font: regularFont });
-        page.drawLine({ start: { x: width - 260, y: 75 }, end: { x: width - 100, y: 75 }, thickness: 1 });
+        // Authorized Signature (Rafi Abdur Rahman)
+        page.drawText("Rafi Abdur Rahman", { x: width - 250 + 10, y: 85, size: 32, font: signatureFont, color: rgb(0, 0, 0.4) });
+        page.drawText("Authorized Signature", { x: width - 250, y: 60, size: 14, font: regularFont });
+        page.drawLine({ start: { x: width - 260, y: 80 }, end: { x: width - 100, y: 80 }, thickness: 1 });
 
         const pdfBytes = await pdfDoc.save();
         const pdfBuffer = Buffer.from(pdfBytes);
