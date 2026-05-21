@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import nodemailer from "nodemailer";
-import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
+import { PDFDocument, rgb, StandardFonts, degrees } from "pdf-lib";
 
 const prisma = new PrismaClient();
 
@@ -59,7 +59,7 @@ export async function POST(req: Request) {
         // Fetch signature handwriting font (Great Vibes)
         let signatureFont = regularFont;
         try {
-            const fontUrl = "https://raw.githubusercontent.com/google/fonts/main/ofl/greatvibes/GreatVibes-Regular.ttf";
+            const fontUrl = "https://raw.githubusercontent.com/google/fonts/main/ofl/herrvonmuellerhoff/HerrVonMuellerhoff-Regular.ttf";
             const fontBytes = await fetch(fontUrl).then(res => res.arrayBuffer());
             signatureFont = await pdfDoc.embedFont(fontBytes);
         } catch (e) {
@@ -78,7 +78,7 @@ export async function POST(req: Request) {
                 } catch {
                     image = await pdfDoc.embedJpg(imgBytes);
                 }
-                const dims = image.scaleToFit(120, 120);
+                const dims = image.scaleToFit(75, 75);
                 // Position logos at the top left and top right
                 const x = isRight ? width - dims.width - 60 : 60;
                 page.drawImage(image, {
@@ -131,7 +131,7 @@ export async function POST(req: Request) {
         page.drawLine({ start: { x: 90, y: 75 }, end: { x: 250, y: 75 }, thickness: 1 });
         
         // Authorized Signature (Rafi Abdur Rahman)
-        page.drawText("Rafi Abdur Rahman", { x: width - 250 + 10, y: 85, size: 32, font: signatureFont, color: rgb(0, 0, 0.4) });
+        page.drawText("Rafi Abdur Rahman", { x: width - 250 + 20, y: 90, size: 28, font: signatureFont, color: rgb(0.1, 0.2, 0.6), rotate: degrees(4) });
         page.drawText("Authorized Signature", { x: width - 250, y: 60, size: 14, font: regularFont });
         page.drawLine({ start: { x: width - 260, y: 80 }, end: { x: width - 100, y: 80 }, thickness: 1 });
 
