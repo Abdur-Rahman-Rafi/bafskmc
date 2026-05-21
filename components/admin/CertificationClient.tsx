@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { Award, Mail, Loader2, User, FileText, CheckCircle2 } from "lucide-react";
 import FileUploadZone from "@/components/admin/FileUploadZone";
+import { useSearchParams } from "next/navigation";
+import { Suspense, useEffect } from "react";
 
 interface Config {
     collegeLogoUrl: string;
@@ -12,10 +14,23 @@ interface Config {
     signerTitle: string;
 }
 
-export default function CertificationClient({ initialConfig }: { initialConfig: Config }) {
-    const [userEmail, setUserEmail] = useState("");
-    const [reason, setReason] = useState("Best Performer of the Month");
-    const [customReason, setCustomReason] = useState("");
+function CertificationForm({ initialConfig }: { initialConfig: Config }) {
+    const searchParams = useSearchParams();
+    const initialEmail = searchParams.get("email") || "";
+    const initialReason = searchParams.get("reason") || "";
+    const hasInitialReason = !!initialReason;
+
+    const [userEmail, setUserEmail] = useState(initialEmail);
+    const [reason, setReason] = useState(hasInitialReason ? "Custom" : "Best Performer of the Month");
+    const [customReason, setCustomReason] = useState(initialReason);
+    
+    useEffect(() => {
+        if (initialEmail) setUserEmail(initialEmail);
+        if (initialReason) {
+            setReason("Custom");
+            setCustomReason(initialReason);
+        }
+    }, [initialEmail, initialReason]);
     
     const [collegeLogoUrl, setCollegeLogoUrl] = useState<string>(initialConfig.collegeLogoUrl);
     const [clubLogoUrl, setClubLogoUrl] = useState<string>(initialConfig.clubLogoUrl);
@@ -292,5 +307,13 @@ export default function CertificationClient({ initialConfig }: { initialConfig: 
                 </div>
             </form>
         </div>
+    );
+}
+
+export default function CertificationClient({ initialConfig }: { initialConfig: Config }) {
+    return (
+        <Suspense fallback={<div className="p-8 text-center text-white/50">Loading form...</div>}>
+            <CertificationForm initialConfig={initialConfig} />
+        </Suspense>
     );
 }

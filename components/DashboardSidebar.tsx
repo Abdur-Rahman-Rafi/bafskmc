@@ -71,8 +71,10 @@ export default function DashboardSidebar({ onClose }: { onClose?: () => void }) 
         { name: "Manage Users", href: "/admin/users", icon: <Users className="h-4 w-4" /> },
         { name: "Manage Gallery", href: "/admin/gallery", icon: <Camera className="h-4 w-4" /> },
         { name: "Advertisements", href: "/admin/advertisements", icon: <Megaphone className="h-4 w-4" /> },
-        { name: "Branding & Logo", href: "/admin/branding", icon: <Palette className="h-4 w-4" /> },
+        { name: "Stats & Analytics", href: "/admin/stats", icon: <TrendingUp className="h-4 w-4" /> },
         { name: "Certifications", href: "/admin/certificates", icon: <Award className="h-4 w-4" /> },
+        { name: "Document Requests", href: "/admin/document-requests", icon: <FileText className="h-4 w-4" /> },
+        { name: "Branding & Logo", href: "/admin/branding", icon: <Palette className="h-4 w-4" /> },
         { name: "Report to Chairman", href: "/admin/report-chairman", icon: <FileText className="h-4 w-4" /> },
     ];
 
