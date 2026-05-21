@@ -114,7 +114,6 @@ export default function CertificationZone() {
                             onChange={(e) => setUserEmail(e.target.value)}
                             placeholder="student@example.com"
                             className="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-white placeholder-white/20 focus:outline-none focus:ring-2 focus:ring-gold/50 transition-all font-semibold"
-                            style={{ focusRingColor: "rgba(201, 150, 43, 0.5)" }}
                         />
                     </div>
 
@@ -128,7 +127,6 @@ export default function CertificationZone() {
                             value={reason}
                             onChange={(e) => setReason(e.target.value)}
                             className="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-white focus:outline-none focus:ring-2 focus:ring-gold/50 transition-all font-semibold appearance-none"
-                            style={{ focusRingColor: "rgba(201, 150, 43, 0.5)" }}
                         >
                             {reasons.map(r => <option key={r} value={r} className="bg-[#1A1A1A]">{r}</option>)}
                         </select>
