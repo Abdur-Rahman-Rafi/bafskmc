@@ -98,7 +98,7 @@ export async function POST(req: Request) {
         await drawImage(clubLogoUrl, true);
 
         // Draw Texts
-        const drawCenteredText = (text: string, yPos: number, size: number, font: any, color: any = rgb(0,0,0)) => {
+        const drawCenteredText = (text: string, yPos: number, size: number, font: any, color: any = rgb(0, 0, 0)) => {
             const textWidth = font.widthOfTextAtSize(text, size);
             page.drawText(text, {
                 x: (width / 2) - (textWidth / 2),
@@ -111,9 +111,9 @@ export async function POST(req: Request) {
 
         drawCenteredText("CERTIFICATE OF ACHIEVEMENT", height - 160, 36, boldFont, goldColor);
         drawCenteredText("This is proudly presented to", height - 240, 18, regularFont, rgb(0.3, 0.3, 0.3));
-        
+
         drawCenteredText(userName.toUpperCase(), height - 300, 42, boldFont, rgb(0.1, 0.1, 0.1));
-        
+
         // Draw line under name
         page.drawLine({
             start: { x: width / 2 - 200, y: height - 310 },
@@ -129,9 +129,9 @@ export async function POST(req: Request) {
         const dateStr = new Date().toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' });
         page.drawText(`Date: ${dateStr}`, { x: 100, y: 80, size: 14, font: regularFont });
         page.drawLine({ start: { x: 90, y: 75 }, end: { x: 250, y: 75 }, thickness: 1 });
-        
+
         // Authorized Signature (Rafi Abdur Rahman)
-        page.drawText("Rafi Abdur Rahman", { x: width - 250 + 20, y: 90, size: 28, font: signatureFont, color: rgb(0.1, 0.2, 0.6), rotate: degrees(4) });
+        page.drawText("A.R Rafi", { x: width - 250 + 20, y: 90, size: 28, font: signatureFont, color: rgb(0.1, 0.2, 0.6), rotate: degrees(4) });
         page.drawText("Authorized Signature", { x: width - 250, y: 60, size: 14, font: regularFont });
         page.drawLine({ start: { x: width - 260, y: 80 }, end: { x: width - 100, y: 80 }, thickness: 1 });
 
