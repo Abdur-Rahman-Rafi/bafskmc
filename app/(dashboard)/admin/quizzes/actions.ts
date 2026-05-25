@@ -41,3 +41,13 @@ export async function deleteQuiz(id: string) {
         where: { id }
     });
 }
+
+export async function getQuizSubmissions(quizId: string) {
+    const session = await getServerSession(authOptions);
+    if (session?.user?.role !== "ADMIN") throw new Error("Unauthorized");
+
+    return prisma.submission.findMany({
+        where: { examId: quizId },
+        orderBy: { submittedAt: "desc" }
+    });
+}

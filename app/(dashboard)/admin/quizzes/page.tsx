@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { createQuiz, getQuizzes, deleteQuiz } from "./actions";
-import { Plus, Trash2, Upload, Loader2, Calendar, Clock, FileText } from "lucide-react";
+import { Plus, Trash2, Upload, Loader2, Calendar, Clock, FileText, Eye } from "lucide-react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 export default function AdminQuizzesPage() {
     const [quizzes, setQuizzes] = useState<any[]>([]);
@@ -180,9 +181,15 @@ export default function AdminQuizzesPage() {
                                         <span className="flex items-center"><Clock className="w-3 h-3 mr-1" /> {quiz.duration} Mins</span>
                                     </div>
                                 </div>
-                                <button onClick={() => handleDelete(quiz.id)} className="p-3 bg-red-500/10 hover:bg-red-500/20 text-red-500 rounded-xl border border-red-500/20 transition-all">
-                                    <Trash2 className="w-5 h-5" />
-                                </button>
+                                <div className="flex items-center gap-2">
+                                    <Link href={`/admin/quizzes/${quiz.id}/submissions`} className="p-3 bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 rounded-xl border border-blue-500/20 transition-all flex items-center gap-2">
+                                        <Eye className="w-5 h-5" />
+                                        <span className="text-[10px] font-black uppercase tracking-widest hidden md:inline">Submissions</span>
+                                    </Link>
+                                    <button onClick={() => handleDelete(quiz.id)} className="p-3 bg-red-500/10 hover:bg-red-500/20 text-red-500 rounded-xl border border-red-500/20 transition-all">
+                                        <Trash2 className="w-5 h-5" />
+                                    </button>
+                                </div>
                             </motion.div>
                         ))
                     )}
