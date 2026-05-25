@@ -106,6 +106,8 @@ model Exam {
   updatedAt       DateTime       @updatedAt
   duration        Int            @default(30)
   questionFileUrl String?
+  isQuizCompetition Boolean      @default(false)
+  category        String?
   creator         User           @relation("ExamCreator", fields: [creatorId], references: [id], onDelete: Cascade)
   registrations   Registration[]
   submissions     Submission[]
@@ -158,15 +160,17 @@ model Resource {
 model Submission {
   id                String   @id @default(cuid())
   examId            String
-  studentId         String
+  studentId         String?
+  guestData         Json?
   answers           Json?
   score             Float?
   markedBy          String?
   feedback          String?  @db.Text
   submittedAt       DateTime @default(now())
   submissionFileUrl String?
+  status            String   @default("SUBMITTED")
   exam              Exam     @relation(fields: [examId], references: [id], onDelete: Cascade)
-  student           User     @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  student           User?    @relation(fields: [studentId], references: [id], onDelete: Cascade)
 
   @@index([examId], map: "Submission_examId_fkey")
   @@index([studentId], map: "Submission_studentId_fkey")

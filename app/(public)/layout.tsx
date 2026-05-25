@@ -13,7 +13,18 @@ export default function PublicLayout({
             <NewsTicker />
             <Navbar />
 
-            <main className="flex-grow">{children}</main>
+            <main className="flex-grow">
+                <div className="bg-gold py-3 px-4 text-center border-b border-black/20 shadow-md">
+                    <p className="text-black font-black text-sm uppercase tracking-widest flex items-center justify-center">
+                        <span className="animate-pulse w-2 h-2 rounded-full bg-red-500 mr-2 border border-red-700"></span>
+                        Live Now: Math Quiz Competition! 
+                        <Link href="/quiz" className="ml-4 px-3 py-1 bg-black text-gold rounded-lg hover:bg-black/80 transition-all text-xs border border-black/10">
+                            Enter Portal &rarr;
+                        </Link>
+                    </p>
+                </div>
+                {children}
+            </main>
 
             <footer className="border-t py-12" style={{ backgroundColor: "#111111", borderColor: "rgba(201, 150, 43, 0.2)" }}>
                 <div className="max-w-7xl mx-auto px-4">
