@@ -64,6 +64,7 @@ export default function DashboardSidebar({ onClose }: { onClose?: () => void }) 
         { name: "Verify Payments", href: "/admin/payments", icon: <ShieldCheck className="h-4 w-4" /> },
         { name: "Manage News", href: "/admin/news", icon: <FileText className="h-4 w-4" /> },
         { name: "Manage Exams", href: "/admin/exams", icon: <ClipboardList className="h-4 w-4" /> },
+        { name: "Manage Quizzes", href: "/admin/quizzes", icon: <ClipboardList className="h-4 w-4" /> },
         { name: "Manage Resources", href: "/admin/resources", icon: <BookOpen className="h-4 w-4" /> },
         { name: "Manage Activities", href: "/admin/activities", icon: <Zap className="h-4 w-4" /> },
         { name: "Manage Members", href: "/admin/members", icon: <Shield className="h-4 w-4" /> },
