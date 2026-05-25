@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { createQuiz, getQuizzes, deleteQuiz } from "./actions";
-import { Plus, Trash2, Upload, Loader2, Calendar, Clock } from "lucide-react";
+import { Plus, Trash2, Upload, Loader2, Calendar, Clock, FileText } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function AdminQuizzesPage() {
@@ -12,11 +12,11 @@ export default function AdminQuizzesPage() {
     
     // Form state
     const [name, setName] = useState("");
-    const [category, setCategory] = useState("CLASS_5_8");
+    const [category, setCategory] = useState("CLASS_5");
     const [startTime, setStartTime] = useState("");
     const [endTime, setEndTime] = useState("");
     const [duration, setDuration] = useState("30");
-    const [questionFileUrl, setQuestionFileUrl] = useState("");
+    const [file, setFile] = useState<File | null>(null);
     
     useEffect(() => {
         loadQuizzes();
@@ -38,6 +38,27 @@ export default function AdminQuizzesPage() {
         e.preventDefault();
         setCreating(true);
         try {
+            let questionFileUrl = "";
+
+            // Handle File Upload if present
+            if (file) {
+                const formData = new FormData();
+                formData.append("file", file);
+                
+                const uploadRes = await fetch("/api/upload", {
+                    method: "POST",
+                    body: formData
+                });
+                
+                if (!uploadRes.ok) {
+                    const error = await uploadRes.json();
+                    throw new Error(error.error || "Failed to upload file");
+                }
+                
+                const uploadData = await uploadRes.json();
+                questionFileUrl = uploadData.url;
+            }
+
             await createQuiz({
                 name,
                 category,
@@ -46,13 +67,14 @@ export default function AdminQuizzesPage() {
                 duration: parseInt(duration),
                 questionFileUrl
             });
+            
             setName("");
             setStartTime("");
             setEndTime("");
-            setQuestionFileUrl("");
+            setFile(null);
             await loadQuizzes();
-        } catch (e) {
-            alert("Error creating quiz");
+        } catch (e: any) {
+            alert(e.message || "Error creating quiz");
         } finally {
             setCreating(false);
         }
@@ -84,10 +106,14 @@ export default function AdminQuizzesPage() {
                             <input required value={name} onChange={e=>setName(e.target.value)} className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white outline-none focus:border-gold" />
                         </div>
                         <div>
-                            <label className="block text-xs font-bold text-white/50 mb-1">Category</label>
+                            <label className="block text-xs font-bold text-white/50 mb-1">Class</label>
                             <select value={category} onChange={e=>setCategory(e.target.value)} className="w-full bg-black border border-white/10 rounded-xl p-3 text-white outline-none focus:border-gold">
-                                <option value="CLASS_5_8">Class 5 to 8</option>
-                                <option value="CLASS_9_10">Class 9 to 10</option>
+                                <option value="CLASS_5">Class 5</option>
+                                <option value="CLASS_6">Class 6</option>
+                                <option value="CLASS_7">Class 7</option>
+                                <option value="CLASS_8">Class 8</option>
+                                <option value="CLASS_9">Class 9</option>
+                                <option value="CLASS_10">Class 10</option>
                             </select>
                         </div>
                         <div className="grid grid-cols-2 gap-2">
@@ -105,8 +131,27 @@ export default function AdminQuizzesPage() {
                             <input type="number" required value={duration} onChange={e=>setDuration(e.target.value)} className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white outline-none focus:border-gold" />
                         </div>
                         <div>
-                            <label className="block text-xs font-bold text-white/50 mb-1">Question File URL (Upload elsewhere and paste link)</label>
-                            <input value={questionFileUrl} onChange={e=>setQuestionFileUrl(e.target.value)} placeholder="https://..." className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white outline-none focus:border-gold" />
+                            <label className="block text-xs font-bold text-white/50 mb-1">Question File (PDF/Image)</label>
+                            <div className="relative border-2 border-dashed border-white/20 rounded-xl p-6 text-center hover:border-gold/50 transition-colors">
+                                <input 
+                                    type="file" 
+                                    accept="application/pdf,image/*"
+                                    onChange={e => setFile(e.target.files?.[0] || null)} 
+                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" 
+                                />
+                                {file ? (
+                                    <div className="flex flex-col items-center">
+                                        <FileText className="w-8 h-8 text-gold mb-2" />
+                                        <span className="text-sm font-bold text-white">{file.name}</span>
+                                        <span className="text-xs text-white/50">{(file.size / 1024 / 1024).toFixed(2)} MB</span>
+                                    </div>
+                                ) : (
+                                    <div className="flex flex-col items-center">
+                                        <Upload className="w-8 h-8 text-white/30 mb-2" />
+                                        <span className="text-sm font-bold text-white/50">Click to upload question file</span>
+                                    </div>
+                                )}
+                            </div>
                         </div>
                         <button disabled={creating} type="submit" className="w-full bg-gold hover:bg-[#F0C040] text-black font-black p-3 rounded-xl transition-all disabled:opacity-50 flex items-center justify-center">
                             {creating ? <Loader2 className="animate-spin w-5 h-5" /> : <><Plus className="w-5 h-5 mr-2" /> Create Quiz</>}

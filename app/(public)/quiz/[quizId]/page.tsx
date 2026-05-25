@@ -174,7 +174,7 @@ export default function QuizExecutionPage({ params }: { params: Promise<{ quizId
     }
 
     if (step === "REGISTRATION") {
-        const isClass910 = quiz.category === "CLASS_9_10";
+        const isClass910 = quiz.category === "CLASS_9" || quiz.category === "CLASS_10";
         return (
             <div className="max-w-xl mx-auto py-12 px-4">
                 <div className="bg-[#151515] p-8 rounded-3xl border border-white/5 shadow-2xl relative overflow-hidden">
