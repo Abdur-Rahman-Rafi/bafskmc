@@ -49,72 +49,112 @@ export async function POST(req: Request) {
         const page = pdfDoc.addPage([841.89, 595.28]); // A4 landscape
         const { width, height } = page.getSize();
 
-        // Draw Background
-        // Base fill
+        const goldColor = rgb(0.788, 0.588, 0.168); // #C9962B approx
+        const faintGold = rgb(0.93, 0.89, 0.78);
+        const gridColor = rgb(0.96, 0.95, 0.93);
+        const baseCream = rgb(0.984, 0.976, 0.961);
+        
+        // 1. Base fill
         page.drawRectangle({
-            x: 0, y: 0,
-            width, height,
-            color: rgb(0.984, 0.976, 0.961), // #Fbf9f5 (Soft warm ivory)
+            x: 0, y: 0, width, height,
+            color: baseCream,
         });
 
-        // Top Left corner geometric accents
-        page.drawSvgPath(`M 0,${height} L 200,${height} L 0,${height - 200} Z`, {
-            color: rgb(0.949, 0.929, 0.878),
-        });
-        page.drawSvgPath(`M 0,${height} L 120,${height} L 0,${height - 120} Z`, {
-            color: rgb(0.922, 0.890, 0.820),
-        });
+        // 2. Corner Soft Glows
+        page.drawCircle({ x: 0, y: height, size: 400, color: rgb(0.965, 0.95, 0.92) });
+        page.drawCircle({ x: width, y: 0, size: 400, color: rgb(0.965, 0.95, 0.92) });
 
-        // Bottom Right corner geometric accents
-        page.drawSvgPath(`M ${width},0 L ${width - 200},0 L ${width},200 Z`, {
-            color: rgb(0.949, 0.929, 0.878),
-        });
-        page.drawSvgPath(`M ${width},0 L ${width - 120},0 L ${width},120 Z`, {
-            color: rgb(0.922, 0.890, 0.820),
-        });
+        // 3. Faint Math Graph Paper Grid
+        for (let i = 0; i < width; i += 20) {
+            page.drawLine({
+                start: { x: i, y: 0 }, end: { x: i, y: height },
+                thickness: 0.5, color: gridColor,
+            });
+        }
+        for (let j = 0; j < height; j += 20) {
+            page.drawLine({
+                start: { x: 0, y: j }, end: { x: width, y: j },
+                thickness: 0.5, color: gridColor,
+            });
+        }
 
-        // Subtle geometric math-club themed watermark (Intersecting circles)
+        // 4. Central Geometric Rosette (Sacred Geometry / Math Theme)
         const centerX = width / 2;
         const centerY = height / 2;
+        const rosetteRadius = 220;
         
-        page.drawCircle({
-            x: centerX, y: centerY,
-            size: 280,
-            borderColor: rgb(0.949, 0.929, 0.878),
-            borderWidth: 1,
-        });
-        page.drawCircle({
-            x: centerX, y: centerY,
-            size: 200,
-            borderColor: rgb(0.93, 0.90, 0.84),
-            borderWidth: 1,
-        });
-        page.drawCircle({
-            x: centerX - 80, y: centerY,
-            size: 150,
-            borderColor: rgb(0.949, 0.929, 0.878),
-            borderWidth: 1,
-        });
-        page.drawCircle({
-            x: centerX + 80, y: centerY,
-            size: 150,
-            borderColor: rgb(0.949, 0.929, 0.878),
-            borderWidth: 1,
-        });
+        // Draw 12 overlapping circles
+        for(let i = 0; i < 12; i++) {
+            const angle = (i * 30 * Math.PI) / 180;
+            const cx = centerX + Math.cos(angle) * (rosetteRadius * 0.35);
+            const cy = centerY + Math.sin(angle) * (rosetteRadius * 0.35);
+            page.drawCircle({
+                x: cx, y: cy, size: rosetteRadius,
+                borderColor: faintGold,
+                borderWidth: 1.2,
+            });
+        }
+        // Center focal rings
+        page.drawCircle({ x: centerX, y: centerY, size: rosetteRadius + 80, borderColor: faintGold, borderWidth: 1.5 });
+        page.drawCircle({ x: centerX, y: centerY, size: rosetteRadius + 95, borderColor: rgb(0.95, 0.93, 0.88), borderWidth: 0.5 });
+        page.drawCircle({ x: centerX, y: centerY, size: rosetteRadius * 0.35, borderColor: faintGold, borderWidth: 1 });
 
-        // Draw Border
-        const goldColor = rgb(0.788, 0.588, 0.168); // #C9962B approx
+        // 5. Intricate Corner Ornaments
+        const cornerSize = 220;
+        
+        // Top Left Complex Corner
+        page.drawSvgPath(`M 0,${height} L ${cornerSize},${height} L 0,${height - cornerSize} Z`, { color: rgb(0.94, 0.92, 0.88) });
+        page.drawSvgPath(`M 0,${height} L ${cornerSize - 40},${height} L 0,${height - cornerSize + 40} Z`, { color: rgb(0.92, 0.89, 0.84) });
+        page.drawSvgPath(`M 0,${height} L ${cornerSize - 80},${height} L 0,${height - cornerSize + 80} Z`, { color: faintGold });
+        // Striped accent lines for top-left
+        for(let i = 0; i < 4; i++) {
+            page.drawLine({
+                start: { x: 0, y: height - cornerSize + 110 + i * 15 },
+                end: { x: cornerSize - 110 - i * 15, y: height },
+                thickness: 1.5, color: rgb(0.85, 0.78, 0.65)
+            });
+        }
+
+        // Bottom Right Complex Corner
+        page.drawSvgPath(`M ${width},0 L ${width - cornerSize},0 L ${width},${cornerSize} Z`, { color: rgb(0.94, 0.92, 0.88) });
+        page.drawSvgPath(`M ${width},0 L ${width - cornerSize + 40},0 L ${width},${cornerSize - 40} Z`, { color: rgb(0.92, 0.89, 0.84) });
+        page.drawSvgPath(`M ${width},0 L ${width - cornerSize + 80},0 L ${width},${cornerSize - 80} Z`, { color: faintGold });
+        // Striped accent lines for bottom-right
+        for(let i = 0; i < 4; i++) {
+            page.drawLine({
+                start: { x: width, y: cornerSize - 110 - i * 15 },
+                end: { x: width - cornerSize + 110 + i * 15, y: 0 },
+                thickness: 1.5, color: rgb(0.85, 0.78, 0.65)
+            });
+        }
+
+        // 6. Rich Multi-layered Frame Border
+        // Thick outer gold
         page.drawRectangle({
             x: 20, y: 20,
             width: width - 40, height: height - 40,
             borderColor: goldColor,
             borderWidth: 5,
         });
+        // Thin gold
         page.drawRectangle({
             x: 28, y: 28,
             width: width - 56, height: height - 56,
             borderColor: goldColor,
             borderWidth: 1,
+        });
+        // Inner thin dark accent frame
+        page.drawRectangle({
+            x: 36, y: 36,
+            width: width - 72, height: height - 72,
+            borderColor: rgb(0.2, 0.2, 0.25),
+            borderWidth: 0.5,
+        });
+        page.drawRectangle({
+            x: 40, y: 40,
+            width: width - 80, height: height - 80,
+            borderColor: goldColor,
+            borderWidth: 0.5,
         });
 
         // Register fontkit for custom fonts
