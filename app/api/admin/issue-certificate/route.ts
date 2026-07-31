@@ -49,6 +49,59 @@ export async function POST(req: Request) {
         const page = pdfDoc.addPage([841.89, 595.28]); // A4 landscape
         const { width, height } = page.getSize();
 
+        // Draw Background
+        // Base fill
+        page.drawRectangle({
+            x: 0, y: 0,
+            width, height,
+            color: rgb(0.984, 0.976, 0.961), // #Fbf9f5 (Soft warm ivory)
+        });
+
+        // Top Left corner geometric accents
+        page.drawSvgPath(`M 0,${height} L 200,${height} L 0,${height - 200} Z`, {
+            color: rgb(0.949, 0.929, 0.878),
+        });
+        page.drawSvgPath(`M 0,${height} L 120,${height} L 0,${height - 120} Z`, {
+            color: rgb(0.922, 0.890, 0.820),
+        });
+
+        // Bottom Right corner geometric accents
+        page.drawSvgPath(`M ${width},0 L ${width - 200},0 L ${width},200 Z`, {
+            color: rgb(0.949, 0.929, 0.878),
+        });
+        page.drawSvgPath(`M ${width},0 L ${width - 120},0 L ${width},120 Z`, {
+            color: rgb(0.922, 0.890, 0.820),
+        });
+
+        // Subtle geometric math-club themed watermark (Intersecting circles)
+        const centerX = width / 2;
+        const centerY = height / 2;
+        
+        page.drawCircle({
+            x: centerX, y: centerY,
+            size: 280,
+            borderColor: rgb(0.949, 0.929, 0.878),
+            borderWidth: 1,
+        });
+        page.drawCircle({
+            x: centerX, y: centerY,
+            size: 200,
+            borderColor: rgb(0.93, 0.90, 0.84),
+            borderWidth: 1,
+        });
+        page.drawCircle({
+            x: centerX - 80, y: centerY,
+            size: 150,
+            borderColor: rgb(0.949, 0.929, 0.878),
+            borderWidth: 1,
+        });
+        page.drawCircle({
+            x: centerX + 80, y: centerY,
+            size: 150,
+            borderColor: rgb(0.949, 0.929, 0.878),
+            borderWidth: 1,
+        });
+
         // Draw Border
         const goldColor = rgb(0.788, 0.588, 0.168); // #C9962B approx
         page.drawRectangle({
