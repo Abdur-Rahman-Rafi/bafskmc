@@ -306,7 +306,7 @@ export async function POST(req: Request) {
                 `,
                 attachments: [
                     {
-                        filename: `${userName.replace(/\s+/g, '_')}_Certificate.pdf`,
+                        filename: `${userName.replace(/\s+/g, '_')}_Certificate_${Date.now()}.pdf`,
                         content: pdfBuffer,
                         contentType: 'application/pdf'
                     }
