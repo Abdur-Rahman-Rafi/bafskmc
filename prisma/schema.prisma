@@ -285,6 +285,11 @@ model PanelApplication {
   confirmationEmailSent Boolean @default(false)
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
+  chosenPanel     String?
+  clubComment     String?   @db.Text
+  totalMarks      Float?
+  judgeMarks      JudgeMark[]
+  progress        ApplicationProgress[]
 }
 
 model Advertisement {
@@ -322,4 +327,53 @@ model DocumentRequest {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
+}
+
+model Judge {
+  id        String      @id @default(cuid())
+  name      String
+  isActive  Boolean     @default(true)
+  marks     JudgeMark[]
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+}
+
+model ProgressHop {
+  id          String                @id @default(cuid())
+  title       String
+  order       Int
+  isActive    Boolean               @default(true)
+  progresses  ApplicationProgress[]
+  createdAt   DateTime              @default(now())
+  updatedAt   DateTime              @updatedAt
+}
+
+model JudgeMark {
+  id            String           @id @default(cuid())
+  judgeId       String
+  applicationId String
+  mark          Float
+  judge         Judge            @relation(fields: [judgeId], references: [id], onDelete: Cascade)
+  application   PanelApplication @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+
+  @@unique([judgeId, applicationId])
+  @@index([judgeId])
+  @@index([applicationId])
+}
+
+model ApplicationProgress {
+  id            String           @id @default(cuid())
+  applicationId String
+  hopId         String
+  isCompleted   Boolean          @default(false)
+  application   PanelApplication @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  hop           ProgressHop      @relation(fields: [hopId], references: [id], onDelete: Cascade)
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+
+  @@unique([applicationId, hopId])
+  @@index([applicationId])
+  @@index([hopId])
 }
