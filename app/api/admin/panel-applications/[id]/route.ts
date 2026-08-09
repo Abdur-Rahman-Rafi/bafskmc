@@ -31,10 +31,45 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
         if (data.vivaTime !== undefined) updateData.vivaTime = data.vivaTime ? new Date(data.vivaTime) : null;
         if (data.vivaLink !== undefined) updateData.vivaLink = data.vivaLink;
         if (data.confirmationEmailSent !== undefined) updateData.confirmationEmailSent = data.confirmationEmailSent;
+        if (data.clubComment !== undefined) updateData.clubComment = data.clubComment;
+        if (data.chosenPanel !== undefined) updateData.chosenPanel = data.chosenPanel;
 
-        const application = await prisma.panelApplication.update({
-            where: { id },
-            data: updateData
+        const application = await prisma.$transaction(async (tx) => {
+            let totalMarks = currentApp.totalMarks || 0; // fallback, but we recalculate
+
+            // Handle judgeMarks if provided
+            if (data.judgeMarks) {
+                totalMarks = 0;
+                for (const jm of data.judgeMarks) {
+                    totalMarks += jm.mark;
+                    await tx.judgeMark.upsert({
+                        where: {
+                            judgeId_applicationId: { judgeId: jm.judgeId, applicationId: id },
+                        },
+                        update: { mark: jm.mark },
+                        create: { judgeId: jm.judgeId, applicationId: id, mark: jm.mark },
+                    });
+                }
+                updateData.totalMarks = totalMarks;
+            }
+
+            // Handle progress if provided
+            if (data.progress) {
+                for (const p of data.progress) {
+                    await tx.applicationProgress.upsert({
+                        where: {
+                            applicationId_hopId: { applicationId: id, hopId: p.hopId },
+                        },
+                        update: { isCompleted: p.isCompleted },
+                        create: { applicationId: id, hopId: p.hopId, isCompleted: p.isCompleted },
+                    });
+                }
+            }
+
+            return await tx.panelApplication.update({
+                where: { id },
+                data: updateData
+            });
         });
 
         // Actual Email Sending Logic

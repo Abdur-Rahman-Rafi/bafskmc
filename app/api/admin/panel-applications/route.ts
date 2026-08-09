@@ -15,13 +15,25 @@ export async function GET() {
     try {
         const apps = await prisma.panelApplication.findMany({
             orderBy: { createdAt: "desc" },
+            include: {
+                judgeMarks: true,
+                progress: true,
+            }
         });
 
         const statusConfig = await prisma.siteConfig.findUnique({
             where: { key: "PANEL_APPLICATION_STATUS" }
         });
 
-        return NextResponse.json({ apps, isOpen: statusConfig?.value !== "CLOSED" });
+        const judges = await prisma.judge.findMany({ where: { isActive: true } });
+        const hops = await prisma.progressHop.findMany({ where: { isActive: true }, orderBy: { order: "asc" } });
+
+        return NextResponse.json({ 
+            apps, 
+            isOpen: statusConfig?.value !== "CLOSED",
+            judges,
+            hops
+        });
     } catch (err: any) {
         return NextResponse.json({ error: "Failed to fetch applications" }, { status: 500 });
     }

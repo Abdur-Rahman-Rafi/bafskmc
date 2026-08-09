@@ -23,6 +23,10 @@ interface PanelApplication {
     vivaLink: string | null;
     confirmationEmailSent: boolean;
     createdAt: string;
+    clubComment: string | null;
+    chosenPanel: string | null;
+    judgeMarks: { judgeId: string; mark: number }[];
+    progress: { hopId: string; isCompleted: boolean }[];
 }
 
 export default function PanelApplicationsAdminPage() {
@@ -38,6 +42,14 @@ export default function PanelApplicationsAdminPage() {
     const [editVivaLink, setEditVivaLink] = useState("");
     const [editConfirmationEmailSent, setEditConfirmationEmailSent] = useState(false);
 
+    // Evaluate states
+    const [judges, setJudges] = useState<any[]>([]);
+    const [hops, setHops] = useState<any[]>([]);
+    const [judgeMarks, setJudgeMarks] = useState<Record<string, number>>({});
+    const [progress, setProgress] = useState<Record<string, boolean>>({});
+    const [clubComment, setClubComment] = useState("");
+    const [chosenPanel, setChosenPanel] = useState("");
+
     const fetchApps = async () => {
         setLoading(true);
         try {
@@ -46,6 +58,8 @@ export default function PanelApplicationsAdminPage() {
                 const data = await res.json();
                 setApps(data.apps || []);
                 setIsOpen(data.isOpen || false);
+                setJudges(data.judges || []);
+                setHops(data.hops || []);
             }
         } catch (err) {
             console.error("Failed to fetch applications", err);
@@ -112,11 +126,30 @@ export default function PanelApplicationsAdminPage() {
         setEditVivaTime(formattedDate);
         setEditVivaLink(app.vivaLink || "");
         setEditConfirmationEmailSent(app.confirmationEmailSent || false);
+
+        setClubComment(app.clubComment || "");
+        setChosenPanel(app.chosenPanel || "");
+
+        const initialMarks: Record<string, number> = {};
+        (app.judgeMarks || []).forEach((jm: any) => {
+            initialMarks[jm.judgeId] = jm.mark;
+        });
+        setJudgeMarks(initialMarks);
+
+        const initialProgress: Record<string, boolean> = {};
+        (app.progress || []).forEach((p: any) => {
+            initialProgress[p.hopId] = p.isCompleted;
+        });
+        setProgress(initialProgress);
     };
 
     const handleUpdateViva = async () => {
         if (!selectedApp) return;
         setActionLoading(true);
+
+        const marksPayload = Object.entries(judgeMarks).map(([judgeId, mark]) => ({ judgeId, mark }));
+        const progressPayload = Object.entries(progress).map(([hopId, isCompleted]) => ({ hopId, isCompleted }));
+
         try {
             const res = await fetch(`/api/admin/panel-applications/${selectedApp.id}`, {
                 method: "PUT",
@@ -126,6 +159,10 @@ export default function PanelApplicationsAdminPage() {
                     vivaTime: editVivaTime ? new Date(editVivaTime).toISOString() : null,
                     vivaLink: editVivaLink || null,
                     confirmationEmailSent: editConfirmationEmailSent,
+                    clubComment,
+                    chosenPanel,
+                    judgeMarks: marksPayload,
+                    progress: progressPayload
                 })
             });
             if (res.ok) {
@@ -304,21 +341,14 @@ export default function PanelApplicationsAdminPage() {
                                                 <span className="text-xs text-white/20">Not scheduled</span>
                                             )}
                                         </td>
-                                        <td className="p-6 text-right space-x-2">
+                                        <td className="p-6 text-right">
                                             <button
                                                 onClick={() => handleOpenModal(app)}
-                                                className="inline-flex items-center justify-center p-2 bg-white/5 hover:bg-white/10 text-white rounded-xl transition-colors"
-                                                title="Edit Status & Viva"
+                                                className="inline-flex items-center justify-center p-2 bg-gold/10 hover:bg-gold/20 text-gold rounded-xl transition-colors"
+                                                title="Manage Application & Evaluate"
                                             >
                                                 <Edit className="h-4 w-4" />
                                             </button>
-                                            <Link
-                                                href={`/admin/panel-applications/${app.id}/evaluate`}
-                                                className="inline-flex items-center justify-center p-2 bg-gold/10 hover:bg-gold/20 text-gold rounded-xl transition-colors"
-                                                title="Evaluate Marks"
-                                            >
-                                                <CheckCircle className="h-4 w-4" />
-                                            </Link>
                                         </td>
                                     </tr>
                                 ))}
@@ -334,12 +364,12 @@ export default function PanelApplicationsAdminPage() {
                     <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
                         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => setSelectedApp(null)} />
                         
-                        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="bg-[#151515] border border-white/10 rounded-3xl p-8 relative z-10 w-full max-w-lg shadow-2xl">
+                        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="bg-[#151515] border border-white/10 rounded-3xl p-8 relative z-10 w-full max-w-4xl shadow-2xl max-h-[90vh] overflow-y-auto">
                             <button onClick={() => setSelectedApp(null)} className="absolute top-6 right-6 text-white/40 hover:text-white transition-colors">
                                 <X className="h-5 w-5" />
                             </button>
 
-                            <h3 className="text-xl font-black text-white mb-6">Manage Applicant</h3>
+                            <h3 className="text-xl font-black text-white mb-6">Manage & Evaluate Applicant</h3>
                             
                             <div className="space-y-6">
                                 <div>
@@ -393,6 +423,68 @@ export default function PanelApplicationsAdminPage() {
                                         />
                                         <span className="text-sm font-bold text-white tracking-widest">Mark Confirmation Email Sent</span>
                                     </label>
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+                                <div className="space-y-6">
+                                    <div>
+                                        <label className="text-[10px] font-black text-white/30 uppercase tracking-widest pl-1 mb-2 block">Chosen Panel</label>
+                                        <input
+                                            type="text"
+                                            value={chosenPanel}
+                                            onChange={e => setChosenPanel(e.target.value)}
+                                            placeholder="e.g. Executive Panel"
+                                            className="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-xl outline-none focus:border-gold/50 text-sm text-white"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="text-[10px] font-black text-white/30 uppercase tracking-widest pl-1 mb-2 block">Judges Marks</label>
+                                        <div className="space-y-3 p-4 bg-white/[0.02] border border-white/5 rounded-xl">
+                                            {judges.length === 0 ? <p className="text-xs text-white/30">No judges found.</p> : judges.map(judge => (
+                                                <div key={judge.id} className="flex items-center justify-between">
+                                                    <span className="text-sm font-bold text-white/70">{judge.name}</span>
+                                                    <input
+                                                        type="number"
+                                                        min="0"
+                                                        value={judgeMarks[judge.id] || ''}
+                                                        onChange={e => setJudgeMarks({ ...judgeMarks, [judge.id]: Number(e.target.value) })}
+                                                        className="w-20 px-3 py-2 bg-[#111] border border-white/10 rounded-lg outline-none text-white text-center text-sm"
+                                                        placeholder="Mark"
+                                                    />
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="space-y-6">
+                                    <div>
+                                        <label className="text-[10px] font-black text-white/30 uppercase tracking-widest pl-1 mb-2 block">Progress Tracker</label>
+                                        <div className="space-y-3 p-4 bg-white/[0.02] border border-white/5 rounded-xl">
+                                            {hops.length === 0 ? <p className="text-xs text-white/30">No hops found.</p> : hops.map(hop => (
+                                                <label key={hop.id} className="flex items-center space-x-3 cursor-pointer">
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={progress[hop.id] || false}
+                                                        onChange={e => setProgress({ ...progress, [hop.id]: e.target.checked })}
+                                                        className="w-4 h-4 rounded accent-gold"
+                                                    />
+                                                    <span className="text-sm font-bold text-white/70">{hop.title}</span>
+                                                </label>
+                                            ))}
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label className="text-[10px] font-black text-white/30 uppercase tracking-widest pl-1 mb-2 block">Club Comment</label>
+                                        <textarea
+                                            value={clubComment}
+                                            onChange={e => setClubComment(e.target.value)}
+                                            placeholder="Final remarks or comments..."
+                                            rows={3}
+                                            className="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-xl outline-none focus:border-gold/50 text-sm text-white"
+                                        />
+                                    </div>
                                 </div>
                             </div>
 
