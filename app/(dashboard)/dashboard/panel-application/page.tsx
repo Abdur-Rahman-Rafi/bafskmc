@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { Loader2, Calendar, Link as LinkIcon, Clock, CheckCircle, AlertCircle, Shield } from "lucide-react";
+import { Loader2, Calendar, Link as LinkIcon, Clock, CheckCircle, AlertCircle, Shield, Mail } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
