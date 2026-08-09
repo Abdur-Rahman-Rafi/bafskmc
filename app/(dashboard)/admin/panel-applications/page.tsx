@@ -147,7 +147,10 @@ export default function PanelApplicationsAdminPage() {
         if (!selectedApp) return;
         setActionLoading(true);
 
-        const marksPayload = Object.entries(judgeMarks).map(([judgeId, mark]) => ({ judgeId, mark }));
+        const marksPayload = Object.entries(judgeMarks)
+            .filter(([_, mark]) => mark !== null && mark !== undefined && String(mark).trim() !== "")
+            .map(([judgeId, mark]) => ({ judgeId, mark: Number(mark) }))
+            .filter(jm => !isNaN(jm.mark));
         const progressPayload = Object.entries(progress).map(([hopId, isCompleted]) => ({ hopId, isCompleted }));
 
         try {
@@ -230,19 +233,33 @@ export default function PanelApplicationsAdminPage() {
     return (
         <div className="space-y-8 pb-20">
             {/* Header Actions */}
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-3xl font-black text-white tracking-tighter uppercase flex items-center">
-                        Panel <span className="text-gold ml-2 mr-3">Applications</span>
+                    <h1 className="text-3xl font-black text-white tracking-tighter uppercase mb-1">
+                        Panel <span className="text-gold">Applications</span>
                         {isOpen ? (
-                            <span className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-lg text-[10px] uppercase font-black tracking-widest">Open</span>
+                            <span className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-lg text-[10px] uppercase font-black tracking-widest ml-4">Open</span>
                         ) : (
-                            <span className="bg-red-500/10 text-red-500 border border-red-500/20 px-3 py-1 rounded-lg text-[10px] uppercase font-black tracking-widest">Closed</span>
+                            <span className="bg-red-500/10 text-red-500 border border-red-500/20 px-3 py-1 rounded-lg text-[10px] uppercase font-black tracking-widest ml-4">Closed</span>
                         )}
                     </h1>
                     <p className="text-white/40 text-xs font-black uppercase tracking-widest mt-1">Review & Schedule Viva</p>
                 </div>
-                <div className="flex items-center space-x-3 w-full md:w-auto">
+                <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
+                    <Link 
+                        href="/admin/judges"
+                        className="inline-flex items-center space-x-2 bg-white/5 hover:bg-white/10 text-white px-4 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-colors"
+                    >
+                        <Users className="h-4 w-4" />
+                        <span>Judges</span>
+                    </Link>
+                    <Link 
+                        href="/admin/hops"
+                        className="inline-flex items-center space-x-2 bg-white/5 hover:bg-white/10 text-white px-4 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-colors"
+                    >
+                        <ClipboardList className="h-4 w-4" />
+                        <span>Tracker Hops</span>
+                    </Link>
                     {!isOpen ? (
                         <button
                             onClick={handleOpenApplications}
