@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Loader2, Mail, Users, CheckCircle, Clock, Link as LinkIcon, Edit, X, Download } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 
 interface PanelApplication {
     id: string;
@@ -303,13 +304,21 @@ export default function PanelApplicationsAdminPage() {
                                                 <span className="text-xs text-white/20">Not scheduled</span>
                                             )}
                                         </td>
-                                        <td className="p-6 text-right">
+                                        <td className="p-6 text-right space-x-2">
                                             <button
                                                 onClick={() => handleOpenModal(app)}
                                                 className="inline-flex items-center justify-center p-2 bg-white/5 hover:bg-white/10 text-white rounded-xl transition-colors"
+                                                title="Edit Status & Viva"
                                             >
                                                 <Edit className="h-4 w-4" />
                                             </button>
+                                            <Link
+                                                href={`/admin/panel-applications/${app.id}/evaluate`}
+                                                className="inline-flex items-center justify-center p-2 bg-gold/10 hover:bg-gold/20 text-gold rounded-xl transition-colors"
+                                                title="Evaluate Marks"
+                                            >
+                                                <CheckCircle className="h-4 w-4" />
+                                            </Link>
                                         </td>
                                     </tr>
                                 ))}

@@ -19,6 +19,8 @@ export default function StudentPanelApplicationStatus() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [statusData, setStatusData] = useState<AppStatus | null>(null);
+    const [resultData, setResultData] = useState<any>(null);
+    const [emailSending, setEmailSending] = useState(false);
     const [configData, setConfigData] = useState<{ startDate: string; deadline: string } | null>(null);
     const [waitTime, setWaitTime] = useState<string>("");
 
@@ -36,6 +38,13 @@ export default function StudentPanelApplicationStatus() {
                 if (configRes.ok) {
                     const configData = await configRes.json();
                     setConfigData({ startDate: configData.startDate, deadline: configData.deadline });
+                }
+
+                // Attempt to fetch results (only available if evaluated)
+                const resultRes = await fetch('/api/student/panel-result');
+                if (resultRes.ok) {
+                    const rData = await resultRes.json();
+                    setResultData(rData);
                 }
 
                 if (!statusRes.ok) {
@@ -88,6 +97,24 @@ export default function StudentPanelApplicationStatus() {
         }
         return () => clearInterval(interval);
     }, [statusData]);
+
+    const sendEmail = async () => {
+        setEmailSending(true);
+        try {
+            const res = await fetch('/api/student/panel-result/email', { method: 'POST' });
+            if (res.ok) {
+                alert('Email sent successfully! Check your inbox.');
+            } else {
+                alert('Failed to send email.');
+            }
+        } catch (err) {
+            alert('Error sending email.');
+        } finally {
+            setEmailSending(false);
+        }
+    };
+
+    const sortedProgress = resultData ? [...(resultData.progress || [])].sort((a: any, b: any) => a.hop.order - b.hop.order) : [];
 
     if (loading) {
         return (
@@ -165,7 +192,7 @@ export default function StudentPanelApplicationStatus() {
                             <CheckCircle className="h-16 w-16 text-emerald-500" />
                             <div>
                                 <h3 className="text-emerald-400 font-bold text-xl">Application Processed Successfully!</h3>
-                                <p className="text-white/60 font-medium mt-2 max-w-lg mx-auto">Your application and viva have been recorded. Keep an eye on the official notice board and your emails for the final executive panel announcements!</p>
+                                <p className="text-white/60 font-medium mt-2 max-w-lg mx-auto">Your application and viva have been recorded. Here is your evaluation result:</p>
                             </div>
                         </div>
                     ) : statusData.vivaTime ? (
@@ -213,6 +240,122 @@ export default function StudentPanelApplicationStatus() {
                             <Clock className="h-12 w-12 text-white/10 mx-auto mb-6" />
                             <h3 className="text-lg font-bold text-white mb-2">Application Under Review</h3>
                             <p className="text-white/50 text-sm max-w-md mx-auto">Your application has been received and is currently being assessed. Your Viva schedule will appear here once an admin assigns it.</p>
+                        </div>
+                    )}
+
+                    {/* Result Section (Only shown if results exist) */}
+                    {resultData && (
+                        <div className="mt-12 pt-12 border-t border-white/5 space-y-8">
+                            <div className="flex flex-col md:flex-row items-center justify-between bg-white/[0.02] border border-white/5 p-6 rounded-2xl">
+                                <div>
+                                    <h3 className="text-2xl font-black text-white">Evaluation Results</h3>
+                                    <p className="text-white/50 text-sm mt-1">Detailed breakdown of your panel application.</p>
+                                </div>
+                                <div className="mt-4 md:mt-0 bg-gold/10 px-6 py-3 rounded-xl border border-gold/20 text-center">
+                                    <p className="text-[10px] text-gold font-black uppercase tracking-widest">Chosen Panel</p>
+                                    <p className="text-xl font-black text-white mt-1">{resultData.chosenPanel || 'Pending'}</p>
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                                <div className="lg:col-span-2 space-y-8">
+                                    {/* Progress Tracker */}
+                                    <div className="bg-white/[0.02] border border-white/5 p-8 rounded-3xl">
+                                        <h4 className="text-lg font-bold text-white mb-6 flex items-center">
+                                            <div className="p-2 bg-blue-500/10 text-blue-400 rounded-lg mr-3">
+                                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                            </div>
+                                            Progress Tracker
+                                        </h4>
+                                        <div className="space-y-6">
+                                            {sortedProgress.length === 0 ? (
+                                                <p className="text-white/40 italic text-sm">No progress recorded yet.</p>
+                                            ) : (
+                                                sortedProgress.map((p: any, idx: number) => (
+                                                    <div key={p.id} className="relative flex items-center">
+                                                        {idx !== sortedProgress.length - 1 && (
+                                                            <div className={`absolute top-8 left-4 -ml-px h-full w-0.5 ${p.isCompleted ? 'bg-gold' : 'bg-white/10'}`} aria-hidden="true" />
+                                                        )}
+                                                        <div className={`relative flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-full border-2 ${p.isCompleted ? 'border-gold bg-gold/20' : 'border-white/10 bg-[#151515]'}`}>
+                                                            {p.isCompleted ? (
+                                                                <CheckCircle className="h-4 w-4 text-gold" />
+                                                            ) : (
+                                                                <div className="h-2 w-2 bg-white/20 rounded-full" />
+                                                            )}
+                                                        </div>
+                                                        <div className="ml-4 min-w-0 flex-1 flex justify-between items-center">
+                                                            <p className={`text-sm font-bold ${p.isCompleted ? 'text-white' : 'text-white/40'}`}>
+                                                                {p.hop.title}
+                                                            </p>
+                                                            {p.isCompleted ? (
+                                                                <span className="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                                                                    Completed
+                                                                </span>
+                                                            ) : (
+                                                                <span className="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-white/5 text-white/40 border border-white/10">
+                                                                    Pending
+                                                                </span>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                ))
+                                            )}
+                                        </div>
+                                    </div>
+
+                                    {/* Club Comment */}
+                                    {resultData.clubComment && (
+                                        <div className="bg-blue-500/5 border border-blue-500/10 p-8 rounded-3xl">
+                                            <h4 className="text-sm font-bold text-blue-400 uppercase tracking-widest mb-3">Message from the Club</h4>
+                                            <p className="text-white/80 leading-relaxed italic">"{resultData.clubComment}"</p>
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div className="space-y-8">
+                                    {/* Marks Summary */}
+                                    <div className="bg-white/[0.02] border border-white/5 rounded-3xl p-6 relative overflow-hidden">
+                                        <div className="absolute top-0 right-0 w-32 h-32 bg-gold/5 blur-2xl rounded-full" />
+                                        <h4 className="text-[10px] font-black text-white/40 uppercase tracking-widest mb-4">Total Score</h4>
+                                        <div className="flex items-baseline mb-6">
+                                            <span className="text-5xl font-black text-white tracking-tighter">{resultData.totalMarks || 0}</span>
+                                            <span className="ml-2 text-sm text-gold font-bold uppercase">pts</span>
+                                        </div>
+                                        
+                                        <div className="pt-6 border-t border-white/5">
+                                            <h5 className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-4">Individual Marks</h5>
+                                            <ul className="space-y-4">
+                                                {resultData.judgeMarks && resultData.judgeMarks.length > 0 ? (
+                                                    resultData.judgeMarks.map((jm: any) => (
+                                                        <li key={jm.id} className="flex justify-between items-center text-sm">
+                                                            <span className="text-white/60 font-medium">{jm.judge.name}</span>
+                                                            <span className="font-bold bg-white/5 px-3 py-1 rounded-lg text-white border border-white/10">{jm.mark}</span>
+                                                        </li>
+                                                    ))
+                                                ) : (
+                                                    <li className="text-sm text-white/30 italic">No marks available</li>
+                                                )}
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    {/* Actions */}
+                                    <div className="bg-white/[0.02] border border-white/5 p-6 rounded-3xl text-center">
+                                        <div className="w-12 h-12 bg-blue-500/10 text-blue-400 rounded-xl flex items-center justify-center mx-auto mb-4">
+                                            <Mail className="w-6 h-6" />
+                                        </div>
+                                        <h4 className="text-sm font-bold text-white mb-2">Get Your Report</h4>
+                                        <p className="text-xs text-white/40 mb-6">Receive a detailed copy of your panel application result directly in your inbox.</p>
+                                        <button 
+                                            onClick={sendEmail}
+                                            disabled={emailSending}
+                                            className={`w-full py-3 px-4 rounded-xl text-xs font-black uppercase tracking-widest text-black bg-gold hover:bg-[#F0C040] transition-colors shadow-xl shadow-gold/10 ${emailSending ? 'opacity-75 cursor-not-allowed' : ''}`}
+                                        >
+                                            {emailSending ? 'Sending...' : 'Send Report via Email'}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     )}
                 </motion.div>
