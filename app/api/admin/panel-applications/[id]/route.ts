@@ -1,10 +1,8 @@
 import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import nodemailer from "nodemailer";
-
-const prisma = new PrismaClient();
+import { prisma } from "@/lib/prisma";
 
 export async function PUT(req: Request, { params }: { params: Promise<{ id: string }> }) {
     const session = await getServerSession(authOptions);
@@ -39,9 +37,9 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
 
             // Handle judgeMarks if provided
             if (data.judgeMarks) {
-                totalMarks = 0;
+                let sum = 0;
                 for (const jm of data.judgeMarks) {
-                    totalMarks += jm.mark;
+                    sum += jm.mark;
                     await tx.judgeMark.upsert({
                         where: {
                             judgeId_applicationId: { judgeId: jm.judgeId, applicationId: id },
@@ -50,12 +48,24 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
                         create: { judgeId: jm.judgeId, applicationId: id, mark: jm.mark },
                     });
                 }
-                updateData.totalMarks = totalMarks;
+                // Store the average, not the raw sum
+                updateData.totalMarks = data.judgeMarks.length > 0
+                    ? sum / data.judgeMarks.length
+                    : 0;
             }
 
             // Handle progress if provided
             if (data.progress) {
+                // Fetch valid hopIds to guard against FK violations if a hop was
+                // deleted/deactivated after the admin opened the modal.
+                const validHops = await tx.progressHop.findMany({
+                    where: { id: { in: data.progress.map((p: any) => p.hopId) } },
+                    select: { id: true },
+                });
+                const validHopIds = new Set(validHops.map((h: { id: string }) => h.id));
+
                 for (const p of data.progress) {
+                    if (!validHopIds.has(p.hopId)) continue; // skip stale hopIds
                     await tx.applicationProgress.upsert({
                         where: {
                             applicationId_hopId: { applicationId: id, hopId: p.hopId },

@@ -1,11 +1,9 @@
 import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import nodemailer from "nodemailer";
 import { PDFDocument, rgb, StandardFonts, degrees } from "pdf-lib";
-
-const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
     const session = await getServerSession(authOptions);
