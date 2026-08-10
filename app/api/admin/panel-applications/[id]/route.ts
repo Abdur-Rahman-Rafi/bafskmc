@@ -33,13 +33,21 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
         if (data.chosenPanel !== undefined) updateData.chosenPanel = data.chosenPanel;
 
         const application = await prisma.$transaction(async (tx) => {
-            let totalMarks = currentApp.totalMarks || 0; // fallback, but we recalculate
-
             // Handle judgeMarks if provided
-            if (data.judgeMarks) {
+            if (data.judgeMarks && Array.isArray(data.judgeMarks)) {
+                // Guard against stale judgeIds (judge deleted after modal opened)
+                const validJudges = await tx.judge.findMany({
+                    where: { id: { in: data.judgeMarks.map((jm: any) => jm.judgeId) } },
+                    select: { id: true },
+                });
+                const validJudgeIds = new Set(validJudges.map((j: { id: string }) => j.id));
+
                 let sum = 0;
+                let count = 0;
                 for (const jm of data.judgeMarks) {
+                    if (!validJudgeIds.has(jm.judgeId)) continue; // skip stale judgeIds
                     sum += jm.mark;
+                    count++;
                     await tx.judgeMark.upsert({
                         where: {
                             judgeId_applicationId: { judgeId: jm.judgeId, applicationId: id },
@@ -49,9 +57,7 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
                     });
                 }
                 // Store the average, not the raw sum
-                updateData.totalMarks = data.judgeMarks.length > 0
-                    ? sum / data.judgeMarks.length
-                    : 0;
+                updateData.totalMarks = count > 0 ? sum / count : 0;
             }
 
             // Handle progress if provided
@@ -124,7 +130,12 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
 
         return NextResponse.json(application);
     } catch (err: any) {
-        console.error("Error updating application:", err);
-        return NextResponse.json({ error: "Failed to update application" }, { status: 500 });
+        console.error("Error updating application:", err?.message, err?.code, err?.meta, err?.stack);
+        return NextResponse.json({
+            error: "Failed to update application",
+            detail: err?.message ?? String(err),
+            code: err?.code,
+            meta: err?.meta,
+        }, { status: 500 });
     }
 }
