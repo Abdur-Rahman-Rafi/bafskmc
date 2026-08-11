@@ -33,60 +33,53 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
         if (data.chosenPanel !== undefined) updateData.chosenPanel = data.chosenPanel;
 
         const application = await prisma.$transaction(async (tx) => {
-            // Handle judgeMarks if provided
-            if (data.judgeMarks && Array.isArray(data.judgeMarks)) {
-                // Guard against stale judgeIds (judge deleted after modal opened)
+            // Handle judgeMarks — validate then upsert all in parallel
+            if (data.judgeMarks && Array.isArray(data.judgeMarks) && data.judgeMarks.length > 0) {
                 const validJudges = await tx.judge.findMany({
                     where: { id: { in: data.judgeMarks.map((jm: any) => jm.judgeId) } },
                     select: { id: true },
                 });
                 const validJudgeIds = new Set(validJudges.map((j: { id: string }) => j.id));
 
-                let sum = 0;
-                let count = 0;
-                for (const jm of data.judgeMarks) {
-                    if (!validJudgeIds.has(jm.judgeId)) continue; // skip stale judgeIds
-                    sum += jm.mark;
-                    count++;
-                    await tx.judgeMark.upsert({
-                        where: {
-                            judgeId_applicationId: { judgeId: jm.judgeId, applicationId: id },
-                        },
+                const validMarks = data.judgeMarks.filter((jm: any) => validJudgeIds.has(jm.judgeId));
+                const sum = validMarks.reduce((acc: number, jm: any) => acc + jm.mark, 0);
+                updateData.totalMarks = validMarks.length > 0 ? sum / validMarks.length : 0;
+
+                // Run all judge upserts in parallel instead of sequentially
+                await Promise.all(validMarks.map((jm: any) =>
+                    tx.judgeMark.upsert({
+                        where: { judgeId_applicationId: { judgeId: jm.judgeId, applicationId: id } },
                         update: { mark: jm.mark },
                         create: { judgeId: jm.judgeId, applicationId: id, mark: jm.mark },
-                    });
-                }
-                // Store the average, not the raw sum
-                updateData.totalMarks = count > 0 ? sum / count : 0;
+                    })
+                ));
             }
 
-            // Handle progress if provided
-            if (data.progress) {
-                // Fetch valid hopIds to guard against FK violations if a hop was
-                // deleted/deactivated after the admin opened the modal.
+            // Handle progress — validate then upsert all in parallel
+            if (data.progress && Array.isArray(data.progress) && data.progress.length > 0) {
                 const validHops = await tx.progressHop.findMany({
                     where: { id: { in: data.progress.map((p: any) => p.hopId) } },
                     select: { id: true },
                 });
                 const validHopIds = new Set(validHops.map((h: { id: string }) => h.id));
 
-                for (const p of data.progress) {
-                    if (!validHopIds.has(p.hopId)) continue; // skip stale hopIds
-                    await tx.applicationProgress.upsert({
-                        where: {
-                            applicationId_hopId: { applicationId: id, hopId: p.hopId },
-                        },
+                const validProgress = data.progress.filter((p: any) => validHopIds.has(p.hopId));
+
+                // Run all hop upserts in parallel instead of sequentially
+                await Promise.all(validProgress.map((p: any) =>
+                    tx.applicationProgress.upsert({
+                        where: { applicationId_hopId: { applicationId: id, hopId: p.hopId } },
                         update: { isCompleted: p.isCompleted },
                         create: { applicationId: id, hopId: p.hopId, isCompleted: p.isCompleted },
-                    });
-                }
+                    })
+                ));
             }
 
             return await tx.panelApplication.update({
                 where: { id },
-                data: updateData
+                data: updateData,
             });
-        });
+        }, { timeout: 30000 }); // raise from default 5s → 30s
 
         // Actual Email Sending Logic
         if (data.confirmationEmailSent === true && currentApp.confirmationEmailSent === false && application.email) {
