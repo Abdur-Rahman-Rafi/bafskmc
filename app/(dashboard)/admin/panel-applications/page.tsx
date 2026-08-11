@@ -381,7 +381,7 @@ export default function PanelApplicationsAdminPage() {
                     <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
                         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => setSelectedApp(null)} />
                         
-                        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="bg-[#151515] border border-white/10 rounded-3xl p-8 relative z-10 w-full max-w-4xl shadow-2xl max-h-[90vh] overflow-y-auto">
+                        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="bg-[#151515] border border-white/10 rounded-3xl p-5 md:p-8 relative z-10 w-full max-w-4xl shadow-2xl max-h-[90vh] overflow-y-auto">
                             <button onClick={() => setSelectedApp(null)} className="absolute top-6 right-6 text-white/40 hover:text-white transition-colors">
                                 <X className="h-5 w-5" />
                             </button>
@@ -460,7 +460,7 @@ export default function PanelApplicationsAdminPage() {
                                         <div className="space-y-3 p-4 bg-white/[0.02] border border-white/5 rounded-xl">
                                             {judges.length === 0 ? <p className="text-xs text-white/30">No judges found.</p> : judges.map(judge => (
                                                 <div key={judge.id} className="flex items-center justify-between">
-                                                    <span className="text-sm font-bold text-white/70">{judge.name}</span>
+                                                    <span className="text-sm font-bold text-white/70 truncate mr-2">{judge.name}</span>
                                                     <input
                                                         type="number"
                                                         min="0"

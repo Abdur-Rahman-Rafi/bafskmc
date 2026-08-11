@@ -77,9 +77,9 @@ export default function DashboardLayout({
                         <NotificationBell />
                     </div>
                 </header>
-                <main className="p-4 md:p-8 pb-16 relative overflow-x-hidden">
-                    <div className="absolute top-0 right-0 w-64 md:w-96 h-64 md:h-96 bg-gold/5 blur-[80px] md:blur-[120px] rounded-full pointer-events-none" />
-                    <div className="relative z-10">{children}</div>
+                <main className="p-4 md:p-8 pb-16 relative overflow-x-hidden flex-1">
+                    <div className="absolute top-0 right-0 w-64 md:w-96 h-64 md:h-96 bg-gold/5 blur-[80px] md:blur-[120px] rounded-full pointer-events-none -z-10" />
+                    {children}
                 </main>
             </div>
         </div>
