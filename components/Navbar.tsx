@@ -14,6 +14,7 @@ export default function Navbar() {
         { name: "Home", href: "/" },
         { name: "News", href: "/news" },
         { name: "Panel", href: "/panel" },
+        { name: "SR", href: "/sr" },
         { name: "Alumni", href: "/alumni" },
         { name: "Activities", href: "/activities" },
         { name: "Resources", href: "/resources" },
@@ -22,7 +23,7 @@ export default function Navbar() {
     ];
 
     return (
-        <nav className="sticky top-0 z-50 border-b" style={{ backgroundColor: "#0D0D0D", borderColor: "rgba(201, 150, 43, 0.3)" }}>
+        <nav className="sticky top-0 z-50 border-b backdrop-blur-xl transition-all" style={{ backgroundColor: "rgba(11, 17, 32, 0.88)", borderColor: "rgba(240, 192, 64, 0.2)" }}>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between h-20">
                     {/* Logo */}
@@ -108,7 +109,7 @@ export default function Navbar() {
 
             {/* Mobile Menu */}
             {isOpen && (
-                <div className="md:hidden border-t px-4 py-4 space-y-1" style={{ backgroundColor: "#111111", borderColor: "rgba(201, 150, 43, 0.2)" }}>
+                <div className="md:hidden border-t px-4 py-4 space-y-1 backdrop-blur-2xl" style={{ backgroundColor: "rgba(11, 17, 32, 0.96)", borderColor: "rgba(240, 192, 64, 0.2)" }}>
                     {navLinks.map((link) => (
                         <Link
                             key={link.name}

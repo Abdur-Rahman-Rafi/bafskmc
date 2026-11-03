@@ -9,6 +9,9 @@ import {
     Sparkles, Facebook, User, Shield, Target,
     Compass, History, Award, Zap, ChevronDown
 } from "lucide-react";
+import MathBackground from "@/components/MathBackground";
+import HomeHighlightAlert from "@/components/HomeHighlightAlert";
+import RecentActivitiesAlbum from "@/components/RecentActivitiesAlbum";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 interface Member {
@@ -41,11 +44,10 @@ function PanelMembersSection() {
 
     return (
         <section
-            className="py-28 relative overflow-hidden"
-            style={{ backgroundColor: "#0A0A0A" }}
+            className="py-28 relative overflow-hidden bg-[#080C14] border-t border-white/5"
         >
-            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay"></div>
-            <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-yellow-900/10 rounded-full blur-[120px] pointer-events-none transform translate-x-1/3 -translate-y-1/3" />
+            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay"></div>
+            <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-amber-500/10 rounded-full blur-[140px] pointer-events-none transform translate-x-1/3 -translate-y-1/3" />
             
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 {/* Header */}
@@ -342,10 +344,10 @@ function AlumniSection() {
 
     return (
         <section
-            className="py-28 relative overflow-hidden"
-            style={{ backgroundColor: "#050505" }}
+            className="py-28 relative overflow-hidden bg-[#060A10] border-t border-white/5"
         >
-            <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-yellow-900/5 rounded-full blur-[100px] pointer-events-none transform -translate-x-1/2 -translate-y-1/2" />
+            <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-amber-500/5 rounded-full blur-[140px] pointer-events-none transform -translate-x-1/2 -translate-y-1/2" />
+            <div className="absolute bottom-0 right-10 w-[400px] h-[400px] bg-indigo-500/10 rounded-full blur-[120px] pointer-events-none" />
             
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 {/* Header */}
@@ -359,23 +361,22 @@ function AlumniSection() {
                         <div
                             className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full border mb-6 backdrop-blur-md"
                             style={{
-                                background: "rgba(201,150,43,0.05)",
-                                borderColor: "rgba(201,150,43,0.2)",
-                                color: "#D4AF37",
+                                background: "rgba(240,192,64,0.08)",
+                                borderColor: "rgba(240,192,64,0.25)",
+                                color: "#F0C040",
                             }}
                         >
                             <span
-                                className="h-1.5 w-1.5 rounded-full shadow-[0_0_5px_#D4AF37]"
-                                style={{ background: "#D4AF37" }}
+                                className="h-1.5 w-1.5 rounded-full shadow-[0_0_8px_#F0C040] bg-amber-400"
                             />
                             <span className="text-[10px] font-black uppercase tracking-[0.3em]">
                                 Alumni Legacy
                             </span>
                         </div>
                         <h2 className="text-3xl lg:text-5xl font-black text-white mb-5 tracking-tight">
-                            Distinguished <span className="shimmer text-transparent bg-clip-text bg-gradient-to-r from-yellow-600 to-yellow-300">Alumni</span>
+                            Distinguished <span className="shimmer text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-yellow-200 to-amber-500">Alumni</span>
                         </h2>
-                        <p className="text-gray-500 max-w-xl mx-auto font-medium leading-relaxed text-lg">
+                        <p className="text-gray-400 max-w-xl mx-auto font-medium leading-relaxed text-lg">
                             Celebrating the brilliant minds who once called BAFSK Math Club their home
                             and continue to inspire us with their excellence.
                         </p>
@@ -383,13 +384,12 @@ function AlumniSection() {
                 </div>
 
                 {/* Alumni grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7">
                     {loading ? (
                         [...Array(4)].map((_, i) => (
                             <div
                                 key={i}
-                                className="rounded-3xl h-80 animate-pulse backdrop-blur-md"
-                                style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)" }}
+                                className="rounded-3xl h-80 animate-pulse bg-slate-900/50 border border-white/5"
                             />
                         ))
                     ) : (
@@ -400,52 +400,228 @@ function AlumniSection() {
                                 whileInView={{ opacity: 1, scale: 1 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.5, delay: idx * 0.05 }}
-                                className="rounded-3xl overflow-hidden border group relative transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_15px_40px_rgba(0,0,0,0.6)] backdrop-blur-xl"
-                                style={{
-                                    background: "linear-gradient(145deg, rgba(20,20,20,0.8) 0%, rgba(5,5,5,0.9) 100%)",
-                                    borderColor: "rgba(255,255,255,0.08)",
-                                }}
+                                className="math-glass-card rounded-[2.5rem] p-6 relative overflow-hidden flex flex-col justify-between group text-center"
                             >
-                                {/* Photo */}
-                                <div className="aspect-[4/5] relative overflow-hidden grayscale-[50%] group-hover:grayscale-0 transition-all duration-700">
-                                    {member.image ? (
-                                        <img
-                                            src={member.image}
-                                            alt={member.name}
-                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                                        />
-                                    ) : (
-                                        <div className="w-full h-full flex items-center justify-center bg-white/[0.02]">
-                                            <User
-                                                className="h-16 w-16 opacity-20"
-                                                style={{ color: "#F0C040" }}
-                                            />
-                                        </div>
-                                    )}
-                                    <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/40 to-transparent opacity-90" />
-                                </div>
+                                <div className="absolute top-0 right-0 w-28 h-28 bg-amber-500/10 rounded-full blur-2xl pointer-events-none group-hover:bg-amber-500/20 transition-all" />
 
-                                {/* Info */}
-                                <div className="absolute bottom-0 left-0 right-0 p-6 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
-                                    <h3 className="text-xl font-black text-white mb-1 tracking-tight group-hover:text-yellow-400 transition-colors">
+                                <div>
+                                    {/* Photo */}
+                                    <div className="h-28 w-28 rounded-full mx-auto mb-5 p-1 bg-gradient-to-tr from-amber-500/30 to-sky-400/30 group-hover:from-amber-400 group-hover:to-yellow-300 transition-all duration-500 shadow-xl">
+                                        <div className="w-full h-full rounded-full overflow-hidden bg-black/70 relative">
+                                            {member.image ? (
+                                                <img
+                                                    src={member.image}
+                                                    alt={member.name}
+                                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                                />
+                                            ) : (
+                                                <div className="w-full h-full flex items-center justify-center bg-slate-900 text-amber-300 font-black text-2xl">
+                                                    {member.name ? member.name.charAt(0) : "A"}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+
+                                    {/* Info */}
+                                    <h3 className="text-xl font-black text-white mb-1 tracking-tight group-hover:text-yellow-400 transition-colors line-clamp-1">
                                         {member.name}
                                     </h3>
-                                    <p
-                                        className="text-[10px] font-black uppercase tracking-[0.2em] mb-4"
-                                        style={{ color: "#C9962B" }}
-                                    >
+                                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-400/90 mb-4 line-clamp-1">
                                         {member.position}
                                     </p>
-                                    {member.session && (
-                                        <div className="text-[10px] text-white/40 font-bold uppercase tracking-widest border-t border-white/10 pt-3">
-                                            Session {member.session}
-                                        </div>
+                                </div>
+
+                                <div className="pt-4 border-t border-white/5 flex items-center justify-between mt-auto">
+                                    <span className="px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest bg-amber-400/10 text-amber-300 border border-amber-400/20">
+                                        {member.session ? `Session ${member.session}` : "Alumnus"}
+                                    </span>
+                                    {member.fbId && (
+                                        <a
+                                            href={`https://facebook.com/${member.fbId}`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            title={`${member.name} on Facebook`}
+                                            className="p-2 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 hover:bg-blue-500/20 hover:scale-110 transition-all"
+                                        >
+                                            <Facebook className="h-3.5 w-3.5" />
+                                        </a>
                                     )}
                                 </div>
                             </motion.div>
                         ))
                     )}
                 </div>
+
+                {/* View Full Alumni Directory link */}
+                {!loading && members.length > 0 && (
+                    <div className="text-center mt-16">
+                        <Link
+                            href="/alumni"
+                            className="inline-flex items-center space-x-3 px-8 py-4 rounded-2xl border border-amber-500/30 bg-amber-500/5 hover:bg-amber-500/10 text-amber-300 font-black text-xs uppercase tracking-widest transition-all hover:-translate-y-0.5 shadow-lg shadow-amber-500/10 group"
+                        >
+                            <span>Explore Alumni Directory</span>
+                            <ArrowRight className="h-4 w-4 transform group-hover:translate-x-1 transition-transform" />
+                        </Link>
+                    </div>
+                )}
+            </div>
+        </section>
+    );
+}
+
+// ── Section Representatives Section ──────────────────────────────────────────
+interface SectionRep {
+    id: string;
+    name: string;
+    section: string;
+    class: string;
+    image: string | null;
+    priority: number;
+    fbId?: string | null;
+}
+
+function SectionRepresentativesSection() {
+    const [reps, setReps] = useState<SectionRep[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        fetch("/api/sr")
+            .then((res) => res.json())
+            .then((data) => {
+                setReps(Array.isArray(data) ? data : []);
+                setLoading(false);
+            })
+            .catch(() => setLoading(false));
+    }, []);
+
+    if (!loading && reps.length === 0) return null;
+
+    const displayReps = reps.slice(0, 8);
+
+    return (
+        <section
+            className="py-28 relative overflow-hidden bg-[#070B12] border-t border-white/5"
+        >
+            <div className="absolute top-1/3 left-0 w-[500px] h-[500px] bg-sky-500/5 rounded-full blur-[140px] pointer-events-none transform -translate-x-1/2" />
+            <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-amber-500/5 rounded-full blur-[140px] pointer-events-none" />
+
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                {/* Header */}
+                <div className="text-center mb-20">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5 }}
+                    >
+                        <div
+                            className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full border mb-6 backdrop-blur-md"
+                            style={{
+                                background: "rgba(56,189,248,0.08)",
+                                borderColor: "rgba(56,189,248,0.25)",
+                                color: "#38BDF8",
+                            }}
+                        >
+                            <span className="h-1.5 w-1.5 rounded-full bg-sky-400 shadow-[0_0_8px_#38BDF8] animate-pulse" />
+                            <span className="text-[10px] font-black uppercase tracking-[0.3em]">
+                                Classroom Network
+                            </span>
+                        </div>
+                        <h2 className="text-4xl lg:text-5xl font-black text-white mb-5 tracking-tight">
+                            Section <span className="shimmer text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-yellow-200 to-amber-500">Representatives</span>
+                        </h2>
+                        <p className="text-gray-400 max-w-xl mx-auto font-medium leading-relaxed text-lg">
+                            Empowering every section and classroom with peer mathematical leadership, workshop updates, and Olympiad coordination.
+                        </p>
+                    </motion.div>
+                </div>
+
+                {/* SR Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-7">
+                    {loading ? (
+                        [...Array(4)].map((_, i) => (
+                            <div
+                                key={i}
+                                className="rounded-[2rem] h-72 animate-pulse bg-slate-900/50 border border-white/5"
+                            />
+                        ))
+                    ) : (
+                        displayReps.map((sr, idx) => (
+                            <motion.div
+                                key={sr.id}
+                                initial={{ opacity: 0, y: 25 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.4, delay: idx * 0.05 }}
+                                className="math-glass-card rounded-[2rem] p-6 relative overflow-hidden flex flex-col justify-between group"
+                            >
+                                <div className="aspect-[4/3] rounded-2xl overflow-hidden relative mb-5 bg-black/60 border border-white/10 group-hover:border-amber-400/30 transition-all">
+                                    {sr.image ? (
+                                        <img
+                                            src={sr.image}
+                                            alt={sr.name}
+                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                                        />
+                                    ) : (
+                                        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-900 to-black text-amber-300 font-black text-2xl">
+                                            {sr.name ? sr.name.charAt(0) : "S"}
+                                        </div>
+                                    )}
+                                    <div className="absolute bottom-2.5 left-2.5 right-2.5 flex items-center justify-between gap-1.5 pointer-events-none">
+                                        <span className="px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-black/80 text-amber-300 border border-amber-400/30 backdrop-blur-md">
+                                            {sr.class}
+                                        </span>
+                                        <span className="px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-black/80 text-sky-300 border border-sky-400/30 backdrop-blur-md">
+                                            Sec: {sr.section}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div className="flex-1 flex flex-col justify-between">
+                                    <div>
+                                        <h3 className="text-lg font-black text-white group-hover:text-yellow-400 transition-colors tracking-tight line-clamp-1 mb-1">
+                                            {sr.name}
+                                        </h3>
+                                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-sky-400/90">
+                                            {sr.class} • Section {sr.section}
+                                        </p>
+                                    </div>
+
+                                    <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between">
+                                        <span className="text-[9px] font-black uppercase tracking-widest text-amber-400/80">
+                                            Representative
+                                        </span>
+                                        {sr.fbId && (
+                                            <a
+                                                href={`https://facebook.com/${sr.fbId}`}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                title={`${sr.name} on Facebook`}
+                                                className="p-1.5 rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-400 hover:bg-blue-500/20 hover:scale-110 transition-all"
+                                            >
+                                                <Facebook className="h-3 w-3" />
+                                            </a>
+                                        )}
+                                    </div>
+                                </div>
+                            </motion.div>
+                        ))
+                    )}
+                </div>
+
+                {/* View All SRs link */}
+                {!loading && reps.length > 0 && (
+                    <div className="text-center mt-14">
+                        <Link
+                            href="/sr"
+                            className="inline-flex items-center space-x-3 px-8 py-4 rounded-2xl border border-sky-500/30 bg-sky-500/5 hover:bg-sky-500/10 text-sky-300 font-black text-xs uppercase tracking-widest transition-all hover:-translate-y-0.5 shadow-lg shadow-sky-500/10 group"
+                        >
+                            <Users className="h-4 w-4" />
+                            <span>View All Section Representatives ({reps.length})</span>
+                            <ArrowRight className="h-4 w-4 transform group-hover:translate-x-1 transition-transform" />
+                        </Link>
+                    </div>
+                )}
             </div>
         </section>
     );
@@ -505,14 +681,20 @@ export default function HomePage() {
     ];
 
     return (
-        <div className="overflow-hidden bg-[#0A0A0A] font-sans">
+        <div className="overflow-hidden bg-[#080C14] text-white font-sans relative">
+            {/* ── Highlight Alert (Admin Managed) ── */}
+            <HomeHighlightAlert />
+
             {/* ── Hero ───────────────────────────────────────────────────────── */}
             <section
-                className="relative min-h-screen flex items-center pt-20 pb-24 overflow-hidden"
+                className="relative min-h-screen flex items-center pt-16 pb-24 overflow-hidden"
             >
+                {/* Floating Math Animations Background */}
+                <MathBackground />
+
                 {/* Dynamic Backgrounds */}
                 <div className="absolute inset-0 pointer-events-none">
-                    <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.15] mix-blend-overlay"></div>
+                    <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.12] mix-blend-overlay"></div>
                     
                     {/* Animated gradient orbs */}
                     <motion.div
@@ -706,8 +888,11 @@ export default function HomePage() {
                 </motion.div>
             </section>
 
+            {/* ── Recent Activities Album (Highlighted at Upper Portion) ─────── */}
+            <RecentActivitiesAlbum />
+
             {/* ── Who We Are (Intro Section) ─────────────────────────────────── */}
-            <section id="who-we-are" className="py-24 relative" style={{ backgroundColor: "#080808" }}>
+            <section id="who-we-are" className="py-24 relative bg-[#0B1120] border-t border-white/5">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
                         <div className="lg:col-span-5 relative">
@@ -718,12 +903,12 @@ export default function HomePage() {
                                 transition={{ duration: 0.6 }}
                             >
                                 <div className="inline-flex items-center space-x-2 mb-6">
-                                    <Compass className="h-5 w-5 text-yellow-500" />
-                                    <span className="text-yellow-500 font-bold uppercase tracking-widest text-sm">Our Identity</span>
+                                    <Compass className="h-5 w-5 text-amber-400" />
+                                    <span className="text-amber-400 font-bold uppercase tracking-widest text-sm">Our Identity</span>
                                 </div>
                                 <h2 className="text-4xl lg:text-5xl font-black text-white mb-6 leading-tight">
                                     More than just <br />
-                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600">numbers.</span>
+                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-yellow-500">numbers.</span>
                                 </h2>
                                 <p className="text-gray-400 text-lg leading-relaxed mb-8">
                                     The BAFSK Math Club was founded with a singular vision: to demystify mathematics and transform it from a daunting subject into a captivating playground of logic and creativity.
@@ -740,16 +925,12 @@ export default function HomePage() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.5, delay: 0.2 }}
-                                className="p-8 rounded-[2rem] border backdrop-blur-xl relative overflow-hidden group"
-                                style={{ 
-                                    background: "linear-gradient(145deg, rgba(20,20,20,0.9) 0%, rgba(10,10,10,1) 100%)",
-                                    borderColor: "rgba(255,255,255,0.05)" 
-                                }}
+                                className="p-8 rounded-[2rem] math-glass-card relative overflow-hidden group"
                             >
                                 <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
-                                    <Target className="w-24 h-24 text-yellow-500" />
+                                    <Target className="w-24 h-24 text-amber-400" />
                                 </div>
-                                <Target className="w-10 h-10 text-yellow-500 mb-6 relative z-10" />
+                                <Target className="w-10 h-10 text-amber-400 mb-6 relative z-10" />
                                 <h3 className="text-2xl font-black text-white mb-4 relative z-10">Our Mission</h3>
                                 <p className="text-gray-400 leading-relaxed font-medium relative z-10">
                                     To foster a deep-rooted love for mathematics by providing an engaging, collaborative, and challenging environment where every student can unlock their true analytical potential.
@@ -761,16 +942,12 @@ export default function HomePage() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.5, delay: 0.4 }}
-                                className="p-8 rounded-[2rem] border backdrop-blur-xl relative overflow-hidden group sm:translate-y-12"
-                                style={{ 
-                                    background: "linear-gradient(145deg, rgba(20,20,20,0.9) 0%, rgba(10,10,10,1) 100%)",
-                                    borderColor: "rgba(255,255,255,0.05)" 
-                                }}
+                                className="p-8 rounded-[2rem] math-glass-card relative overflow-hidden group sm:translate-y-12"
                             >
                                 <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
-                                    <History className="w-24 h-24 text-yellow-500" />
+                                    <History className="w-24 h-24 text-amber-400" />
                                 </div>
-                                <History className="w-10 h-10 text-yellow-500 mb-6 relative z-10" />
+                                <History className="w-10 h-10 text-amber-400 mb-6 relative z-10" />
                                 <h3 className="text-2xl font-black text-white mb-4 relative z-10">Our History</h3>
                                 <p className="text-gray-400 leading-relaxed font-medium relative z-10">
                                     Established in 2019, we have rapidly grown into one of the most prestigious academic clubs in the institution, bringing home countless accolades from national olympiads.
@@ -783,10 +960,9 @@ export default function HomePage() {
 
             {/* ── Features ───────────────────────────────────────────────────── */}
             <section
-                className="py-32 relative"
-                style={{ backgroundColor: "#0A0A0A" }}
+                className="py-32 relative bg-[#080C14] border-t border-white/5"
             >
-                <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-yellow-500/20 to-transparent"></div>
+                <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-amber-500/30 to-transparent"></div>
                 
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-20">
@@ -796,7 +972,7 @@ export default function HomePage() {
                             viewport={{ once: true }}
                         >
                             <h2 className="text-4xl lg:text-5xl font-black text-white mb-5 tracking-tight">
-                                Why Join <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600">BAFSKMC</span>?
+                                Why Join <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-yellow-500">BAFSKMC</span>?
                             </h2>
                             <p className="text-gray-400 max-w-2xl mx-auto font-medium text-lg">
                                 A meticulously structured environment for students to grow their problem-solving
@@ -813,21 +989,17 @@ export default function HomePage() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.5, delay: idx * 0.1 }}
-                                className="p-8 rounded-[2rem] border relative overflow-hidden group transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.5)] backdrop-blur-xl"
-                                style={{ 
-                                    background: "rgba(20,20,20,0.6)", 
-                                    borderColor: "rgba(255,255,255,0.05)" 
-                                }}
+                                className="p-8 rounded-[2rem] math-glass-card relative overflow-hidden group"
                             >
                                 {/* Hover Gradient Background */}
                                 <div className={`absolute inset-0 bg-gradient-to-br ${feature.bgGradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></div>
                                 
                                 <div
-                                    className="mb-8 w-14 h-14 rounded-2xl flex items-center justify-center relative z-10 transition-transform duration-500 group-hover:scale-110"
+                                    className="mb-8 w-14 h-14 rounded-2xl flex items-center justify-center relative z-10 transition-transform duration-500 group-hover:scale-110 shadow-inner"
                                     style={{ 
-                                        background: "rgba(201,150,43,0.1)", 
+                                        background: "rgba(240,192,64,0.1)", 
                                         color: feature.iconColor,
-                                        boxShadow: "inset 0 0 0 1px rgba(201,150,43,0.2)"
+                                        boxShadow: "inset 0 0 0 1px rgba(240,192,64,0.2)"
                                     }}
                                 >
                                     {feature.icon}
@@ -848,14 +1020,17 @@ export default function HomePage() {
             {/* ── Panel Members ──────────────────────────────────────────────── */}
             <PanelMembersSection />
 
+            {/* ── Section Representatives ─────────────────────────────────────── */}
+            <SectionRepresentativesSection />
+
             {/* ── Alumni Section ──────────────────────────────────────────────── */}
             <AlumniSection />
 
             {/* ── CTA ────────────────────────────────────────────────────────── */}
             <section
-                className="py-32 relative overflow-hidden"
+                className="py-32 relative overflow-hidden border-t border-white/10"
                 style={{
-                    background: "linear-gradient(135deg, #1A1200 0%, #0A0A0A 50%, #1A0D00 100%)",
+                    background: "linear-gradient(135deg, #0f172a 0%, #080c14 50%, #1e1b4b 100%)",
                 }}
             >
                 <div

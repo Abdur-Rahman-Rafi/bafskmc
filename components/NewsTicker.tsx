@@ -88,9 +88,9 @@ export default function NewsTicker() {
     const displayItems = [...items, ...items, ...items, ...items, ...items, ...items];
 
     return (
-        <div className="bg-[#050505] border-b border-white/5 h-12 flex items-center overflow-hidden relative z-50">
+        <div className="bg-[#080C14] border-b border-white/10 h-12 flex items-center overflow-hidden relative z-50">
             {/* Pulsing "Live" Indicator */}
-            <div className="h-full px-4 flex-shrink-0 flex items-center bg-gold text-black font-black uppercase text-[10px] tracking-[0.2em] relative z-20 shadow-[8px_0_20px_rgba(0,0,0,0.8)]">
+            <div className="h-full px-4 flex-shrink-0 flex items-center bg-gradient-to-r from-amber-500 to-yellow-400 text-black font-black uppercase text-[10px] tracking-[0.2em] relative z-20 shadow-[8px_0_20px_rgba(0,0,0,0.8)]">
                 <Radio className="h-3 w-3 mr-2 animate-pulse" />
                 <span className="whitespace-nowrap hidden sm:inline">LIVE FEED</span>
                 <span className="whitespace-nowrap sm:hidden">LIVE</span>
@@ -118,32 +118,32 @@ export default function NewsTicker() {
                             href={item.link}
                             className="flex items-center space-x-4 cursor-pointer group relative z-30"
                         >
-                            <span className={`text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded border ${item.type === 'ALERT' ? "bg-red-500/10 border-red-500/20 text-red-500" :
-                                item.type === 'EXAM' ? "bg-gold/10 border-gold/20 text-gold" :
-                                    "bg-white/5 border-white/10 text-white/40"
+                            <span className={`text-[9px] font-black uppercase tracking-widest px-2.5 py-0.5 rounded-full border ${item.type === 'ALERT' ? "bg-red-500/15 border-red-500/30 text-red-400" :
+                                item.type === 'EXAM' ? "bg-amber-500/15 border-amber-500/30 text-amber-300" :
+                                    "bg-sky-500/10 border-sky-500/20 text-sky-300"
                                 }`}>
                                 {item.type}
                             </span>
-                            <span className="text-white/80 text-xs font-bold tracking-tight group-hover:text-gold transition-all">
+                            <span className="text-gray-300 text-xs font-bold tracking-tight group-hover:text-yellow-400 transition-all">
                                 {item.text}
                             </span>
-                            <div className="h-1 w-1 rounded-full bg-white/10 group-hover:bg-gold transition-colors" />
+                            <div className="h-1.5 w-1.5 rounded-full bg-white/20 group-hover:bg-yellow-400 transition-colors" />
                         </Link>
                     ))}
                 </motion.div>
 
-                {/* Depth Overlays - Added pointer-events-none to prevent blocking clicks */}
-                <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-[#050505] to-transparent z-10 pointer-events-none" />
-                <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-[#050505] to-transparent z-10 pointer-events-none" />
+                {/* Depth Overlays */}
+                <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-[#080C14] to-transparent z-10 pointer-events-none" />
+                <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-[#080C14] to-transparent z-10 pointer-events-none" />
             </div>
 
             {/* Terminal Status */}
-            <div className="px-6 hidden xl:flex items-center space-x-4 border-l border-white/5 h-full bg-[#080808]">
+            <div className="px-6 hidden xl:flex items-center space-x-4 border-l border-white/10 h-full bg-[#0B1120]">
                 <div className="flex items-center space-x-2">
-                    <div className="h-1 w-1 rounded-full bg-emerald-500 animate-ping" />
-                    <span className="text-[9px] font-black text-white/20 uppercase tracking-[0.2em]">Node-Alpha Synchronized</span>
+                    <div className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-ping" />
+                    <span className="text-[9px] font-black text-white/30 uppercase tracking-[0.2em]">Node-Alpha Synchronized</span>
                 </div>
-                <Zap className="h-3 w-3 text-gold/20" />
+                <Zap className="h-3 w-3 text-amber-400/40" />
             </div>
         </div>
     );
