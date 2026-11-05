@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import crypto from "crypto";
+import { checkRateLimit, getClientIp, rateLimitResponse } from "@/lib/rate-limit";
 
 async function sendResetEmail(to: string, resetUrl: string, name?: string) {
   // If SMTP is not configured, log the URL to the console (handy for development)
@@ -88,6 +89,15 @@ async function sendResetEmail(to: string, resetUrl: string, name?: string) {
 
 export async function POST(req: Request) {
   try {
+    const ip = getClientIp(req);
+    const limitResult = checkRateLimit(`forgot-pass:${ip}`, {
+      limit: 5,
+      windowMs: 15 * 60 * 1000,
+    });
+    if (!limitResult.success) {
+      return rateLimitResponse(limitResult);
+    }
+
     const { email } = await req.json();
 
     if (!email) {

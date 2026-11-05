@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
+import { checkRateLimit, getClientIp, rateLimitResponse } from "@/lib/rate-limit";
 
 // ── Email helper ──────────────────────────────────────────────────────────────
 async function sendVerificationEmail(to: string, code: string, name: string) {
@@ -76,6 +77,15 @@ async function sendVerificationEmail(to: string, code: string, name: string) {
 // ── POST /api/auth/register ───────────────────────────────────────────────────
 export async function POST(req: Request) {
   try {
+    const ip = getClientIp(req);
+    const limitResult = checkRateLimit(`register:${ip}`, {
+      limit: 10,
+      windowMs: 15 * 60 * 1000,
+    });
+    if (!limitResult.success) {
+      return rateLimitResponse(limitResult);
+    }
+
     const { name, email, password, studentClass, section, roll, phone } =
       await req.json();
 
