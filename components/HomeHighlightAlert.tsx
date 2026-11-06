@@ -134,13 +134,31 @@ export default function HomeHighlightAlert() {
 
                         {/* Right: Action CTA & Close Button */}
                         <div className="flex items-center justify-between sm:justify-end gap-3 w-full md:w-auto mt-2 md:mt-0 pt-2 md:pt-0 border-t md:border-t-0 border-white/5">
-                            <Link
-                                href={alert.link || "/news"}
-                                className={`px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider inline-flex items-center space-x-2 transition-all transform hover:-translate-y-0.5 shadow-lg active:scale-95 ${themeStyles.btn}`}
-                            >
-                                <span>{alert.buttonText || "Check It Out"}</span>
-                                <ArrowRight className="h-3.5 w-3.5" />
-                            </Link>
+                            {(() => {
+                                const targetUrl = alert.link?.trim() || "/news";
+                                const isExternal = /^https?:\/\//i.test(targetUrl);
+                                const className = `px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider inline-flex items-center space-x-2 transition-all transform hover:-translate-y-0.5 shadow-lg active:scale-95 ${themeStyles.btn}`;
+                                
+                                return isExternal ? (
+                                    <a
+                                        href={targetUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className={className}
+                                    >
+                                        <span>{alert.buttonText || "Check It Out"}</span>
+                                        <ArrowRight className="h-3.5 w-3.5" />
+                                    </a>
+                                ) : (
+                                    <Link
+                                        href={targetUrl}
+                                        className={className}
+                                    >
+                                        <span>{alert.buttonText || "Check It Out"}</span>
+                                        <ArrowRight className="h-3.5 w-3.5" />
+                                    </Link>
+                                );
+                            })()}
 
                             <button
                                 onClick={handleDismiss}

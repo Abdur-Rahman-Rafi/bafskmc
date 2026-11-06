@@ -12,6 +12,8 @@ import {
 import MathBackground from "@/components/MathBackground";
 import HomeHighlightAlert from "@/components/HomeHighlightAlert";
 import RecentActivitiesAlbum from "@/components/RecentActivitiesAlbum";
+import InstitutionalSpeechSection from "@/components/InstitutionalSpeechSection";
+import AchievementCornerAlbum from "@/components/AchievementCornerAlbum";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 interface Member {
@@ -888,8 +890,14 @@ export default function HomePage() {
                 </motion.div>
             </section>
 
+            {/* ── Institutional Speeches (Principal & Moderators) ───────────── */}
+            <InstitutionalSpeechSection />
+
             {/* ── Recent Activities Album (Highlighted at Upper Portion) ─────── */}
             <RecentActivitiesAlbum />
+
+            {/* ── Achievement Corner / Multi-Image Album ───────────────────────── */}
+            <AchievementCornerAlbum />
 
             {/* ── Who We Are (Intro Section) ─────────────────────────────────── */}
             <section id="who-we-are" className="py-24 relative bg-[#0B1120] border-t border-white/5">

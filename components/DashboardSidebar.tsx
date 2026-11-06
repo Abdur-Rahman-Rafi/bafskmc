@@ -25,6 +25,7 @@ import {
     Mail,
     Megaphone,
     TrendingUp,
+    Quote,
 } from "lucide-react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
@@ -78,7 +79,8 @@ export default function DashboardSidebar({ onClose }: { onClose?: () => void }) 
         { name: "Stats & Analytics", href: "/admin/stats", icon: <TrendingUp className="h-4 w-4" /> },
         { name: "Certifications", href: "/admin/certificates", icon: <Award className="h-4 w-4" /> },
         { name: "Document Requests", href: "/admin/document-requests", icon: <FileText className="h-4 w-4" /> },
-        { name: "Branding & Logo", href: "/admin/branding", icon: <Palette className="h-4 w-4" /> },
+        { name: "Leadership Speeches", href: "/admin/speeches", icon: <Quote className="h-4 w-4" /> },
+        { name: "Achievement Album", href: "/admin/achievement-corner", icon: <Award className="h-4 w-4" /> },
         { name: "Report to Chairman", href: "/admin/report-chairman", icon: <FileText className="h-4 w-4" /> },
     ];
 
