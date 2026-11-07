@@ -39,9 +39,9 @@ export default function Navbar() {
                             </div>
                             <div>
                                 <p className="text-base font-black tracking-tight text-white group-hover:text-amber-300 transition-colors whitespace-nowrap flex items-center gap-1.5">
-                                    BAFSK <span className="text-[10px] px-1.5 py-0.5 rounded-md bg-amber-400/10 text-amber-400 border border-amber-400/30 uppercase tracking-widest font-mono">MATH</span>
+                                    BAFSKMC <span className="text-[10px] px-1.5 py-0.5 rounded-md bg-amber-400/10 text-amber-400 border border-amber-400/30 uppercase tracking-widest font-mono">CLUB</span>
                                 </p>
-                                <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Shaheen College</p>
+                                <p className="text-[10px] font-bold uppercase tracking-widest text-amber-400/80">BAFSK Math Club</p>
                             </div>
                         </Link>
                     </div>
