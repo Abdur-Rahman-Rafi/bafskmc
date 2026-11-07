@@ -257,36 +257,36 @@ export default function QuizExecutionPage({ params }: { params: Promise<{ quizId
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-full">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
                 {/* Question Section */}
-                <div className="bg-[#151515] p-6 rounded-3xl border border-white/5 flex flex-col h-[70vh] overflow-y-auto">
+                <div className="bg-[#151515] p-5 sm:p-6 rounded-3xl border border-white/5 flex flex-col min-h-[50vh] lg:h-[75vh] overflow-y-auto shadow-2xl">
                     <h2 className="text-[10px] font-black text-white/50 uppercase tracking-widest mb-4">Question Paper</h2>
                     {quiz.questionFileUrl ? (
                         quiz.questionFileUrl.match(/\.(jpg|jpeg|png|webp|gif)$/i) ? (
-                            <img src={quiz.questionFileUrl} alt="Question Paper" className="w-full rounded-2xl pointer-events-none" />
+                            <img src={quiz.questionFileUrl} alt="Question Paper" className="w-full rounded-2xl pointer-events-none object-contain" />
                         ) : (
-                            <iframe src={quiz.questionFileUrl} className="w-full h-full rounded-2xl bg-white/5 border-none" />
+                            <iframe src={quiz.questionFileUrl} className="w-full h-full min-h-[350px] rounded-2xl bg-white/5 border-none" />
                         )
                     ) : (
-                        <div className="flex flex-col items-center justify-center h-full text-white/30">
-                            <AlertTriangle className="w-12 h-12 mb-4 opacity-50" />
-                            <p className="font-bold">No question file attached to this quiz.</p>
+                        <div className="flex flex-col items-center justify-center py-12 text-white/30">
+                            <AlertTriangle className="w-12 h-12 mb-4 opacity-50 text-amber-400" />
+                            <p className="font-bold text-sm">No question file attached to this quiz.</p>
                         </div>
                     )}
                 </div>
 
                 {/* Answer Section */}
-                <div className="bg-[#151515] p-6 rounded-3xl border border-white/5 flex flex-col h-[70vh]">
+                <div className="bg-[#151515] p-5 sm:p-6 rounded-3xl border border-white/5 flex flex-col min-h-[45vh] lg:h-[75vh] shadow-2xl">
                     <h2 className="text-[10px] font-black text-white/50 uppercase tracking-widest mb-4">Your Answer Sheet</h2>
                     <form onSubmit={handleSubmit} className="flex-1 flex flex-col">
                         <textarea
                             value={answerText}
                             onChange={(e) => setAnswerText(e.target.value)}
-                            placeholder="Type your answers here... Please format them clearly."
-                            className="flex-1 w-full bg-white/5 border border-white/10 rounded-2xl p-6 text-white outline-none focus:border-gold transition-all resize-none font-medium text-sm leading-relaxed"
+                            placeholder="Type your answers here... Please format them clearly (e.g. 1. Answer, 2. Answer)."
+                            className="flex-1 min-h-[220px] w-full bg-white/5 border border-white/10 rounded-2xl p-4 sm:p-6 text-white outline-none focus:border-gold transition-all resize-none font-medium text-sm leading-relaxed"
                             required
                         />
-                        <button disabled={submitting} type="submit" className="mt-4 w-full py-5 bg-gold hover:bg-[#F0C040] text-black rounded-2xl font-black uppercase tracking-widest text-sm flex justify-center items-center transition-all disabled:opacity-50">
+                        <button disabled={submitting} type="submit" className="mt-4 w-full py-4 sm:py-5 bg-gold hover:bg-[#F0C040] text-black rounded-2xl font-black uppercase tracking-widest text-xs sm:text-sm flex justify-center items-center transition-all disabled:opacity-50 shadow-lg shadow-gold/20">
                             {submitting ? <Loader2 className="w-5 h-5 animate-spin" /> : "Submit Final Answers"}
                         </button>
                     </form>

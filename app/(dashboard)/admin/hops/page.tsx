@@ -106,8 +106,8 @@ export default function HopsAdminPage() {
         )}
       </form>
 
-      <div className="bg-white rounded shadow">
-        <table className="w-full border-collapse">
+      <div className="bg-white rounded shadow overflow-x-auto">
+        <table className="w-full border-collapse min-w-[500px]">
           <thead>
             <tr className="bg-gray-100">
               <th className="p-3 text-left border-b">Title</th>

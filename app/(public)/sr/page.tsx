@@ -63,8 +63,11 @@ export default function SectionRepresentativesPage() {
     }, [reps, searchTerm, selectedClass]);
 
     return (
-        <div className="min-h-screen bg-[#080C14] text-white pt-24 pb-28 relative overflow-hidden font-sans">
+        <div className="min-h-screen bg-[#06080F] text-white pt-28 pb-28 relative overflow-hidden font-sans">
             <MathBackground />
+
+            {/* Ambient Lighting Orbs */}
+            <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-gradient-to-b from-amber-500/15 via-sky-500/10 to-transparent blur-[140px] rounded-full pointer-events-none" />
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 {/* Header */}
@@ -74,18 +77,18 @@ export default function SectionRepresentativesPage() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
                     >
-                        <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 backdrop-blur-md mb-6 shadow-[0_0_20px_rgba(240,192,64,0.15)]">
+                        <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full border border-amber-400/30 bg-gradient-to-r from-amber-500/10 via-amber-400/15 to-amber-500/10 backdrop-blur-md mb-6 shadow-[0_0_20px_rgba(255,184,0,0.15)]">
                             <span className="h-2 w-2 rounded-full bg-amber-400 animate-pulse" />
                             <span className="text-[10px] font-black uppercase tracking-[0.25em] text-amber-300">
                                 Classroom Ambassadors
                             </span>
                         </div>
 
-                        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-white mb-6 tracking-tight">
-                            Section <span className="shimmer text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-yellow-200 to-amber-500">Representatives</span>
+                        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-white mb-6 tracking-tight uppercase">
+                            Section <span className="text-gradient-gold">Representatives</span>
                         </h1>
 
-                        <p className="text-gray-400 text-base sm:text-lg max-w-2xl mx-auto font-medium leading-relaxed">
+                        <p className="text-slate-300/80 text-base sm:text-lg max-w-2xl mx-auto font-medium leading-relaxed">
                             Meet the dedicated Section Representatives (SRs) bridging their classrooms with the BAFSK Math Club — promoting workshops, competitions, and peer problem-solving.
                         </p>
                     </motion.div>
@@ -96,17 +99,17 @@ export default function SectionRepresentativesPage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2, duration: 0.5 }}
-                    className="mb-12 flex flex-col md:flex-row items-center justify-between gap-6 bg-slate-900/60 p-4 md:p-6 rounded-3xl border border-white/10 backdrop-blur-xl shadow-2xl"
+                    className="mb-12 flex flex-col md:flex-row items-center justify-between gap-6 math-glass-card p-4 md:p-6 rounded-[2rem] border border-white/10 shadow-2xl"
                 >
                     {/* Search */}
                     <div className="relative w-full md:w-80">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-amber-400" />
                         <input
                             type="text"
                             placeholder="Search by name, class, section..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full pl-11 pr-4 py-3 bg-black/40 border border-white/10 rounded-2xl outline-none focus:border-amber-400/50 text-sm font-semibold text-white placeholder:text-gray-500 transition-all"
+                            className="w-full pl-11 pr-4 py-3 bg-[#0A0E1A]/80 border border-white/10 rounded-2xl outline-none focus:border-amber-400/60 focus:ring-2 focus:ring-amber-400/20 text-sm font-semibold text-white placeholder:text-slate-500 transition-all"
                         />
                     </div>
 
@@ -114,9 +117,9 @@ export default function SectionRepresentativesPage() {
                     <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 scrollbar-none">
                         <button
                             onClick={() => setSelectedClass("ALL")}
-                            className={`px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider transition-all whitespace-nowrap ${selectedClass === "ALL"
-                                ? "bg-gradient-to-r from-amber-400 to-yellow-500 text-black shadow-lg shadow-amber-500/20"
-                                : "bg-white/5 text-gray-400 hover:text-white hover:bg-white/10"
+                            className={`px-4 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all whitespace-nowrap ${selectedClass === "ALL"
+                                ? "btn-gold shadow-lg"
+                                : "bg-white/5 text-slate-400 hover:text-white hover:bg-white/10 border border-white/5"
                                 }`}
                         >
                             All Classes
@@ -125,9 +128,9 @@ export default function SectionRepresentativesPage() {
                             <button
                                 key={c}
                                 onClick={() => setSelectedClass(c)}
-                                className={`px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider transition-all whitespace-nowrap ${selectedClass === c
-                                    ? "bg-gradient-to-r from-amber-400 to-yellow-500 text-black shadow-lg shadow-amber-500/20"
-                                    : "bg-white/5 text-gray-400 hover:text-white hover:bg-white/10"
+                                className={`px-4 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all whitespace-nowrap ${selectedClass === c
+                                    ? "btn-gold shadow-lg"
+                                    : "bg-white/5 text-slate-400 hover:text-white hover:bg-white/10 border border-white/5"
                                     }`}
                             >
                                 {c}

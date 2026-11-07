@@ -39,80 +39,97 @@ export default function PanelPage() {
     }
 
     return (
-        <div className="bg-[#0D0D0D] min-h-screen pt-24 pb-20">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center mb-20">
-                    <div className="inline-flex items-center space-x-2 px-4 py-1.5 bg-gold/10 border border-gold/20 rounded-full mb-6">
-                        <span className="h-1.5 w-1.5 bg-gold rounded-full animate-pulse" />
-                        <span className="text-gold font-black text-[10px] uppercase tracking-[0.3em]">Leadership Council</span>
+        <div className="bg-[#06080F] min-h-screen pt-24 pb-20 relative overflow-hidden">
+            {/* Background ambient orbs */}
+            <div className="absolute top-20 right-0 w-[500px] h-[500px] bg-amber-500/10 rounded-full blur-[140px] pointer-events-none" />
+            <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-sky-500/10 rounded-full blur-[140px] pointer-events-none" />
+
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div className="text-center mb-16 sm:mb-20">
+                    <div className="inline-flex items-center space-x-2 px-4 py-1.5 bg-amber-400/10 border border-amber-400/30 rounded-full mb-6 backdrop-blur-md shadow-[0_0_20px_rgba(255,184,0,0.15)]">
+                        <span className="h-1.5 w-1.5 bg-amber-400 rounded-full animate-pulse" />
+                        <span className="text-amber-400 font-black text-[10px] uppercase tracking-[0.3em]">Leadership Council</span>
                     </div>
-                    <h1 className="text-4xl lg:text-6xl font-black text-white mb-6 tracking-tight">
-                        Executive <span className="text-gold">Panel</span>
+                    <h1 className="text-4xl sm:text-6xl font-black text-white mb-5 tracking-tight">
+                        Executive <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-yellow-200 to-amber-500 shimmer">Panel</span>
                     </h1>
-                    <p className="text-lg text-white/40 font-medium max-w-2xl mx-auto leading-relaxed">
-                        Meet the dedicated minds leading the BAFSK Math Club towards excellence and innovation.
+                    <p className="text-base sm:text-lg text-gray-400 font-medium max-w-2xl mx-auto leading-relaxed">
+                        Meet the dedicated minds leading the BAFSK Math Club towards national dominance, Olympiad victories, and intellectual innovation.
                     </p>
                 </div>
 
-                {/* Apply Banner */}
-                <div className="bg-gradient-to-r from-gold/20 via-gold/5 to-transparent border border-gold/30 rounded-[3rem] p-8 md:p-12 mb-20 flex flex-col md:flex-row items-center justify-between shadow-2xl shadow-gold/5 relative overflow-hidden">
-                    <div className="absolute inset-0 bg-[url('/noise.png')] opacity-20 mix-blend-overlay pointer-events-none"></div>
-                    <div className="mb-6 md:mb-0 text-center md:text-left relative z-10">
-                        <h2 className="text-3xl font-black text-white tracking-tight mb-2">Become a <span className="text-gold">Panel Member</span></h2>
-                        <p className="text-white/60 font-medium">Steer the club towards excellence. Submit your application today.</p>
+                {/* Trendy Apply Recruitment Banner */}
+                <div className="relative rounded-3xl sm:rounded-[2.5rem] p-6 sm:p-10 md:p-12 mb-16 sm:mb-20 overflow-hidden border border-amber-400/30 bg-gradient-to-r from-[#1E1B18] via-[#0F172A] to-[#0A0F1D] shadow-[0_12px_45px_rgba(255,184,0,0.15)] flex flex-col md:flex-row items-center justify-between gap-6 group">
+                    <div className="absolute -right-20 -bottom-20 w-80 h-80 bg-amber-500/15 rounded-full blur-3xl pointer-events-none group-hover:scale-125 transition-transform duration-700" />
+                    
+                    <div className="text-center md:text-left relative z-10 max-w-xl">
+                        <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-md bg-amber-400/20 text-amber-300 text-[10px] font-black uppercase tracking-wider mb-3">
+                            <span>Open Recruitment</span>
+                        </div>
+                        <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white tracking-tight mb-2">
+                            Become a <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-yellow-500">Panel Member</span>
+                        </h2>
+                        <p className="text-gray-300 text-sm font-medium leading-relaxed">
+                            Steer the club towards excellence, organize workshops, lead Olympiad contingents, and make your mark.
+                        </p>
                     </div>
-                    <Link href="/apply-panel" className="relative z-10 shrink-0 bg-gold text-black px-10 py-5 rounded-2xl font-black text-sm uppercase tracking-[0.2em] hover:bg-[#F0C040] transition-all shadow-xl shadow-gold/20 hover:scale-105">
-                        Apply Now
+
+                    <Link 
+                        href="/apply-panel" 
+                        className="relative z-10 shrink-0 btn-gold px-8 py-4 text-xs font-black uppercase tracking-widest flex items-center gap-2 group-hover:scale-105 transition-all shadow-xl shadow-amber-500/20"
+                    >
+                        <span>Apply For Panel</span>
+                        <span className="text-base">→</span>
                     </Link>
                 </div>
 
                 {members.length === 0 ? (
-                    <div className="text-center py-24 bg-white/5 rounded-[3rem] border border-dashed border-white/10">
-                        <Shield className="h-16 w-16 text-white/10 mx-auto mb-4" />
-                        <p className="text-white/20 font-black uppercase tracking-widest text-xs">The panel list is currently being finalized.</p>
+                    <div className="text-center py-20 bg-white/[0.02] rounded-3xl border border-dashed border-white/10 p-8">
+                        <Shield className="h-16 w-16 text-white/20 mx-auto mb-4" />
+                        <p className="text-white/40 font-bold uppercase tracking-widest text-xs">The panel list is currently being finalized.</p>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
                         {members.map((member, idx) => (
                             <motion.div
                                 key={member.id}
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: idx * 0.08 }}
-                                className="bg-[#151515] rounded-[2.5rem] overflow-hidden shadow-2xl border border-white/5 hover:border-gold/30 transition-all group relative"
+                                className="math-glass-card rounded-3xl sm:rounded-[2rem] overflow-hidden group relative flex flex-col justify-between"
                             >
-                                <div className="absolute top-0 right-0 w-40 h-40 bg-gold/5 blur-[80px] pointer-events-none" />
-
-                                <div className="aspect-[4/3] bg-white/5 relative overflow-hidden">
+                                <div className="aspect-[4/3] bg-black/40 relative overflow-hidden">
                                     {member.image ? (
                                         <img src={member.image} alt={member.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                                     ) : (
-                                        <div className="w-full h-full flex items-center justify-center text-white/10">
-                                            <User className="h-24 w-24" />
+                                        <div className="w-full h-full flex items-center justify-center text-amber-400/20 bg-slate-900">
+                                            <User className="h-20 w-20" />
                                         </div>
                                     )}
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-[#06080F] via-transparent to-transparent opacity-90" />
                                     {member.bio && (
-                                        <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out">
-                                            <p className="text-white/80 text-sm font-medium line-clamp-3 leading-relaxed">{member.bio}</p>
+                                        <div className="absolute bottom-0 left-0 right-0 p-5 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out bg-black/80 backdrop-blur-md border-t border-white/10">
+                                            <p className="text-white/90 text-xs font-medium line-clamp-3 leading-relaxed">{member.bio}</p>
                                         </div>
                                     )}
                                 </div>
-                                <div className="p-8 relative">
-                                    <h3 className="text-2xl font-black text-white mb-1 group-hover:text-gold transition-colors tracking-tight">{member.name}</h3>
-                                    <p className="text-gold font-black text-[10px] uppercase tracking-[0.25em] mb-4">{member.position}</p>
-                                    <div className="flex items-center justify-between">
-                                        {member.session && (
-                                            <div className="inline-block px-4 py-1.5 bg-white/5 rounded-full text-[10px] font-black text-white/30 border border-white/5 uppercase tracking-widest">
+                                <div className="p-6 sm:p-7 relative">
+                                    <h3 className="text-xl sm:text-2xl font-black text-white mb-1 group-hover:text-amber-300 transition-colors tracking-tight line-clamp-1">{member.name}</h3>
+                                    <p className="text-amber-400 font-black text-[10px] uppercase tracking-[0.2em] mb-4 line-clamp-1">{member.position}</p>
+                                    <div className="flex items-center justify-between pt-3 border-t border-white/5">
+                                        {member.session ? (
+                                            <div className="inline-block px-3 py-1 bg-white/5 rounded-full text-[9px] font-black text-gray-400 border border-white/10 uppercase tracking-widest">
                                                 Session {member.session}
                                             </div>
+                                        ) : (
+                                            <span className="text-[10px] text-white/30 font-bold uppercase tracking-wider">Executive</span>
                                         )}
                                         {member.fbId && (
                                             <a
                                                 href={`https://facebook.com/${member.fbId}`}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="p-2 bg-blue-500/10 hover:bg-blue-500/20 rounded-xl border border-blue-500/10 text-blue-400 transition-all"
+                                                className="p-2 bg-blue-500/10 hover:bg-blue-500/20 rounded-xl border border-blue-500/20 text-blue-400 transition-all hover:scale-110"
                                                 onClick={e => e.stopPropagation()}
                                             >
                                                 <Facebook className="h-4 w-4" />

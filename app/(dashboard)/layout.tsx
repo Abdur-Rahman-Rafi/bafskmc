@@ -15,7 +15,7 @@ export default function DashboardLayout({
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     return (
-        <div className="flex min-h-screen bg-[#0D0D0D]">
+        <div className="flex min-h-screen bg-[#06080F]">
             {/* Sidebar with Mobile Support */}
             <div className={`fixed inset-y-0 left-0 z-50 transform ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 transition-transform duration-300 ease-in-out md:static md:block`}>
                 <DashboardSidebar onClose={() => setIsSidebarOpen(false)} />
@@ -24,33 +24,33 @@ export default function DashboardLayout({
             {/* Mobile Overlay */}
             {isSidebarOpen && (
                 <div
-                    className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden"
+                    className="fixed inset-0 bg-black/70 backdrop-blur-sm z-40 md:hidden"
                     onClick={() => setIsSidebarOpen(false)}
                 />
             )}
 
             <div className="flex-1 flex flex-col min-w-0">
-                <header className="h-20 bg-[#111111]/80 backdrop-blur-xl border-b border-white/5 sticky top-0 z-40 px-4 md:px-8 flex items-center justify-between shadow-2xl">
+                <header className="h-20 bg-[#06080F]/90 backdrop-blur-2xl border-b border-amber-400/20 sticky top-0 z-40 px-4 md:px-8 flex items-center justify-between shadow-2xl">
                     <div className="flex items-center space-x-4">
                         {/* Mobile Toggle */}
                         <button
                             onClick={() => setIsSidebarOpen(true)}
-                            className="p-2 bg-white/5 border border-white/10 rounded-xl text-gold md:hidden"
+                            className="p-2 bg-amber-400/10 border border-amber-400/20 rounded-xl text-amber-400 md:hidden"
                         >
                             <Menu className="h-5 w-5" />
                         </button>
 
                         <div className="flex items-center space-x-3">
-                            <div className="relative h-10 w-10 rounded-xl overflow-hidden border border-gold/30 flex-shrink-0">
-                                <img src="/logo.jpg" alt="Logo" className="h-full w-full object-cover" />
+                            <div className="relative h-10 w-10 rounded-xl overflow-hidden border border-amber-400/40 p-0.5 bg-amber-400/10 shadow-[0_0_15px_rgba(255,184,0,0.15)] flex-shrink-0">
+                                <img src="/logo.jpg" alt="Logo" className="h-full w-full object-cover rounded-lg" />
                             </div>
                             <div className="flex flex-col">
                                 <h2 className="text-lg md:text-xl font-black text-white tracking-tight leading-none mb-1">
-                                    BAFSKMC <span className="text-gold">PORTAL</span>
+                                    BAFSKMC <span className="text-gradient-gold">PORTAL</span>
                                 </h2>
                                 <div className="flex items-center space-x-2">
-                                    <span className="h-1.5 w-1.5 bg-emerald-500 rounded-full animate-pulse" />
-                                    <span className="text-[8px] md:text-[9px] font-black text-white/30 uppercase tracking-[0.2em]">System Active</span>
+                                    <span className="h-1.5 w-1.5 bg-emerald-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
+                                    <span className="text-[8px] md:text-[9px] font-black text-slate-400 uppercase tracking-[0.2em]">Cyber Arena Active</span>
                                 </div>
                             </div>
                         </div>

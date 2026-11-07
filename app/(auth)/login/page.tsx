@@ -61,21 +61,24 @@ function LoginContent() {
     };
 
     return (
-        <div className="min-h-screen bg-[#0D0D0D] flex items-center justify-center p-4 font-sans">
-            <div className="w-full max-w-md space-y-0">
+        <div className="min-h-screen bg-[#06080F] flex items-center justify-center p-4 font-sans relative overflow-hidden">
+            {/* Ambient Lighting Orbs */}
+            <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-gradient-to-b from-amber-500/15 via-sky-500/10 to-transparent blur-[140px] rounded-full pointer-events-none" />
+
+            <div className="w-full max-w-md space-y-0 relative z-10 py-12">
                 {/* Header */}
                 <motion.div
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="text-center mb-10"
+                    className="text-center mb-8"
                 >
-                    <div className="inline-flex items-center space-x-3 mb-8 group cursor-pointer" onClick={() => router.push("/")}>
-                        <div className="h-14 w-14 bg-white/5 border border-gold/30 rounded-2xl flex items-center justify-center overflow-hidden shadow-[0_0_40px_rgba(201,150,43,0.2)] group-hover:scale-110 transition-transform">
-                            <img src="/logo.jpg" alt="BAFSKMC" className="h-full w-full object-cover" />
+                    <div className="inline-flex items-center space-x-3 mb-6 group cursor-pointer" onClick={() => router.push("/")}>
+                        <div className="h-14 w-14 bg-amber-400/10 border border-amber-400/30 rounded-2xl flex items-center justify-center overflow-hidden shadow-[0_0_30px_rgba(255,184,0,0.2)] group-hover:scale-105 transition-transform p-0.5">
+                            <img src="/logo.jpg" alt="BAFSKMC" className="h-full w-full object-cover rounded-xl" />
                         </div>
                         <div className="text-left">
                             <p className="text-white font-black text-lg tracking-tight">BAFSKMC</p>
-                            <p className="text-gold/60 font-black text-[10px] uppercase tracking-[0.2em]">Math Club Portal</p>
+                            <p className="text-amber-400/80 font-black text-[10px] uppercase tracking-[0.25em]">Math Club Portal</p>
                         </div>
                     </div>
 
@@ -83,16 +86,16 @@ function LoginContent() {
                         <motion.div
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
-                            className="mb-6 px-6 py-4 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl text-emerald-400 text-sm font-bold"
+                            className="mb-6 px-6 py-4 bg-emerald-500/10 border border-emerald-500/30 rounded-2xl text-emerald-400 text-sm font-bold shadow-[0_0_20px_rgba(16,185,129,0.15)]"
                         >
                             ✓ Account created successfully! Sign in below.
                         </motion.div>
                     )}
 
-                    <h1 className="text-5xl font-black text-white tracking-tighter uppercase mb-2">
-                        Sign <span className="text-gold">In</span>
+                    <h1 className="text-4xl sm:text-5xl font-black text-white tracking-tighter uppercase mb-2">
+                        Sign <span className="text-gradient-gold">In</span>
                     </h1>
-                    <p className="text-white/30 font-bold text-sm">Access the BAFSKMC Math Club Portal.</p>
+                    <p className="text-slate-400 font-medium text-xs sm:text-sm">Access the BAFSKMC Math Club Arena & Portal.</p>
                 </motion.div>
 
                 {/* Login Type Selector */}
@@ -104,9 +107,9 @@ function LoginContent() {
                 >
                     <button
                         onClick={() => setLoginType("student")}
-                        className={`flex-1 flex items-center justify-center space-x-3 py-5 rounded-2xl text-xs font-black uppercase tracking-widest transition-all ${loginType === "student"
-                            ? "bg-gold text-black shadow-xl shadow-gold/20"
-                            : "bg-white/5 text-white/30 border border-white/5 hover:border-white/10"
+                        className={`flex-1 flex items-center justify-center space-x-2.5 py-4 rounded-2xl text-xs font-black uppercase tracking-wider transition-all ${loginType === "student"
+                            ? "btn-gold shadow-lg"
+                            : "math-glass text-slate-400 hover:text-white hover:bg-white/10"
                             }`}
                     >
                         <GraduationCap className="h-4 w-4" />
@@ -114,9 +117,9 @@ function LoginContent() {
                     </button>
                     <button
                         onClick={() => setLoginType("admin")}
-                        className={`flex-1 flex items-center justify-center space-x-3 py-5 rounded-2xl text-xs font-black uppercase tracking-widest transition-all ${loginType === "admin"
-                            ? "bg-gold text-black shadow-xl shadow-gold/20"
-                            : "bg-white/5 text-white/30 border border-white/5 hover:border-white/10"
+                        className={`flex-1 flex items-center justify-center space-x-2.5 py-4 rounded-2xl text-xs font-black uppercase tracking-wider transition-all ${loginType === "admin"
+                            ? "btn-gold shadow-lg"
+                            : "math-glass text-slate-400 hover:text-white hover:bg-white/10"
                             }`}
                     >
                         <Shield className="h-4 w-4" />
@@ -129,14 +132,14 @@ function LoginContent() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.1 }}
-                    className="bg-[#151515] rounded-[3rem] border border-white/5 shadow-2xl p-10 relative overflow-hidden"
+                    className="math-glass-card rounded-[2.5rem] border border-white/10 shadow-2xl p-8 sm:p-10 relative overflow-hidden"
                 >
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 blur-[100px] pointer-events-none" />
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-amber-400/10 blur-[100px] pointer-events-none" />
 
                     {loginType === "admin" && (
-                        <div className="flex items-center space-x-3 mb-8 p-4 bg-gold/10 border border-gold/20 rounded-2xl">
-                            <Shield className="h-4 w-4 text-gold flex-shrink-0" />
-                            <p className="text-gold text-xs font-black uppercase tracking-widest">Administrator Access Mode</p>
+                        <div className="flex items-center space-x-3 mb-6 p-3.5 bg-amber-400/10 border border-amber-400/25 rounded-2xl">
+                            <Shield className="h-4 w-4 text-amber-400 flex-shrink-0" />
+                            <p className="text-amber-300 text-xs font-bold uppercase tracking-wider">Administrator Access Mode</p>
                         </div>
                     )}
 
@@ -151,32 +154,32 @@ function LoginContent() {
                         </motion.div>
                     )}
 
-                    <form onSubmit={handleSubmit} className="space-y-5">
+                    <form onSubmit={handleSubmit} className="space-y-4">
                         <div className="relative">
-                            <Mail className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-white/20" />
+                            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-amber-400" />
                             <input
                                 type="email"
                                 required
                                 placeholder="Email Address"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                className="w-full pl-14 pr-6 py-5 bg-white/[0.03] border border-white/10 rounded-2xl text-white outline-none focus:border-gold/50 transition-all font-bold placeholder:text-white/15 text-sm"
+                                className="w-full pl-12 pr-4 py-4 bg-[#0A0E1A]/80 border border-white/10 rounded-2xl text-white outline-none focus:border-amber-400/60 focus:ring-2 focus:ring-amber-400/20 transition-all font-semibold placeholder:text-slate-500 text-sm"
                             />
                         </div>
                         <div className="relative">
-                            <Lock className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-white/20" />
+                            <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-amber-400" />
                             <input
                                 type="password"
                                 required
                                 placeholder="Password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                className="w-full pl-14 pr-6 py-5 bg-white/[0.03] border border-white/10 rounded-2xl text-white outline-none focus:border-gold/50 transition-all font-bold placeholder:text-white/15 text-sm"
+                                className="w-full pl-12 pr-4 py-4 bg-[#0A0E1A]/80 border border-white/10 rounded-2xl text-white outline-none focus:border-amber-400/60 focus:ring-2 focus:ring-amber-400/20 transition-all font-semibold placeholder:text-slate-500 text-sm"
                             />
                         </div>
 
-                        <div className="flex justify-end">
-                            <Link href="/forgot-password" className="text-white/30 hover:text-gold text-xs font-bold uppercase tracking-widest transition-colors">
+                        <div className="flex justify-end pt-1">
+                            <Link href="/forgot-password" className="text-slate-400 hover:text-amber-300 text-xs font-semibold uppercase tracking-wider transition-colors">
                                 Forgot Password?
                             </Link>
                         </div>
@@ -184,17 +187,17 @@ function LoginContent() {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full py-6 bg-gold hover:bg-[#F0C040] text-black rounded-2xl font-black text-sm uppercase tracking-[0.2em] shadow-2xl shadow-gold/20 transition-all active:scale-95 disabled:opacity-50 disabled:active:scale-100 flex items-center justify-center space-x-3 group mt-2"
+                            className="w-full py-4 btn-gold text-xs uppercase tracking-[0.2em] shadow-xl transition-all disabled:opacity-50 flex items-center justify-center space-x-2.5 group mt-3"
                         >
-                            <LogIn className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                            <span>{loading ? "Authenticating..." : "Sign In"}</span>
+                            <LogIn className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                            <span>{loading ? "Authenticating..." : "Sign In to Portal"}</span>
                         </button>
                     </form>
 
                     {loginType === "student" && (
-                        <p className="text-center text-white/20 text-sm font-bold mt-8">
+                        <p className="text-center text-slate-400 text-xs font-medium mt-6">
                             New to BAFSKMC?{" "}
-                            <Link href="/register" className="text-gold hover:text-[#F0C040] font-black transition-colors underline-offset-4 underline">
+                            <Link href="/register" className="text-amber-400 hover:text-amber-300 font-bold transition-colors underline-offset-4 underline">
                                 Create Account
                             </Link>
                         </p>
@@ -208,8 +211,8 @@ function LoginContent() {
 export default function LoginPage() {
     return (
         <Suspense fallback={
-            <div className="min-h-screen bg-[#0D0D0D] flex items-center justify-center">
-                <div className="h-10 w-10 rounded-full border-2 border-gold border-t-transparent animate-spin" />
+            <div className="min-h-screen bg-[#06080F] flex items-center justify-center">
+                <div className="h-10 w-10 rounded-full border-2 border-amber-400 border-t-transparent animate-spin" />
             </div>
         }>
             <LoginContent />

@@ -88,10 +88,10 @@ export default function NewsTicker() {
     const displayItems = [...items, ...items, ...items, ...items, ...items, ...items];
 
     return (
-        <div className="bg-[#080C14] border-b border-white/10 h-12 flex items-center overflow-hidden relative z-50">
+        <div className="bg-[#06080F] border-b border-white/10 h-11 flex items-center overflow-hidden relative z-50">
             {/* Pulsing "Live" Indicator */}
-            <div className="h-full px-4 flex-shrink-0 flex items-center bg-gradient-to-r from-amber-500 to-yellow-400 text-black font-black uppercase text-[10px] tracking-[0.2em] relative z-20 shadow-[8px_0_20px_rgba(0,0,0,0.8)]">
-                <Radio className="h-3 w-3 mr-2 animate-pulse" />
+            <div className="h-full px-4 flex-shrink-0 flex items-center bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 text-black font-black uppercase text-[10px] tracking-[0.25em] relative z-20 shadow-[8px_0_20px_rgba(0,0,0,0.8)]">
+                <span className="h-2 w-2 rounded-full bg-black animate-ping mr-2" />
                 <span className="whitespace-nowrap hidden sm:inline">LIVE FEED</span>
                 <span className="whitespace-nowrap sm:hidden">LIVE</span>
             </div>

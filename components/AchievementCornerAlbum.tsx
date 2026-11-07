@@ -86,12 +86,11 @@ export default function AchievementCornerAlbum() {
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[...Array(3)].map((_, i) => (
-              <div key={i} className="h-96 rounded-[2remu] bg-white/5 animate-pulse" />
+              <div key={i} className="h-96 rounded-3xl sm:rounded-[2rem] bg-white/5 animate-pulse" />
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8"
->
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {achievements.map((post, idx) => {
               const imgCount = post.images ? post.images.length : 0;
               return (
@@ -101,7 +100,7 @@ export default function AchievementCornerAlbum() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: idx * 0.1 }}
-                  className="group cursor-pointer relative rounded-[2.5rem] overflow-hidden border border-amber-500/20 bg-gradient-to-br from-slate-900/90 to-black/90 hover:border-amber-500/50 transition-all duration-500 shadow-2xl"
+                  className="group cursor-pointer relative rounded-3xl sm:rounded-[2.5rem] overflow-hidden border border-amber-500/20 bg-gradient-to-br from-slate-900/90 to-black/90 hover:border-amber-500/50 transition-all duration-500 shadow-2xl"
                   onClick={() => openModal(post, 0)}
                 >
                   {/* Cover Image / Main */}
@@ -111,15 +110,14 @@ export default function AchievementCornerAlbum() {
                       alt={post.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-#080C14 via-transparent to-black/30" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#080C14] via-transparent to-black/30" />
 
-
-                    <div className="absolute top-5 left-5 flx items-center gap-2">
-                      <span className="px-3.5 py-1.5 rounded-full bg-black/70 border border-amber-500/40 text-amber-400 font-black text-[10px] uppercase tracking-widest backdrop-blur-md">
+                    <div className="absolute top-4 sm:top-5 left-4 sm:left-5 flex items-center gap-2">
+                      <span className="px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-black/70 border border-amber-500/40 text-amber-400 font-black text-[9px] sm:text-[10px] uppercase tracking-widest backdrop-blur-md">
                         {post.category}
                       </span>
                       {post.rankOrPrize && (
-                        <span className="px-3.5 py-1.5 rounded-full bg-amber-400 text-black font-black text-[10px] uppercase tracking-widest shadow-md">
+                        <span className="px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-amber-400 text-black font-black text-[9px] sm:text-[10px] uppercase tracking-widest shadow-md">
                           {post.rankOrPrize}
                         </span>
                       )}

@@ -71,44 +71,44 @@ function RegisterForm({
             transition={{ duration: 0.3 }}
         >
             {/* Header */}
-            <div className="text-center mb-10">
-                <Link href="/" className="inline-flex items-center space-x-3 mb-8 group">
-                    <div className="h-14 w-14 bg-white/5 border border-gold/30 rounded-2xl flex items-center justify-center overflow-hidden shadow-[0_0_40px_rgba(201,150,43,0.2)] group-hover:scale-110 transition-transform">
-                        <img src="/logo.jpg" alt="BAFSKMC" className="h-full w-full object-cover" />
+            <div className="text-center mb-8">
+                <Link href="/" className="inline-flex items-center space-x-3 mb-6 group">
+                    <div className="h-14 w-14 bg-amber-400/10 border border-amber-400/30 rounded-2xl flex items-center justify-center overflow-hidden shadow-[0_0_30px_rgba(255,184,0,0.2)] group-hover:scale-105 transition-transform p-0.5">
+                        <img src="/logo.jpg" alt="BAFSKMC" className="h-full w-full object-cover rounded-xl" />
                     </div>
                     <div className="text-left">
                         <p className="text-white font-black text-lg tracking-tight">BAFSKMC</p>
-                        <p className="text-gold/60 font-black text-[10px] uppercase tracking-[0.2em]">Math Club Portal</p>
+                        <p className="text-amber-400/80 font-black text-[10px] uppercase tracking-[0.25em]">Math Club Portal</p>
                     </div>
                 </Link>
-                <h1 className="text-5xl font-black text-white tracking-tighter uppercase mb-2">
-                    Join The <span className="text-gold">Club</span>
+                <h1 className="text-4xl sm:text-5xl font-black text-white tracking-tighter uppercase mb-2">
+                    Join The <span className="text-gradient-gold">Club</span>
                 </h1>
-                <p className="text-white/30 font-bold text-sm">Create your student account to access the portal.</p>
+                <p className="text-slate-400 font-medium text-xs sm:text-sm">Create your student account to enter the competitive arena.</p>
             </div>
 
             {/* Card */}
-            <div className="bg-[#151515] rounded-[3rem] border border-white/5 shadow-2xl p-10 relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 blur-[100px] pointer-events-none" />
+            <div className="math-glass-card rounded-[2.5rem] border border-white/10 shadow-2xl p-8 sm:p-10 relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-amber-400/10 blur-[100px] pointer-events-none" />
 
                 {error && (
                     <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="mb-8 p-5 bg-red-500/10 border border-red-500/20 rounded-2xl flex items-center space-x-3 text-red-500 text-sm font-bold"
+                        className="mb-8 p-4 bg-red-500/10 border border-red-500/20 rounded-2xl flex items-center space-x-3 text-red-500 text-sm font-bold"
                     >
                         <span className="h-2 w-2 rounded-full bg-red-500 flex-shrink-0 animate-pulse" />
                         <p>{error}</p>
                     </motion.div>
                 )}
 
-                <form onSubmit={handleSubmit} className="space-y-8">
+                <form onSubmit={handleSubmit} className="space-y-6">
                     {/* Identity */}
-                    <div className="space-y-5">
-                        <div className="flex items-center space-x-3 mb-4">
-                            <User className="h-4 w-4 text-gold/50" />
-                            <span className="text-[10px] font-black text-white/20 uppercase tracking-[0.3em]">Identity</span>
-                            <div className="h-px bg-white/5 flex-1" />
+                    <div className="space-y-3.5">
+                        <div className="flex items-center space-x-3 mb-2">
+                            <User className="h-4 w-4 text-amber-400" />
+                            <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.25em]">Identity</span>
+                            <div className="h-px bg-white/10 flex-1" />
                         </div>
                         {[
                             { name: "name", type: "text", placeholder: "Full Name", Icon: User },
@@ -116,7 +116,7 @@ function RegisterForm({
                             { name: "phone", type: "tel", placeholder: "Phone Number", Icon: Phone },
                         ].map(({ name, type, placeholder, Icon }) => (
                             <div key={name} className="relative">
-                                <Icon className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-white/20" />
+                                <Icon className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-amber-400" />
                                 <input
                                     name={name}
                                     type={type}
@@ -124,25 +124,25 @@ function RegisterForm({
                                     placeholder={placeholder}
                                     value={(formData as any)[name]}
                                     onChange={handleChange}
-                                    className="w-full pl-14 pr-6 py-5 bg-white/[0.03] border border-white/10 rounded-2xl text-white outline-none focus:border-gold/50 transition-all font-bold placeholder:text-white/15 text-sm"
+                                    className="w-full pl-12 pr-4 py-3.5 bg-[#0A0E1A]/80 border border-white/10 rounded-2xl text-white outline-none focus:border-amber-400/60 focus:ring-2 focus:ring-amber-400/20 transition-all font-semibold placeholder:text-slate-500 text-sm"
                                 />
                             </div>
                         ))}
                     </div>
 
                     {/* Security */}
-                    <div className="space-y-5">
-                        <div className="flex items-center space-x-3 mb-4">
-                            <Lock className="h-4 w-4 text-gold/50" />
-                            <span className="text-[10px] font-black text-white/20 uppercase tracking-[0.3em]">Security</span>
-                            <div className="h-px bg-white/5 flex-1" />
+                    <div className="space-y-3.5">
+                        <div className="flex items-center space-x-3 mb-2">
+                            <Lock className="h-4 w-4 text-amber-400" />
+                            <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.25em]">Security</span>
+                            <div className="h-px bg-white/10 flex-1" />
                         </div>
                         {[
                             { name: "password", placeholder: "Create Password" },
                             { name: "confirmPassword", placeholder: "Confirm Password" },
                         ].map(({ name, placeholder }) => (
                             <div key={name} className="relative">
-                                <Lock className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-white/20" />
+                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-amber-400" />
                                 <input
                                     name={name}
                                     type="password"
@@ -150,21 +150,21 @@ function RegisterForm({
                                     placeholder={placeholder}
                                     value={(formData as any)[name]}
                                     onChange={handleChange}
-                                    className="w-full pl-14 pr-6 py-5 bg-white/[0.03] border border-white/10 rounded-2xl text-white outline-none focus:border-gold/50 transition-all font-bold placeholder:text-white/15 text-sm"
+                                    className="w-full pl-12 pr-4 py-3.5 bg-[#0A0E1A]/80 border border-white/10 rounded-2xl text-white outline-none focus:border-amber-400/60 focus:ring-2 focus:ring-amber-400/20 transition-all font-semibold placeholder:text-slate-500 text-sm"
                                 />
                             </div>
                         ))}
                     </div>
 
                     {/* Academic */}
-                    <div className="space-y-5">
-                        <div className="flex items-center space-x-3 mb-4">
-                            <GraduationCap className="h-4 w-4 text-gold/50" />
-                            <span className="text-[10px] font-black text-white/20 uppercase tracking-[0.3em]">Academic Info</span>
-                            <div className="h-px bg-white/5 flex-1" />
-                            <span className="text-[9px] font-black text-white/10 uppercase tracking-widest">Optional</span>
+                    <div className="space-y-3.5">
+                        <div className="flex items-center space-x-3 mb-2">
+                            <GraduationCap className="h-4 w-4 text-amber-400" />
+                            <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.25em]">Academic Info</span>
+                            <div className="h-px bg-white/10 flex-1" />
+                            <span className="text-[9px] font-black text-slate-500 uppercase tracking-wider">Optional</span>
                         </div>
-                        <div className="grid grid-cols-3 gap-4">
+                        <div className="grid grid-cols-3 gap-3">
                             {[
                                 { name: "studentClass", placeholder: "Class" },
                                 { name: "section", placeholder: "Section" },
@@ -176,7 +176,7 @@ function RegisterForm({
                                     placeholder={placeholder}
                                     value={(formData as any)[name]}
                                     onChange={handleChange}
-                                    className="w-full px-5 py-4 bg-white/[0.03] border border-white/10 rounded-2xl text-white outline-none focus:border-gold/50 transition-all font-bold placeholder:text-white/15 text-sm text-center"
+                                    className="w-full px-3 py-3 bg-[#0A0E1A]/80 border border-white/10 rounded-2xl text-white outline-none focus:border-amber-400/60 focus:ring-2 focus:ring-amber-400/20 transition-all font-semibold placeholder:text-slate-500 text-xs sm:text-sm text-center"
                                 />
                             ))}
                         </div>
@@ -186,16 +186,16 @@ function RegisterForm({
                         type="submit"
                         disabled={loading}
                         id="register-submit-btn"
-                        className="w-full py-6 bg-gold hover:bg-[#F0C040] text-black rounded-2xl font-black text-sm uppercase tracking-[0.2em] shadow-2xl shadow-gold/20 transition-all active:scale-95 disabled:opacity-50 disabled:active:scale-100 flex items-center justify-center space-x-3 group mt-4"
+                        className="w-full py-4 btn-gold text-xs uppercase tracking-[0.2em] shadow-xl transition-all disabled:opacity-50 flex items-center justify-center space-x-2.5 group mt-3"
                     >
-                        <UserPlus className="h-5 w-5 group-hover:rotate-12 transition-transform" />
+                        <UserPlus className="h-4 w-4 group-hover:rotate-12 transition-transform" />
                         <span>{loading ? "Creating Account…" : "Create Account"}</span>
                     </button>
                 </form>
 
-                <p className="text-center text-white/30 text-sm font-bold mt-8">
+                <p className="text-center text-slate-400 text-xs font-medium mt-6">
                     Already a member?{" "}
-                    <Link href="/login" className="text-gold hover:text-[#F0C040] font-black transition-colors underline-offset-4 underline">
+                    <Link href="/login" className="text-amber-400 hover:text-amber-300 font-bold transition-colors underline-offset-4 underline">
                         Sign In
                     </Link>
                 </p>
@@ -426,14 +426,11 @@ export default function RegisterPage() {
     const [pendingEmail, setPendingEmail] = useState("");
 
     return (
-        <div className="min-h-screen bg-[#0D0D0D] flex items-center justify-center py-16 px-4 font-sans">
-            {/* Radial glow */}
-            <div
-                className="fixed inset-0 pointer-events-none"
-                style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(201,150,43,0.06) 0%, transparent 70%)" }}
-            />
+        <div className="min-h-screen bg-[#06080F] flex items-center justify-center py-16 px-4 font-sans relative overflow-hidden">
+            {/* Ambient Lighting Orbs */}
+            <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-gradient-to-b from-amber-500/15 via-sky-500/10 to-transparent blur-[140px] rounded-full pointer-events-none" />
 
-            <div className="relative w-full max-w-xl">
+            <div className="relative w-full max-w-xl z-10">
                 <AnimatePresence mode="wait">
                     {step === "register" ? (
                         <RegisterForm

@@ -97,7 +97,7 @@ export default function AdminSpeechesPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <Loader2 className="h-zcr w-10 text-gold animate-spin" />
+        <Loader2 className="h-10 w-10 text-gold animate-spin" />
       </div>
     );
   }
@@ -141,11 +141,11 @@ export default function AdminSpeechesPage() {
 
 
       {/* SECTION 1: PRINCIPAL'S SPEECG */}
-      <div className="bg-[#151515] rounded-[3.5rem] border border-white/5 shadow-2xl p-8 md:p-10 space-y-8">
+      <div className="bg-[#151515] rounded-3xl sm:rounded-[3.5rem] border border-white/5 shadow-2xl p-5 sm:p-8 md:p-10 space-y-8">
         <div className="flex items-center justify-between border-b border-white/5 pb-6">
           <div className="flex items-center space-x-3">
             <div className="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400">
-              <Shield className="h-zcr w-6" />
+              <Shield className="h-6 w-6" />
             </div>
             <div>
               <h2 className="text-xl font-black text-white uppercase tracking-widest">
@@ -241,8 +241,8 @@ export default function AdminSpeechesPage() {
 
 
       {/* SECTION 2: MODERATORS (MODERATOR SPEECHES) */}
-      <div className="bg-[#151515] rounded-[3.5rem] border border-white/5 shadow-2xl p-8 md:p-10 space-y-8">
-        <div className="flex items-center justify-between border-b border-white/5 pb-6">
+      <div className="bg-[#151515] rounded-3xl sm:rounded-[3.5rem] border border-white/5 shadow-2xl p-5 sm:p-8 md:p-10 space-y-8">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-white/5 pb-6 gap-4">
           <div className="flex items-center space-x-3">
             <div className="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400">
               <Quote className="h-6 w-6" />
@@ -259,7 +259,7 @@ export default function AdminSpeechesPage() {
 
           <button
             onClick={addModerator}
-            className="flex items-center space-x-2 px-5 py-2.5 rounded-xl bg-amber-400/10 border border-amber-400/30 text-amber-400 font-black text-xs uppercase tracking-widest hover:bg-amber-400/20 transition-all"
+            className="flex items-center justify-center space-x-2 px-5 py-2.5 rounded-xl bg-amber-400/10 border border-amber-400/30 text-amber-400 font-black text-xs uppercase tracking-widest hover:bg-amber-400/20 transition-all self-start sm:self-auto"
           >
             <Plus className="w-4 h-4" />
             <span>Add Moderator</span>

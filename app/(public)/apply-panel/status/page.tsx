@@ -79,25 +79,29 @@ export default function ApplicationStatusPage() {
                     <p className="text-white/50 text-sm">Enter your registered email to check your Panel Application and Viva status.</p>
                 </div>
 
-                <form onSubmit={handleSearch} className="relative mb-12">
-                    <div className="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none">
-                        <Search className="h-5 w-5 text-white/30" />
+                <form onSubmit={handleSearch} className="mb-10 sm:mb-12">
+                    <div className="relative flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                        <div className="relative flex-1">
+                            <div className="absolute inset-y-0 left-0 pl-4 sm:pl-6 flex items-center pointer-events-none">
+                                <Search className="h-5 w-5 text-white/30" />
+                            </div>
+                            <input
+                                type="email"
+                                required
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder="Enter your email address..."
+                                className="w-full pl-12 sm:pl-14 pr-4 py-4 sm:py-5 bg-white/5 border border-white/10 rounded-2xl outline-none focus:border-gold/50 transition-all font-bold text-white placeholder:text-white/20 text-sm shadow-2xl"
+                            />
+                        </div>
+                        <button
+                            type="submit"
+                            disabled={loading || !email}
+                            className="bg-gold text-black py-4 sm:py-5 px-8 rounded-2xl sm:rounded-xl font-black text-xs uppercase tracking-widest hover:bg-[#F0C040] transition-colors disabled:opacity-50 flex items-center justify-center shrink-0 shadow-lg shadow-gold/20"
+                        >
+                            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Check Status"}
+                        </button>
                     </div>
-                    <input
-                        type="email"
-                        required
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="Enter your email address..."
-                        className="w-full pl-14 pr-32 py-5 bg-white/5 border border-white/10 rounded-2xl outline-none focus:border-gold/50 transition-all font-bold text-white placeholder:text-white/20 shadow-2xl"
-                    />
-                    <button
-                        type="submit"
-                        disabled={loading || !email}
-                        className="absolute right-2 top-2 bottom-2 bg-gold text-black px-8 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-[#F0C040] transition-colors disabled:opacity-50"
-                    >
-                        {loading ? <Loader2 className="h-4 w-4 animate-spin mx-auto" /> : "Check"}
-                    </button>
                 </form>
 
                 {error && (
